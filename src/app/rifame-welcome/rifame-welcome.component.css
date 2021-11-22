@@ -1,0 +1,101 @@
+/* You can add global styles to this file, and also import other style files */
+.mediaViewInfo {
+  --web-view-name: Welcome/Inicio Page;
+  --web-view-id: WelcomeInicio_Page;
+  --web-scale-on-resize: true;
+  --web-enable-deep-linking: true;
+}
+:root {
+  --web-view-ids: WelcomeInicio_Page;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+}
+
+@keyframes fadein {
+
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#Path_1 {
+  fill: rgba(180,198,166,1);
+  stroke: rgba(112,112,112,1);
+  stroke-width: 1px;
+  stroke-linejoin: miter;
+  stroke-linecap: butt;
+  stroke-miterlimit: 4;
+  shape-rendering: auto;
+}
+.Path_1 {
+  overflow: visible;
+  position: absolute;
+  width: 1920px;
+  height: 545.113px;
+  left: 0px;
+  top: 306px;
+  transform: matrix(1,0,0,1,0,0);
+}
+#Card_1 {
+  position: absolute;
+  width: 189px;
+  height: 331px;
+  left: 0px;
+  top: 280px;
+  overflow: visible;
+}
+#Card_2 {
+  position: absolute;
+  width: 189px;
+  height: 331px;
+  left: 852px;
+  top: 281px;
+  overflow: visible;
+}
+#Card_6 {
+  position: absolute;
+  width: 189px;
+  height: 331px;
+  left: 209px;
+  top: 520px;
+  overflow: visible;
+}
+#Card_5 {
+  position: absolute;
+  width: 189px;
+  height: 331px;
+  left: 1078px;
+  top: 520px;
+  overflow: visible;
+}
+#Card_4 {
+  position: absolute;
+  width: 189px;
+  height: 331px;
+  left: 1304px;
+  top: 280px;
+  overflow: visible;
+}
+#winner1 {
+  position: absolute;
+  width: 454px;
+  height: 353px;
+  left: 398px;
+  top: 364px;
+  overflow: visible;
+}
+#winner2 {
+  position: absolute;
+  width: 459px;
+  height: 306px;
+  left: 1474px;
+  top: 482px;
+  overflow: visible;
+}

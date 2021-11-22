@@ -1,0 +1,137 @@
+/* unvisited link */
+a:link {
+  color: rgba(255,194,134,1);
+}
+
+/* visited link */
+a:visited {
+  color: rgb(250, 207, 163);
+}
+
+/* mouse over link */
+a:hover {
+  color: rgb(250, 207, 163);
+}
+
+/* selected link */
+a:active {
+  color: rgba(255,194,134,1);
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+#Rifameio_Simple_y_Funcional {
+  left: 25px;
+  top: 73px;
+  position: absolute;
+  overflow: visible;
+  width: 419px;
+  height: 130px;
+  text-align: center;
+  font-family: Sinhala MN;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 50px;
+  color: rgba(255,194,134,1);
+}
+
+#WelcomeInicio_Page {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  --web-animation: fadein 0.3s ease-out;
+  --web-action-type: page;
+  --web-action-target: Participantes___Cargar_Archivos.html;
+  cursor: pointer;
+  --web-view-name: Welcome/Inicio Page;
+  --web-view-id: WelcomeInicio_Page;
+  --web-scale-on-resize: true;
+  --web-enable-deep-linking: true;
+}
+
+#Inicio {
+  left: 1143px;
+  top: 125px;
+  position: absolute;
+  overflow: visible;
+  width: 59px;
+  white-space: nowrap;
+  text-align: center;
+  font-family: Sinhala MN;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  color: rgba(255,194,134,1);
+}
+
+#Ganadores {
+  left: 1589px;
+  top: 125px;
+  position: absolute;
+  overflow: visible;
+  width: 115px;
+  white-space: nowrap;
+  --web-animation: fadein 0.3s ease-out;
+  --web-action-type: page;
+  --web-action-target: Ganadores.html;
+  cursor: pointer;
+  text-align: center;
+  font-family: Sinhala MN;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  color: rgba(255,194,134,1);
+}
+
+#Rifas {
+  left: 1463px;
+  top: 125px;
+  position: absolute;
+  overflow: visible;
+  width: 51px;
+  white-space: nowrap;
+  --web-animation: fadein 0.3s ease-out;
+  --web-action-type: page;
+  --web-action-target: Rifas.html;
+  cursor: pointer;
+  text-align: center;
+  font-family: Sinhala MN;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  color: rgba(255,194,134,1);
+}
+
+#Participantes {
+  left: 1261px;
+  top: 125px;
+  position: absolute;
+  overflow: visible;
+  width: 139px;
+  white-space: nowrap;
+  --web-animation: fadein 0.3s ease-out;
+  --web-action-type: page;
+  --web-action-target: Participantes.html;
+  cursor: pointer;
+  text-align: center;
+  font-family: Sinhala MN;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  color: rgba(255,194,134,1);
+}
