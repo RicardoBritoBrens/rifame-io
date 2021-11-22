@@ -9,6 +9,7 @@ import { RifameWinnersComponent } from './rifame-winners/rifame-winners.componen
 import { RifameWelcomeComponent } from './rifame-welcome/rifame-welcome.component';
 import { RifameNavBarComponent } from './rifame-nav-bar/rifame-nav-bar.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,8 +17,7 @@ import { RifameNavBarComponent } from './rifame-nav-bar/rifame-nav-bar.component
     RifameRafflesComponent,
     RifameWinnersComponent,
     RifameWelcomeComponent,
-    RifameNavBarComponent,
-
+    RifameNavBarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageParticipantsService } from '../local-storage-participants.service';
+import { Participant } from '../models/Participant';
 
 @Component({
   selector: 'app-rifame-participants',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RifameParticipantsComponent implements OnInit {
 
-  constructor() { }
+  participants: Participant[] = [];
+  constructor(private participantService: LocalStorageParticipantsService)
+  {
+
+  }
 
   ngOnInit(): void {
+    this.participants = this.participantService.getParticipants();
   }
 
 }

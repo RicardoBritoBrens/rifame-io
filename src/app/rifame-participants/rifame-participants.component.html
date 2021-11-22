@@ -1,1 +1,24 @@
 <p>rifame-participants works!</p>
+<div class="container">
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Participantes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let participant of participants">
+          <tr>
+            <td>{{participant.FullName}}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="ImageWinnerImage">
+    <img src="/assets/winner1.png" >
+  </div>
+</div>

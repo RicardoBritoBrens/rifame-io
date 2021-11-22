@@ -1,0 +1,38 @@
+table {
+  left: 300px;
+  top: 300px;
+  position: absolute;
+  overflow: visible;
+  width: 139px;
+  white-space: nowrap;
+  text-align: center;
+  font-family: Sinhala MN;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  color: white;
+  border: 1px solid rgb(126, 139, 128);
+}
+
+tbody{
+  overflow-y: scroll;
+  height: 500px;
+  width: 100%;
+  position: absolute;
+}
+
+.table th {
+  font-size: 45px;
+}
+
+.table td {
+  font-size: 20px;
+  border: 1px solid rgb(126, 139, 128);
+  background-color: rgb(140, 166, 144);
+}
+
+#ImageWinnerImage{
+  left: 1200px;
+  top: 300px;
+  position:fixed;
+}
