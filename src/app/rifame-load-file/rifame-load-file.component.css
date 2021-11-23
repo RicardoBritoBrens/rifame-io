@@ -1,0 +1,24 @@
+#first_parent_div {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  position: absolute;
+}
+
+#second_background_div {
+  background-color: rgb(140, 166, 144);
+  height: 350px;
+  width: 350px;
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+}
+
+#third_central_text_div {
+  color: white;
+  font-size: 45px;
+}
