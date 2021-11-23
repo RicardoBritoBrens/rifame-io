@@ -8,6 +8,7 @@ import { RifameRafflesComponent } from './rifame-raffles/rifame-raffles.componen
 import { RifameWinnersComponent } from './rifame-winners/rifame-winners.component';
 import { RifameWelcomeComponent } from './rifame-welcome/rifame-welcome.component';
 import { RifameNavBarComponent } from './rifame-nav-bar/rifame-nav-bar.component';
+import { RifameBlurScreenWithCentralTextComponent } from './rifame-blur-screen-with-central-text/rifame-blur-screen-with-central-text.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { RifameNavBarComponent } from './rifame-nav-bar/rifame-nav-bar.component
     RifameRafflesComponent,
     RifameWinnersComponent,
     RifameWelcomeComponent,
-    RifameNavBarComponent
+    RifameNavBarComponent,
+    RifameBlurScreenWithCentralTextComponent
   ],
   imports: [
     BrowserModule,
