@@ -10,7 +10,7 @@ import { Participant } from '../models/Participant';
 export class RifameParticipantsComponent implements OnInit {
 
   participants: Participant[] = [];
-
+  participantsAreLoaded: boolean = true;
   constructor(private participantService: LocalStorageParticipantsService)
   {
 
@@ -20,5 +20,13 @@ export class RifameParticipantsComponent implements OnInit {
     this.participants = this.participantService.getParticipants();
   }
 
+  public show(): void
+  {
+    this.participantsAreLoaded = true;
+  }
 
+  public hide(): void
+  {
+    this.participantsAreLoaded = false;
+  }
 }

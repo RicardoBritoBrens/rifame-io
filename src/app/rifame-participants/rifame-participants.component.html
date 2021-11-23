@@ -1,5 +1,8 @@
-<p>rifame-participants works!</p>
-<div class="container">
+
+<button class="btn btn-info" (click)="show()">Show</button>
+<button class="btn btn-info" (click)="hide()">Hide</button>
+
+<div *ngIf="!participantsAreLoaded" class="container">
   <div id="ParticipantsAndPrize">
     <div class="table-responsive">
       <table class="table">
@@ -23,3 +26,6 @@
   </div>
 </div>
 
+<app-rifame-load-file [visibility] = 'this.participantsAreLoaded'></app-rifame-load-file>
+<!-- <app-rifame-blur-screen-with-central-text [visibility] = 'this.participantsAreLoaded'>
+</app-rifame-blur-screen-with-central-text> -->
