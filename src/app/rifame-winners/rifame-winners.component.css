@@ -36,31 +36,3 @@ tbody{
   top: 300px;
   position:fixed;
 }
-
-
-/* #parent_div_not_winners {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-  position: absolute;
-}
-
-#background_div_not_winners {
-  filter: blur(5px);
-  background-color: rgb(140, 166, 144);
-  height: 850px;
-  width: 320%;
-  max-width: 400%;
-  position: absolute;
-  z-index: -1;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-}
-
-#text_not_winners {
-  color: white;
-  font-size: 45px;
-} */
