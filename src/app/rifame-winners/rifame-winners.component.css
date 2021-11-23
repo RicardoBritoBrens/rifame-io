@@ -1,0 +1,66 @@
+table {
+  left: 300px;
+  top: 300px;
+  position: absolute;
+  overflow: visible;
+  width: 139px;
+  white-space: nowrap;
+  text-align: center;
+  font-family: Sinhala MN;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  color: white;
+  border: 1px solid rgb(126, 139, 128);
+}
+
+tbody{
+  overflow-y: scroll;
+  height: 500px;
+  width: 100%;
+  position: absolute;
+}
+
+.table th {
+  font-size: 45px;
+}
+
+.table td {
+  font-size: 20px;
+  border: 1px solid rgb(126, 139, 128);
+  background-color: rgb(140, 166, 144);
+}
+
+#image_winner_image{
+  left: 1200px;
+  top: 300px;
+  position:fixed;
+}
+
+
+/* #parent_div_not_winners {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  position: absolute;
+}
+
+#background_div_not_winners {
+  filter: blur(5px);
+  background-color: rgb(140, 166, 144);
+  height: 850px;
+  width: 320%;
+  max-width: 400%;
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+}
+
+#text_not_winners {
+  color: white;
+  font-size: 45px;
+} */

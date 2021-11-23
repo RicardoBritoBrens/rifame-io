@@ -1,1 +1,34 @@
-<p>rifame-winners works!</p>
+<button class="btn btn-info" (click)="show()">Show</button>
+<button class="btn btn-info" (click)="hide()">Hide</button>
+
+<div class="container">
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Ganadores</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let winner of winners">
+          <tr>
+            <td>{{winner.FullName}}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div id="image_winner_image">
+    <img src="/assets/winner3.png">
+  </div>
+</div>
+
+<app-rifame-blur-screen-with-central-text
+  [visibility] = 'this.participantsAreLoaded'
+  [centerText] = "'Aun no existen ganadores'">
+</app-rifame-blur-screen-with-central-text>
+
+<!-- <div *ngIf="participantsAreLoaded" id="parent_div_not_winners">
+  <div id="background_div_not_winners"></div>
+  <div id="text_not_winners"><span>¡Aún no existen ganadores!</span></div>
+</div> -->
