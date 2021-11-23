@@ -7,16 +7,24 @@ import { Participant } from './models/Participant';
 export class LocalStorageParticipantsService {
 
   participants: Participant[] = [];
+  winners: Participant[]= [];
 
   constructor()
   {
+    this.winners = this.participants =
+    [
+      new Participant('Mathe', 'Phillis')
+    ]
+
     this.participants =
     [
-      new Participant('Ricardo', 'Brito'),
-      new Participant('Ricardo', 'Brito'),
-      new Participant('Ricardo', 'Brito'),
-      new Participant('Ricardo', 'Brito'),
-      new Participant('Ricardo', 'Brito'),
+      new Participant('Laurianne', 'Hacquard'),
+      new Participant('Lynnea', 'Cecil'),
+      new Participant('Antin', 'Braid'),
+      new Participant('Stavros', 'Glyde'),
+      new Participant('Rachael', 'Défaire'),
+      new Participant('Alexia', 'Witherup' ),
+      new Participant('Panchito', 'Mearns'),
       new Participant('Ricardo', 'Brito'),
       new Participant('Ricardo', 'Brito'),
       new Participant('Ricardo', 'Brito'),
@@ -2488,6 +2496,11 @@ export class LocalStorageParticipantsService {
   getParticipants(): Participant[]
   {
     return this.participants;
+  }
+
+  getWinners(): Participant[]
+  {
+    return this.winners;
   }
 
 }
