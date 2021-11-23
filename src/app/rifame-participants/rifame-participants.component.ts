@@ -10,6 +10,7 @@ import { Participant } from '../models/Participant';
 export class RifameParticipantsComponent implements OnInit {
 
   participants: Participant[] = [];
+
   constructor(private participantService: LocalStorageParticipantsService)
   {
 
@@ -18,5 +19,6 @@ export class RifameParticipantsComponent implements OnInit {
   ngOnInit(): void {
     this.participants = this.participantService.getParticipants();
   }
+
 
 }
