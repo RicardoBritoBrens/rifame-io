@@ -3,3 +3,7 @@ body
 {
   background-color: rgba(102,128,106,1);
 }
+
+* {
+  font-family: Sinhala MN;
+}
