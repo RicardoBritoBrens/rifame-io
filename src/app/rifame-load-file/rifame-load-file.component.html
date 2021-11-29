@@ -1,41 +1,15 @@
-<!-- <div *ngIf="visibility" id="first_parent_div">
-  <div id="second_background_div"></div>
 
-  <div class="parent_load_file_rectangle">
-    <img src="assets/file-csv-solid.png">
-    <img src="assets/line_load_file.png">
-    <span class="child_load_file_o_text">o</span>
-    <img src="assets/line_load_file.png">
-    <img src="assets/file-csv-solid.png">
-  </div>
-
-  <br>
-  <br>
-
-  <div class="child_load_file_text">
-    <form>
-      <button type="button" class="btn btn-outline-primary">
-        <i class="fas fa-upload"></i> Cargar documento
-      </button>
-    </form>
-  </div>
-</div> -->
-
-
-
-<!-- Upload  -->
-<form id="file-upload-form" class="uploader">
-  <input id="file-upload" type="file" name="fileUpload"
-  accept=".xls,.xlsx,.csv"
+<!-- Upload -->
+<form *ngIf="participantsTableAndImageIsVisibility" id="file-upload-form" class="uploader">
+  <input id="file-upload" type="file" name="fileUpload" accept=".xls,.xlsx,.csv"
   (change)="fileUpload($event)" />
-
   <label for="file-upload" id="file-drag">
     <img id="file-image" src="#" alt="Preview" class="hidden">
     <div id="start">
       <i class="fa fa-download" aria-hidden="true"></i>
-      <div>Select a file or drag here</div>
-      <div id="notimage" class="hidden">Please select an image</div>
-      <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
+      <div>Seleccione un archivo o arrastre aquí</div>
+      <div id="notimage" class="hidden">Por favor seleccione una imagen</div>
+      <span id="file-upload-btn" class="btn btn-primary">Seleccione un archivo</span>
     </div>
     <div id="response" class="hidden">
       <div id="messages"></div>
@@ -44,8 +18,7 @@
       </progress>
     </div>
   </label>
+  <div class="div">
+    <pre>{{convertedJson}}</pre>
+  </div>
 </form>
-
-<div class="div">
-  <pre>{{convertedJson}}</pre>
-</div>

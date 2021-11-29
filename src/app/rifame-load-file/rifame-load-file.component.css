@@ -1,47 +1,6 @@
-/* #first_parent_div {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-  position: absolute;
-
-}
-
-#second_background_div {
-  border-radius: 25px;
-  background-color: rgb(140, 166, 144);
-  height: 500px;
-  width: 500px;
-  position: absolute;
-  z-index: -1;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-}
-
-.parent_load_file_rectangle{
-  padding-inline: 1px;
-}
-
-.child_load_file_o_text{
-  color: #FFF1AF;
-}
-
-.child_load_file_text{
-  text-align:center;
-}
-
-.child_load_file_text button{
-  font-size: 25px;
-  color: #FFF1AF;
-  background-color: #B4C6A6
-}
-
-.div img{ display: inline-block;} */
 
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
- @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
  html, body, * {
 	 box-sizing: border-box;
 	 font-size: 16px;
@@ -67,7 +26,11 @@
 	 color: #5f6982;
 }
  .uploader {
-	 display: block;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  position: absolute;
 	 clear: both;
 	 margin: 0 auto;
 	 width: 100%;

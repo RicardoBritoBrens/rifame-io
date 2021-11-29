@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as XLSX from 'xlsx';
+import { LocalStorageParticipantsService } from '../local-storage-participants.service';
 @Component({
   selector: 'app-rifame-load-file',
   templateUrl: './rifame-load-file.component.html',
@@ -8,31 +9,37 @@ import * as XLSX from 'xlsx';
 export class RifameLoadFileComponent implements OnInit {
 
   @Input()
-  visibility: boolean = false;
+  participantsTableAndImageIsVisibility: boolean = false;
   convertedJson: String;
-  constructor() { }
+  @Output() loadFileModalIsVisible = new EventEmitter<boolean>();
+
+  constructor(private participantService: LocalStorageParticipantsService) { }
 
   ngOnInit(): void {
   }
 
-  fileUpload(event:any){
-    console.info(event.target.files);
+  fileUpload(event: any) {
 
     const selectedFile = event.target.files[0];
     const fileReader = new FileReader();
+
     fileReader.readAsBinaryString(selectedFile);
-    fileReader.onloadend = (event) =>
-    {
-      console.info(event);
+
+    fileReader.onloadend = (event) => {
       let binaryData = event.target.result;
-      let workbook = XLSX.read(binaryData, {type:'binary'});
+      let workbook = XLSX.read(binaryData, { type: 'binary' });
+
       workbook.SheetNames.forEach(sheet => {
         const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
-        console.log(data);
-        this.convertedJson = JSON.stringify(data, undefined,4);
-
+        this.convertedJson = JSON.stringify(data);
       })
-      console.info(workbook);
+
+      this.participantService.saveAllParticipants(this.convertedJson);
+
+      this.participantsTableAndImageIsVisibility = false;
+
+      this.loadFileModalIsVisible.emit(false);
+
     }
   }
 }
