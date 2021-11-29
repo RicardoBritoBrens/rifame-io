@@ -5,6 +5,7 @@
   --web-scale-on-resize: true;
   --web-enable-deep-linking: true;
 }
+
 :root {
   --web-view-ids: WelcomeInicio_Page;
 }
@@ -25,7 +26,8 @@
     opacity: 1;
   }
 }
-#Path_1 {
+
+#general-background {
   fill: rgba(180,198,166,1);
   stroke: rgba(112,112,112,1);
   stroke-width: 1px;
@@ -34,7 +36,8 @@
   stroke-miterlimit: 4;
   shape-rendering: auto;
 }
-.Path_1 {
+
+.general_background {
   overflow: visible;
   position: absolute;
   width: 1920px;
@@ -43,7 +46,8 @@
   top: 306px;
   transform: matrix(1,0,0,1,0,0);
 }
-#Card_1 {
+
+#card-first {
   position: absolute;
   width: 189px;
   height: 331px;
@@ -51,7 +55,8 @@
   top: 280px;
   overflow: visible;
 }
-#Card_2 {
+
+#card-second {
   position: absolute;
   width: 189px;
   height: 331px;
@@ -59,7 +64,8 @@
   top: 281px;
   overflow: visible;
 }
-#Card_6 {
+
+#card-third {
   position: absolute;
   width: 189px;
   height: 331px;
@@ -67,7 +73,8 @@
   top: 520px;
   overflow: visible;
 }
-#Card_5 {
+
+#card-fourth {
   position: absolute;
   width: 189px;
   height: 331px;
@@ -75,7 +82,8 @@
   top: 520px;
   overflow: visible;
 }
-#Card_4 {
+
+#card-fifth {
   position: absolute;
   width: 189px;
   height: 331px;
@@ -83,7 +91,8 @@
   top: 280px;
   overflow: visible;
 }
-#winner1 {
+
+#welcome-winner-first {
   position: absolute;
   width: 454px;
   height: 353px;
@@ -91,7 +100,8 @@
   top: 364px;
   overflow: visible;
 }
-#winner2 {
+
+#welcome-winner-second {
   position: absolute;
   width: 459px;
   height: 306px;

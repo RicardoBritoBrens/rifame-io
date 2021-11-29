@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { LocalStorageParticipantsService } from '../local-storage-participants.service';
 import { Participant } from '../models/Participant';
 
@@ -9,7 +10,7 @@ import { Participant } from '../models/Participant';
 })
 export class RifameWinnersComponent implements OnInit {
 
-  winners: Participant[] = [];
+  winners: Participant[] = null;
   participantsAreLoaded: boolean = true;
   constructor(private participantService: LocalStorageParticipantsService)
   {
@@ -17,7 +18,8 @@ export class RifameWinnersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.winners = this.participantService.getWinners();
+    this.participantService.getWinnersMock().
+    subscribe(data => this.winners = data);
   }
 
   public show(): void

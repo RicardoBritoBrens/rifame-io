@@ -1,8 +1,21 @@
+<div *ngIf="showSuccessAlertMessage" class="success-alert-message">
+  <h4>
+    <alert type='success' dismissOnTimeout="7000">
+      <strong>¡Éxito!</strong> Archivo cargado correctamente.
+    </alert>
+  </h4>
+</div>
 
-<button class="btn btn-info" (click)="show()">Show</button>
-<button class="btn btn-info" (click)="hide()">Hide</button>
+<div *ngIf="showErrorAlertMessage" class="error-alert-message">
+  <h4>
+    <alert type='danger' dismissOnTimeout="7000">
+      <strong>¡Error!</strong> Algo no fue bien, verifique su conexión he intente nuevamente.
+    </alert>
+  </h4>
+</div>
 
-<div *ngIf="!participantsAreLoaded" class="container">
+
+<div *ngIf="!loadFileIsVisible" class="container">
   <div id="ParticipantsAndPrize">
     <div class="table-responsive">
       <table class="table">
@@ -21,11 +34,16 @@
       </table>
     </div>
     <div id="ImageParticipantImage">
-      <img src="/assets/winner1.png">
+      <img src="/assets/images/welcome-winner-first.png">
     </div>
   </div>
 </div>
 
-<app-rifame-load-file [visibility] = 'this.participantsAreLoaded'></app-rifame-load-file>
-<!-- <app-rifame-blur-screen-with-central-text [visibility] = 'this.participantsAreLoaded'>
-</app-rifame-blur-screen-with-central-text> -->
+
+<a href="javascript:alert('You clicked!')" class="float">
+  <h2><i class="fas fa-eraser my-float"></i></h2>
+</a>
+
+<app-rifame-load-file (loadFileModalIsVisible)="onLoadFile($event)"
+  [participantsTableAndImageIsVisibility]='this.loadFileIsVisible'>
+</app-rifame-load-file>
