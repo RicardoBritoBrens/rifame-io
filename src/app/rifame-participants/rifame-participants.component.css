@@ -14,7 +14,7 @@ table {
   border: 1px solid rgb(126, 139, 128);
 }
 
-tbody{
+tbody {
   overflow-y: scroll;
   height: 500px;
   width: 100%;
@@ -31,27 +31,25 @@ tbody{
   background-color: rgb(140, 166, 144);
 }
 
-#ImageParticipantImage{
+#ImageParticipant {
   left: 1200px;
   top: 300px;
-  position:fixed;
+  position: fixed;
 }
 
-
-
-.float{
-	position:fixed;
-	width:60px;
-	height:60px;
-	bottom:40px;
-	right:40px;
-	background-color:#0C9;
-	color:#FFF;
-	border-radius:50px;
-	text-align:center;
-	box-shadow: 2px 2px 2px #999;
+.float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  background-color: #0c9;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 2px #999;
 }
 
-.my-float{
-	margin-top:22px;
+.my-float {
+  margin-top: 15px;
 }

@@ -1,8 +1,5 @@
-
-<!-- Upload -->
-<form *ngIf="participantsTableAndImageIsVisibility" id="file-upload-form" class="uploader">
-  <input id="file-upload" type="file" name="fileUpload" accept=".xls,.xlsx,.csv"
-  (change)="fileUpload($event)" />
+<form *ngIf="IsVisibility" id="file-upload-form" class="uploader">
+  <input id="file-upload" type="file" name="fileUpload" accept=".xls,.xlsx,.csv" (change)="fileUpload($event)" />
   <label for="file-upload" id="file-drag">
     <img id="file-image" src="#" alt="Preview" class="hidden">
     <div id="start">
@@ -18,7 +15,4 @@
       </progress>
     </div>
   </label>
-  <div class="div">
-    <pre>{{convertedJson}}</pre>
-  </div>
 </form>

@@ -14,29 +14,39 @@ export class RifameParticipantsComponent implements OnInit {
   loadFileIsVisible: boolean = true;
   showSuccessAlertMessage: boolean = false;
   showErrorAlertMessage: boolean = false;
-
   constructor(private storageService: LocalStorageParticipantsService) {
 
   }
 
   ngOnInit(): void {
-
-    console.log('Loading participants');
-      this.storageService.getAllParticipantsFromLocalStorage()
-      .subscribe(data => this.participants = data);
-
-      console.log('Validate participants length');
-      if(this.participants?.length > 0){
-
-        console.log('Disable loadFileModule');
-        this.loadFileIsVisible = false;
-      }
+    this.loadParticipants();
   }
-
 
   onLoadFile(canIHideParticipantsLoader: boolean) {
     this.loadFileIsVisible = canIHideParticipantsLoader;
-    this.showSuccessAlertMessage = true;
+    this.canIShowSuccessAlertMessage();
     this.loadFileIsVisible = false;
+    this.loadParticipants();
+  }
+
+  private canIShowSuccessAlertMessage() {
+    this.showSuccessAlertMessage = true;
+  }
+
+  removeParticipants()
+  {
+    this.storageService.removeParticipants();
+    this.loadParticipants();
+    this.loadFileIsVisible = true;
+  }
+
+  loadParticipants(){
+    this.storageService.getAllParticipantsFromLocalStorage()
+      .subscribe(data => this.participants = data);
+
+      if(this.participants?.length > 0){
+
+        this.loadFileIsVisible = false;
+      }
   }
 }

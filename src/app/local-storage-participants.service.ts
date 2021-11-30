@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import { from, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { LocalStorageReferenceService } from './local-storage-reference.service';
 import { IParticipants } from './models/IParticipants';
 import { Constants } from "./rifame-common/Constants";
@@ -34,10 +34,11 @@ export class LocalStorageParticipantsService {
 
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(JSON.parse(storageJson)));
 
-    console.log('Data got from the localstorage, the json obtain was: ' +  storageJson);
-
     return of(participantsArray);
   }
 
+  removeParticipants() {
+    this.localStorageService.removeData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS);
+  }
 
 }

@@ -9,9 +9,10 @@ import { LocalStorageParticipantsService } from '../local-storage-participants.s
 export class RifameLoadFileComponent implements OnInit {
 
   @Input()
-  participantsTableAndImageIsVisibility: boolean = false;
+  IsVisibility: boolean = false;
+
   convertedJson: String;
-  @Output() loadFileModalIsVisible = new EventEmitter<boolean>();
+  @Output() VisibilityEventEmitter = new EventEmitter<boolean>();
 
   constructor(private participantService: LocalStorageParticipantsService) { }
 
@@ -21,24 +22,29 @@ export class RifameLoadFileComponent implements OnInit {
   fileUpload(event: any) {
 
     const selectedFile = event.target.files[0];
+
     const fileReader = new FileReader();
 
     fileReader.readAsBinaryString(selectedFile);
 
     fileReader.onloadend = (event) => {
+
       let binaryData = event.target.result;
+
       let workbook = XLSX.read(binaryData, { type: 'binary' });
 
       workbook.SheetNames.forEach(sheet => {
+
         const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
         this.convertedJson = JSON.stringify(data);
+
       })
 
       this.participantService.saveAllParticipants(this.convertedJson);
 
-      this.participantsTableAndImageIsVisibility = false;
+      this.IsVisibility = false;
 
-      this.loadFileModalIsVisible.emit(false);
+      this.VisibilityEventEmitter.emit(false);
 
     }
   }

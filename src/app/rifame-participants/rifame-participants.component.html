@@ -1,3 +1,4 @@
+<!-- Alerts -->
 <div *ngIf="showSuccessAlertMessage" class="success-alert-message">
   <h4>
     <alert type='success' dismissOnTimeout="7000">
@@ -14,11 +15,11 @@
   </h4>
 </div>
 
-
+<!-- Load file module -->
 <div *ngIf="!loadFileIsVisible" class="container">
   <div id="ParticipantsAndPrize">
     <div class="table-responsive">
-      <table class="table">
+      <table class="table ">
         <thead>
           <tr>
             <th scope="col">Participantes</th>
@@ -33,17 +34,19 @@
         </tbody>
       </table>
     </div>
-    <div id="ImageParticipantImage">
+    <div id="ImageParticipant">
       <img src="/assets/images/welcome-winner-first.png">
     </div>
   </div>
 </div>
 
-
-<a href="javascript:alert('You clicked!')" class="float">
+<!-- Floating button -->
+<a routerLink="." (click)="removeParticipants()" class="float">
   <h2><i class="fas fa-eraser my-float"></i></h2>
 </a>
 
-<app-rifame-load-file (loadFileModalIsVisible)="onLoadFile($event)"
-  [participantsTableAndImageIsVisibility]='this.loadFileIsVisible'>
+<!-- Load file component -->
+<app-rifame-load-file
+  (VisibilityEventEmitter)="onLoadFile($event)"
+  [IsVisibility]='this.loadFileIsVisible'>
 </app-rifame-load-file>
