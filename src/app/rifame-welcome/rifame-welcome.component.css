@@ -1,111 +1,71 @@
-/* You can add global styles to this file, and also import other style files */
-.mediaViewInfo {
-  --web-view-name: Welcome/Inicio Page;
-  --web-view-id: WelcomeInicio_Page;
-  --web-scale-on-resize: true;
-  --web-enable-deep-linking: true;
-}
-
-:root {
-  --web-view-ids: WelcomeInicio_Page;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  border: none;
-}
-
-@keyframes fadein {
-
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-#general-background {
-  fill: rgba(180,198,166,1);
-  stroke: rgba(112,112,112,1);
-  stroke-width: 1px;
-  stroke-linejoin: miter;
-  stroke-linecap: butt;
-  stroke-miterlimit: 4;
-  shape-rendering: auto;
-}
-
-.general_background {
-  overflow: visible;
-  position: absolute;
-  width: 1920px;
-  height: 545.113px;
-  left: 0px;
-  top: 306px;
-  transform: matrix(1,0,0,1,0,0);
-}
-
-#card-first {
+.card_first {
   position: absolute;
   width: 189px;
   height: 331px;
   left: 0px;
-  top: 280px;
+  top: 0px;
   overflow: visible;
 }
 
-#card-second {
+.card_second {
   position: absolute;
-  width: 189px;
-  height: 331px;
-  left: 852px;
-  top: 281px;
+  width: 190px;
+  height: 330px;
+  left: 210px;
+  top: 160px;
   overflow: visible;
 }
 
-#card-third {
-  position: absolute;
-  width: 189px;
-  height: 331px;
-  left: 209px;
-  top: 520px;
-  overflow: visible;
-}
-
-#card-fourth {
-  position: absolute;
-  width: 189px;
-  height: 331px;
-  left: 1078px;
-  top: 520px;
-  overflow: visible;
-}
-
-#card-fifth {
-  position: absolute;
-  width: 189px;
-  height: 331px;
-  left: 1304px;
-  top: 280px;
-  overflow: visible;
-}
-
-#welcome-winner-first {
+.welcome_winner_first {
   position: absolute;
   width: 454px;
-  height: 353px;
+  height: 354px;
   left: 398px;
-  top: 364px;
+  top: 0px;
   overflow: visible;
 }
 
-#welcome-winner-second {
+.card_third {
   position: absolute;
-  width: 459px;
+  width: 190px;
+  height: 330px;
+  left: 852px;
+  top: 160px;
+  overflow: visible;
+}
+
+.card_fourth {
+  position: absolute;
+  width: 190px;
+  height: 330px;
+  left: 1078px;
+  top: 0px;
+  overflow: visible;
+}
+
+.card_fifth {
+  position: absolute;
+  width: 190px;
+  height: 330px;
+  left: 1304px;
+  top: 160px;
+  overflow: visible;
+}
+
+.welcome_winner_second {
+  position: absolute;
+  width: 460px;
   height: 306px;
   left: 1474px;
-  top: 482px;
+  top: 0px;
   overflow: visible;
+}
+
+.middle_background {
+  background-color: rgba(180, 198, 166, 1);;
+  position:absolute;
+  top:250px;
+  right:0px;
+  bottom:150px;
+  left:0px;
 }

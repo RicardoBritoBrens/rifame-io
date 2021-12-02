@@ -12,7 +12,8 @@ import { RifameBlurScreenWithCentralTextComponent } from './rifame-blur-screen-w
 import { RifameLoadFileComponent } from './rifame-load-file/rifame-load-file.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { HttpClientModule } from '@angular/common/http';
-
+import { MatTableModule } from '@angular/material/table';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    MatTableModule,
     RouterModule.forRoot(
       [
         { path: '', component: RifameWelcomeComponent},
@@ -38,6 +40,7 @@ import { HttpClientModule } from '@angular/common/http';
       ]
       ),
     AlertModule.forRoot(),
+    NoopAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'app-rifame-welcome',
   templateUrl: './rifame-welcome.component.html',
