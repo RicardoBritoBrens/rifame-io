@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ParticipantsComponent } from './participants.component';
 
-import { RifameWinnersComponent } from './rifame-winners.component';
-
-describe('RifameWinnersComponent', () => {
-  let component: RifameWinnersComponent;
-  let fixture: ComponentFixture<RifameWinnersComponent>;
+describe('ParticipantsComponent', () => {
+  let component: ParticipantsComponent;
+  let fixture: ComponentFixture<ParticipantsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RifameWinnersComponent ]
+      declarations: [ ParticipantsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RifameWinnersComponent);
+    fixture = TestBed.createComponent(ParticipantsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

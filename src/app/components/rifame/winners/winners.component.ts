@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LocalStorageParticipantsService } from '../local-storage-participants.service';
-import { Participant } from '../models/Participant';
+import { LocalStorageParticipantsService } from '../../../services/local-storage-participants.service';
+import { Participant } from '../../../models/Participant';
 
 @Component({
   selector: 'app-rifame-winners',
-  templateUrl: './rifame-winners.component.html',
-  styleUrls: ['./rifame-winners.component.css']
+  templateUrl: './winners.component.html',
+  styleUrls: ['./winners.component.css']
 })
-export class RifameWinnersComponent implements OnInit {
+export class WinnersComponent implements OnInit {
 
   winners: Participant[] = null;
   participantsAreLoaded: boolean = true;

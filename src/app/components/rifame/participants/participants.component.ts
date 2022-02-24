@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageParticipantsService } from '../local-storage-participants.service';
-import { IParticipants } from '../models/IParticipants';
+import { LocalStorageParticipantsService } from '../../../services/local-storage-participants.service';
+import { IParticipants } from '../../../models/IParticipants';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 
@@ -26,10 +26,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 @Component({
   selector: 'app-rifame-participants',
-  templateUrl: './rifame-participants.component.html',
-  styleUrls: ['./rifame-participants.component.css']
+  templateUrl: './participants.component.html',
+  styleUrls: ['./participants.component.css']
 })
-export class RifameParticipantsComponent implements OnInit {
+export class ParticipantsComponent implements OnInit {
 
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
@@ -74,4 +74,5 @@ export class RifameParticipantsComponent implements OnInit {
         this.loadFileIsVisible = false;
       }
   }
+
 }

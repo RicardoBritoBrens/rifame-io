@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RifameLoadFileComponent } from './rifame-load-file.component';
+import { LoadFileComponent } from './load-file.component';
 
-describe('RifameLoadFileComponent', () => {
-  let component: RifameLoadFileComponent;
-  let fixture: ComponentFixture<RifameLoadFileComponent>;
+describe('LoadFileComponent', () => {
+  let component: LoadFileComponent;
+  let fixture: ComponentFixture<LoadFileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RifameLoadFileComponent ]
+      declarations: [ LoadFileComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RifameLoadFileComponent);
+    fixture = TestBed.createComponent(LoadFileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

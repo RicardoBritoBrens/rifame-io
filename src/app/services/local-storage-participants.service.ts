@@ -2,8 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { LocalStorageReferenceService } from './local-storage-reference.service';
-import { IParticipants } from './models/IParticipants';
-import { Constants } from "./rifame-common/Constants";
+import { IParticipants } from '../models/IParticipants';
+import { Constants } from "../common/Constants";
 @Injectable({
   providedIn: 'root'
 })

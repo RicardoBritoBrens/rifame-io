@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as XLSX from 'xlsx';
-import { LocalStorageParticipantsService } from '../local-storage-participants.service';
+import { LocalStorageParticipantsService } from '../../../../services/local-storage-participants.service';
 @Component({
-  selector: 'app-rifame-load-file',
-  templateUrl: './rifame-load-file.component.html',
-  styleUrls: ['./rifame-load-file.component.css']
+  selector: 'app-load-file',
+  templateUrl: './load-file.component.html',
+  styleUrls: ['./load-file.component.css']
 })
-export class RifameLoadFileComponent implements OnInit {
+export class LoadFileComponent implements OnInit {
 
   @Input()
   IsVisibility: boolean = false;

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RifameRafflesComponent } from './rifame-raffles.component';
+import { RafflesComponent } from './raffles.component';
 
-describe('RifameRafflesComponent', () => {
-  let component: RifameRafflesComponent;
-  let fixture: ComponentFixture<RifameRafflesComponent>;
+describe('RafflesComponent', () => {
+  let component: RafflesComponent;
+  let fixture: ComponentFixture<RafflesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RifameRafflesComponent ]
+      declarations: [ RafflesComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RifameRafflesComponent);
+    fixture = TestBed.createComponent(RafflesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

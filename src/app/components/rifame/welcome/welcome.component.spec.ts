@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RifameNavBarComponent } from './rifame-nav-bar.component';
+import { WelcomeComponent } from './welcome.component';
 
-describe('RifameNavBarComponent', () => {
-  let component: RifameNavBarComponent;
-  let fixture: ComponentFixture<RifameNavBarComponent>;
+describe('WelcomeComponent', () => {
+  let component: WelcomeComponent;
+  let fixture: ComponentFixture<WelcomeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RifameNavBarComponent ]
+      declarations: [ WelcomeComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RifameNavBarComponent);
+    fixture = TestBed.createComponent(WelcomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
