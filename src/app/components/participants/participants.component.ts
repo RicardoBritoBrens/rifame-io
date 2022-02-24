@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageParticipantsService } from '../../../services/local-storage-participants.service';
-import { IParticipants } from '../../../models/IParticipants';
+import { LocalStorageParticipantsService } from '../../services/local-storage-participants.service';
+import { IParticipants } from '../../models/IParticipants';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 

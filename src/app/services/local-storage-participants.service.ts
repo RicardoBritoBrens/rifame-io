@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { LocalStorageReferenceService } from './local-storage-reference.service';
 import { IParticipants } from '../models/IParticipants';
-import { Constants } from "../common/Constants";
+import { Constants } from "../utils/Constants";
 @Injectable({
   providedIn: 'root'
 })

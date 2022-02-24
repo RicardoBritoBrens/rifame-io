@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as XLSX from 'xlsx';
-import { LocalStorageParticipantsService } from '../../../../services/local-storage-participants.service';
+import { LocalStorageParticipantsService } from '../../../services/local-storage-participants.service';
 @Component({
   selector: 'app-load-file',
   templateUrl: './load-file.component.html',

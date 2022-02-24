@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LocalStorageParticipantsService } from '../../../services/local-storage-participants.service';
-import { Participant } from '../../../models/Participant';
+import { LocalStorageParticipantsService } from '../../services/local-storage-participants.service';
+import { Participant } from '../../models/Participant';
 
 @Component({
   selector: 'app-rifame-winners',
