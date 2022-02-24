@@ -1,20 +1,20 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
+import { BlurScreenWithCentralTextComponent } from './components/winners/blur-screen-with-central-text/blur-screen-with-central-text.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { LoadFileComponent } from './components/participants/load-file/load-file.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { NavBarComponent } from './components/shared/navbar/navbar.component';
+import { NgModule } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ParticipantsComponent } from './components/participants/participants.component';
 import { RafflesComponent } from './components/raffles/raffles.component';
-import { WinnersComponent } from './components/winners/winners.component';
+import { RouterModule } from '@angular/router';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { NavBarComponent } from './components/shared/navbar/navbar.component';
-import { BlurScreenWithCentralTextComponent } from './components/winners/blur-screen-with-central-text/blur-screen-with-central-text.component';
-import { LoadFileComponent } from './components/participants/load-file/load-file.component';
-import { AlertModule } from 'ngx-bootstrap/alert';
-import { HttpClientModule } from '@angular/common/http';
-import { MatTableModule } from '@angular/material/table';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { WinnersComponent } from './components/winners/winners.component';
 
 @NgModule({
   declarations: [
