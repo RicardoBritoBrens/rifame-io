@@ -1,71 +1,49 @@
-.card_first {
-  position: absolute;
-  width: 189px;
-  height: 331px;
-  left: 0px;
-  top: 0px;
-  overflow: visible;
-}
-
-.card_second {
-  position: absolute;
-  width: 190px;
-  height: 330px;
-  left: 210px;
-  top: 160px;
-  overflow: visible;
-}
-
-.welcome_winner_first {
-  position: absolute;
-  width: 454px;
-  height: 354px;
-  left: 398px;
-  top: 0px;
-  overflow: visible;
-}
-
-.card_third {
-  position: absolute;
-  width: 190px;
-  height: 330px;
-  left: 852px;
-  top: 160px;
-  overflow: visible;
-}
-
-.card_fourth {
-  position: absolute;
-  width: 190px;
-  height: 330px;
-  left: 1078px;
-  top: 0px;
-  overflow: visible;
-}
-
-.card_fifth {
-  position: absolute;
-  width: 190px;
-  height: 330px;
-  left: 1304px;
-  top: 160px;
-  overflow: visible;
-}
-
-.welcome_winner_second {
-  position: absolute;
-  width: 460px;
-  height: 306px;
-  left: 1474px;
-  top: 0px;
-  overflow: visible;
-}
-
 .middle_background {
-  background-color: rgba(180, 198, 166, 1);;
-  position:absolute;
+  background-color: rgba(180, 198, 166, 1);
   top:250px;
   right:0px;
   bottom:150px;
   left:0px;
+}
+
+.card_first {
+  width: 50px;
+  height: 50px;
+  overflow: visible;
+}
+
+.card_second {
+  width: 50px;
+  height: 50px;
+  overflow: visible;
+}
+
+.welcome_winner_first {
+  width: 50px;
+  height: 50px;
+  overflow: visible;
+}
+
+.card_third {
+  width: 50px;
+  height: 50px;
+  overflow: visible;
+}
+
+.card_fourth {
+  width: 50px;
+  height: 50px;
+  overflow: visible;
+}
+
+.card_fifth {
+  width: 50px;
+  height: 50px;
+  overflow: visible;
+}
+
+.welcome_winner_second {
+  width: 460px;
+  height: 306px;
+  overflow: visible;
 }
