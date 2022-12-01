@@ -1,27 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageParticipantsService } from '../../services/local-storage-participants.service';
 import { IParticipants } from '../../models/IParticipants';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 export interface PeriodicElement {
   name: string;
   position: number;
-  weight: number;
-  symbol: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  { position: 1, name: 'Hydrogen' },
+  { position: 2, name: 'Helium' },
+  { position: 3, name: 'Lithium' },
+  { position: 4, name: 'Beryllium' },
+  { position: 5, name: 'Boron' },
+  { position: 6, name: 'Carbon' },
+  { position: 7, name: 'Nitrogen' },
+  { position: 8, name: 'Oxygen' },
+  { position: 9, name: 'Fluorine' },
+  { position: 10, name: 'Neon' },
 ];
 
 @Component({
@@ -31,8 +37,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ParticipantsComponent implements OnInit {
 
+  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+  matcher = new MyErrorStateMatcher();
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+
+  displayedColumns: string[] = ['position', 'name'];
   dataSource = ELEMENT_DATA;
 
   participants: IParticipants[] = [];
@@ -58,21 +67,20 @@ export class ParticipantsComponent implements OnInit {
     this.showSuccessAlertMessage = true;
   }
 
-  removeParticipants()
-  {
+  removeParticipants() {
     this.storageService.removeParticipants();
     this.loadParticipants();
     this.loadFileIsVisible = true;
   }
 
-  loadParticipants(){
+  loadParticipants() {
     this.storageService.getAllParticipantsFromLocalStorage()
       .subscribe(data => this.participants = data);
 
-      if(this.participants?.length > 0){
+    if (this.participants?.length > 0) {
 
-        this.loadFileIsVisible = false;
-      }
+      this.loadFileIsVisible = false;
+    }
   }
 
 }
