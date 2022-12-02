@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LocalStorageParticipantsService } from '../../services/local-storage-participants.service';
-import { Participant } from '../../models/Participant';
+import { LocalStorageParticipantsService } from '../../../../services/local-storage-participants.service';
+import { Participant } from '../../../../models/Participant';
 
 @Component({
   selector: 'app-rifame-winners',
@@ -12,23 +12,20 @@ export class WinnersComponent implements OnInit {
 
   winners: Participant[] = null;
   participantsAreLoaded: boolean = true;
-  constructor(private participantService: LocalStorageParticipantsService)
-  {
+  constructor(private participantService: LocalStorageParticipantsService) {
 
   }
 
   ngOnInit(): void {
     this.participantService.getWinnersMock().
-    subscribe(data => this.winners = data);
+      subscribe(data => this.winners = data);
   }
 
-  public show(): void
-  {
+  public show(): void {
     this.participantsAreLoaded = true;
   }
 
-  public hide(): void
-  {
+  public hide(): void {
     this.participantsAreLoaded = false;
   }
 

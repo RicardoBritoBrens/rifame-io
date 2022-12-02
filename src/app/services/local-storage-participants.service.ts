@@ -1,9 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, scheduled } from 'rxjs';
 import { LocalStorageReferenceService } from './local-storage-reference.service';
 import { IParticipants } from '../models/IParticipants';
 import { Constants } from "../utils/Constants";
+import { PeriodicElement } from "../components/pages/participants/participants/participants.component";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,6 +37,35 @@ export class LocalStorageParticipantsService {
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(JSON.parse(storageJson)));
 
     return of(participantsArray);
+  }
+
+
+  getMockAllParticipantsFromLocalStorage(): Observable<IParticipants[]> {
+
+    let mockParticipants: IParticipants[] = [
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Celso Marti' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Marcos Antonio Crespo' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Antonio Manuel Carballo' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Angel Maria Redondo' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Ahmed Sales' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Dario Amado' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Jorge Juan Aguilera' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Luca Muñoz' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Florencio Castillo' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Roberto Zaragoza' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Adrian Taboada' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Vasile Bolaños' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Pedro Caamaño' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Nicolas Berenguer' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Jacobo Gascon' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Jose Angel Hernando' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Bernabe Falcon' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Hamid Lema' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Jorge Luis Adan' },
+      { FirstName: 'Ricardo', LastName: 'Brito Brens', FullName: 'Jose Juan Sánchez' }
+    ]
+
+    return of(mockParticipants)
   }
 
   removeParticipants() {
