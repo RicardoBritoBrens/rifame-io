@@ -17,7 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { WinnersComponent } from './components/winners/winners.component';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon'
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,8 @@ import { WinnersComponent } from './components/winners/winners.component';
     MatPaginatorModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
     RouterModule.forRoot(
       [
         { path: '', component: WelcomeComponent },
