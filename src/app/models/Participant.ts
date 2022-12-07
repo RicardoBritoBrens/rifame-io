@@ -1,12 +1,12 @@
-export class Participant{
+export class Participant {
 
-  FirstName: String | undefined;
-  LastName: String | undefined;
-  FullName: String | undefined;
+  Id: number | undefined;
+  Name: String | undefined;
 
-  constructor(firstName: String, lastName: String) {
-    this.FirstName = firstName;
-    this.LastName = lastName;
-    this.FullName = this.FirstName + ' ' + this.LastName;
+
+  constructor(id: number, name: String) {
+    this.Id = id;
+    this.Name = name;
+
   }
 }

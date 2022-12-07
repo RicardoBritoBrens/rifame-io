@@ -1,77 +1,50 @@
 <div class="container">
-
-  <!-- Alerts -->
-  <div *ngIf="showSuccessAlertMessage" class="success-alert-message">
-    <h4>
-      <alert type='success' dismissOnTimeout="7000">
-        <strong>¡Éxito!</strong> Archivo cargado correctamente.
-      </alert>
-    </h4>
-  </div>
-
-  <div *ngIf="showErrorAlertMessage" class="error-alert-message">
-    <h4>
-      <alert type='danger' dismissOnTimeout="7000">
-        <strong>¡Error!</strong> Algo no fue bien, verifique su conexión he intente nuevamente.
-      </alert>
-    </h4>
-  </div>
-
   <!-- Load file module -->
   <div *ngIf="!loadFileIsVisible" class="container">
     <div id="ParticipantsAndPrize">
-      <div class="">
+      <div>
         <div class="mat-elevation-z8">
           <div class="grid-panel">
             <div class="left-panel">
-              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                <ng-container matColumnDef="firstName">
-                  <th mat-header-cell *matHeaderCellDef> No. </th>
-                  <td mat-cell *matCellDef="let element"> {{element.FirstName}} </td>
+              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+                [ngClass]="{'border-radius': '16px;' }">
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="nice-border"> No. </th>
+                  <td mat-cell *matCellDef="let participant"> {{participant.id}} </td>
                 </ng-container>
-
-                <ng-container matColumnDef="lastName">
-                  <th mat-header-cell *matHeaderCellDef> LastName </th>
-                  <td mat-cell *matCellDef="let element"> {{element.LastName}} </td>
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                  <td mat-cell *matCellDef="let participant"> {{participant.name}} </td>
                 </ng-container>
-
-                <ng-container matColumnDef="fullName">
-                  <th mat-header-cell *matHeaderCellDef> FullName </th>
-                  <td mat-cell *matCellDef="let element"> {{element.FullName}} </td>
-                </ng-container>
-
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
-
-              <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons
-                aria-label="Select page of periodic elements">
+              <mat-paginator [pageSizeOptions]="[10, 5]" showFirstLastButtons aria-label="Select page of name names">
               </mat-paginator>
             </div>
             <div class="right-panel">
-              <form class="center-form">
-                <mat-form-field class="example-full-width">
+              <form [formGroup]="addParticipatsForm" (ngSubmit)="onSubmit()" method="post" class="center-form">
+                <mat-form-field>
                   <mat-label>Name</mat-label>
-                  <input type="text" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-                    placeholder="Name">
-                  <mat-hint>Errors appear instantly!</mat-hint>
-                  <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-                    Please enter a valid email address
-                  </mat-error>
-                  <mat-error *ngIf="emailFormControl.hasError('required')">
-                    Name is <strong>required</strong>
-                  </mat-error>
+                  <input type="text" matInput>
                 </mat-form-field>
-                <button mat-fab aria-label="">
-                  <mat-icon style="height:16px; width:16px; font-size:16px; line-height: 16px;">add</mat-icon>
+                <button mat-mini-fab color="#fffff">
+                  <mat-icon>
+                    add
+                  </mat-icon>
                 </button>
               </form>
+            </div>
+            <div class="bottom-options">
+              <div>Load File</div>
+              <div>Start</div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
 
   <!-- <app-load-file
   (VisibilityEventEmitter)="onLoadFile($event)"

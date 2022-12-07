@@ -1,5 +1,6 @@
 .container {
   min-height: 400px;
+  background-color: aqua;
 }
 
 .grid-panel {
@@ -19,7 +20,10 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background-color: cadetblue;
+}
+
+.right-panel mat-label {
+  color: rgba(255, 194, 134, 1);
 }
 
 .center-form {
@@ -61,4 +65,17 @@ tbody {
 
 .my-float {
   margin-top: 15px;
+}
+
+.nice-border {
+  border-radius: 28px;
+}
+
+.bottom-options {
+  background-color: cadetblue;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }

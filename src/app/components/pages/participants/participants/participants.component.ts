@@ -5,20 +5,14 @@ import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/fo
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { FormBuilder } from '@angular/forms';
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-}
-
-let ELEMENT_DATA: PeriodicElement[] = [];
 
 @Component({
   selector: 'app-rifame-participants',
@@ -27,20 +21,22 @@ let ELEMENT_DATA: PeriodicElement[] = [];
 })
 export class ParticipantsComponent implements OnInit, AfterViewInit {
 
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  matcher = new MyErrorStateMatcher();
+  addParticipatsForm = this.formBuilder.group([]);
+  displayedColumns: string[] = ['id', 'name'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  displayedColumns: string[] = ['firstName', 'lastName', 'fullName'];
   dataSource = new MatTableDataSource<IParticipants>();
 
   participants: IParticipants[] = [];
+
   loadFileIsVisible: boolean = true;
   showSuccessAlertMessage: boolean = false;
   showErrorAlertMessage: boolean = false;
+  showWarningAlertMessage: boolean = true;
 
-  constructor(private storageService: LocalStorageParticipantsService) {
+  constructor(
+    private storageService: LocalStorageParticipantsService,
+    private formBuilder: FormBuilder) {
   }
 
   ngAfterViewInit(): void {
@@ -48,9 +44,16 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.createForm();
     this.loadParticipants();
   }
 
+  createForm() {
+    this.addParticipatsForm = this.formBuilder.group({
+      id: new FormControl(0,),
+      name: new FormControl('', Validators.required),
+    });
+  }
 
   private onLoadFile(canIHideParticipantsLoader: boolean) {
     this.loadFileIsVisible = canIHideParticipantsLoader;
@@ -59,6 +62,13 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
     this.loadParticipants();
   }
 
+  onSubmit(): void {
+    if (this.addParticipatsForm.valid) {
+      Notify.success('Test Success ' + this.addParticipatsForm.value);
+    } else {
+      Notify.warning('Field name is require');
+    }
+  }
   private canIShowSuccessAlertMessage() {
     this.showSuccessAlertMessage = true;
   }
@@ -72,16 +82,42 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   private loadParticipants() {
     this.storageService.getMockAllParticipantsFromLocalStorage()
       .subscribe(data => {
+
         this.participants = data;
-        this.dataSource = new MatTableDataSource<IParticipants>(data)
+        this.dataSource = new MatTableDataSource<IParticipants>(data);
+
+        if (this.participants?.length > 0) {
+          this.loadFileIsVisible = false;
+        }
       }
       );
-
-    if (this.participants?.length > 0) {
-      this.loadFileIsVisible = false;
-    }
-
-
   }
-
 }
+
+
+/*
+  <!-- Alerts -->
+  <div *ngIf="showSuccessAlertMessage" class="success-alert-message">
+    <h4>
+      <alert type='success' dismissOnTimeout="7000">
+        <strong>¡Éxito!</strong> Archivo cargado correctamente.
+      </alert>
+    </h4>
+  </div>
+
+  <div *ngIf="showErrorAlertMessage" class="error-alert-message">
+    <h4>
+      <alert type='danger' dismissOnTimeout="7000">
+        <strong>¡Error!</strong> Algo no fue bien, verifique su conexión he intente nuevamente.
+      </alert>
+    </h4>
+  </div>
+
+  <div *ngIf="showWarningAlertMessage" class="warning-alert-message">
+    <h4>
+      <alert type='warning' dismissOnTimeout="7000" alertPosition="top-left">
+        <strong>¡Advertencia!</strong> Algo no fue bien, verifique su conexión he intente nuevamente.
+      </alert>
+    </h4>
+  </div>
+*/

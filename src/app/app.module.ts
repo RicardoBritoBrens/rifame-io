@@ -1,4 +1,4 @@
-import { AlertModule } from 'ngx-bootstrap/alert';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BlurScreenWithCentralTextComponent } from './components/pages/winners/winners/blur-screen-with-central-text/blur-screen-with-central-text.component';
@@ -18,7 +18,9 @@ import { RouterModule } from '@angular/router';
 import { WelcomeComponent } from './components/pages/home/welcome/welcome.component';
 import { WinnersComponent } from './components/pages/winners/winners/winners.component';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +42,7 @@ import { MatIconModule } from '@angular/material/icon'
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(
       [
         { path: '', component: WelcomeComponent },
@@ -48,7 +51,6 @@ import { MatIconModule } from '@angular/material/icon'
         { path: 'rifame/winners', component: WinnersComponent },
       ]
     ),
-    AlertModule.forRoot(),
     NoopAnimationsModule,
   ],
   providers: [],
