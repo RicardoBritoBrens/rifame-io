@@ -1,6 +1,5 @@
 .container {
   min-height: 400px;
-  background-color: aqua;
 }
 
 .grid-panel {
@@ -10,7 +9,16 @@
 }
 
 .left-panel {
-  background-color: #999;
+  background-color: #66806a;
+}
+
+.left-panel th.mat-header-cell {
+  background-color: transparent;
+}
+
+.center-form {
+  align-self: center;
+  text-align: center;
 }
 
 .right-panel {
@@ -26,15 +34,35 @@
   color: rgba(255, 194, 134, 1);
 }
 
-.center-form {
-  align-self: center;
-  text-align: center;
+/* + (add) button format */
+
+.mat-input-element {
+  color: rgba(255, 194, 134, 1) !important;
 }
 
+:host ::ng-deep .mat-form-field-underline {
+  background-color: rgba(255, 194, 134, 1) !important;
+  color: rgba(255, 194, 134, 1) !important;
+}
+
+:host ::ng-deep .mat-form-field-ripple {
+  background-color: rgba(255, 194, 134, 1) !important;
+  color: rgba(255, 194, 134, 1) !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  background-color: rgba(255, 194, 134, 1) !important;
+}
+
+::ng-deep .mat-form-field-label {
+  color: rgba(255, 194, 134, 1) !important;
+}
+
+/* Mat tale styles */
 table {
   width: 100%;
-  color: white;
-  border: 1px solid rgb(126, 139, 128);
+  color: transparent;
+  border: 1px solid #66806a;
 }
 
 tbody {
@@ -42,6 +70,41 @@ tbody {
   height: 500px;
   width: 100%;
   position: absolute;
+}
+
+.mat-row {
+  max-height: 10px;
+  height: 10px;
+  min-height: 10px;
+}
+
+.mat-header-row {
+  max-height: 10px;
+  height: 10px;
+  min-height: 10px;
+  background: #66806a;
+}
+
+.mat-bottom-row {
+  max-height: 10px;
+  height: 10px;
+  min-height: 10px;
+}
+
+:host ::ng-deep .mat-paginator-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0px;
+  flex-wrap: wrap-reverse;
+  width: 100%;
+  background: #66806a;
+}
+
+th.mat-header-cell:first-of-type,
+td.mat-cell,
+td.mat-footer-cell:first-of-type {
+  background: #66806a;
 }
 
 #ImageParticipant {
@@ -72,10 +135,9 @@ tbody {
 }
 
 .bottom-options {
-  background-color: cadetblue;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }

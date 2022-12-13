@@ -1,4 +1,4 @@
-<form *ngIf="IsVisibility" id="file-upload-form" class="uploader">
+<!-- <form id="file-upload-form" class="uploader">
   <input id="file-upload" type="file" name="fileUpload" accept=".xls,.xlsx,.csv" (change)="fileUpload($event)" />
   <label for="file-upload" id="file-drag">
     <img id="file-image" src="#" alt="Preview" class="hidden">
@@ -15,4 +15,9 @@
       </progress>
     </div>
   </label>
+</form> -->
+
+<form id="file-upload-form" class="form">
+  <input id="file-upload" class="choose-file" type="file" name="fileUpload" accept=".xls,.xlsx,.csv"
+    (change)="fileUpload($event)" />
 </form>

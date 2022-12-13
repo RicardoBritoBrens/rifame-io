@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NotificationService } from 'src/app/services/notification.service';
 import * as XLSX from 'xlsx';
 import { LocalStorageParticipantsService } from '../../../../../services/local-storage-participants.service';
 @Component({
@@ -14,38 +15,49 @@ export class LoadFileComponent implements OnInit {
   convertedJson: String;
   @Output() VisibilityEventEmitter = new EventEmitter<boolean>();
 
-  constructor(private participantService: LocalStorageParticipantsService) { }
+  constructor(
+    private participantService: LocalStorageParticipantsService,
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
   }
 
   fileUpload(event: any) {
+    try {
 
-    const selectedFile = event.target.files[0];
+      const selectedFile = event.target.files[0];
+      const fileReader = new FileReader();
 
-    const fileReader = new FileReader();
+      fileReader.readAsBinaryString(selectedFile);
+      fileReader.onloadend = (event) => {
 
-    fileReader.readAsBinaryString(selectedFile);
+        let binaryData = event.target.result;
+        let workbook = XLSX.read(binaryData, { type: 'binary' });
 
-    fileReader.onloadend = (event) => {
+        if (workbook.SheetNames.length == 0) {
+          this.notificationService.warning("Archivo no contine hojas de trabajo, favor validar el formato de ejemplo");
+          return;
+        }
 
-      let binaryData = event.target.result;
+        workbook.SheetNames.forEach(sheet => {
+          const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+          this.convertedJson = JSON.stringify(data);
+        });
 
-      let workbook = XLSX.read(binaryData, { type: 'binary' });
+        if (this.convertedJson.length == 0) {
+          this.notificationService.warning("Algo fue mal, verifique el formato de su archivo");
+        } else {
 
-      workbook.SheetNames.forEach(sheet => {
+          this.participantService.saveAllParticipants(this.convertedJson);
+          this.notificationService.success("Archivo cargado correctamente");
 
-        const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
-        this.convertedJson = JSON.stringify(data);
-
-      })
-
-      this.participantService.saveAllParticipants(this.convertedJson);
-
-      this.IsVisibility = false;
-
-      this.VisibilityEventEmitter.emit(false);
-
+          this.IsVisibility = false;
+          this.VisibilityEventEmitter.emit(false);
+        }
+      }
+    } catch (error) {
+      this.notificationService.error("Algo fue mal, favor contactar con el creador de la aplicación");
     }
   }
 }

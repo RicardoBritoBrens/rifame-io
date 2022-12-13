@@ -44,6 +44,7 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.loadFileIsVisible = true;
     this.createForm();
     this.loadParticipants();
   }
@@ -55,11 +56,19 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private onLoadFile(canIHideParticipantsLoader: boolean) {
+  onLoadFile(canIHideParticipantsLoader: boolean) {
     this.loadFileIsVisible = canIHideParticipantsLoader;
     this.canIShowSuccessAlertMessage();
     this.loadFileIsVisible = false;
     this.loadParticipants();
+  }
+
+  onDelete() {
+    Notify.success('Looking good');
+  }
+
+  onUpload() {
+    Notify.success('Looking good');
   }
 
   onSubmit(): void {
@@ -87,37 +96,8 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource<IParticipants>(data);
 
         if (this.participants?.length > 0) {
-          this.loadFileIsVisible = false;
         }
       }
       );
   }
 }
-
-
-/*
-  <!-- Alerts -->
-  <div *ngIf="showSuccessAlertMessage" class="success-alert-message">
-    <h4>
-      <alert type='success' dismissOnTimeout="7000">
-        <strong>¡Éxito!</strong> Archivo cargado correctamente.
-      </alert>
-    </h4>
-  </div>
-
-  <div *ngIf="showErrorAlertMessage" class="error-alert-message">
-    <h4>
-      <alert type='danger' dismissOnTimeout="7000">
-        <strong>¡Error!</strong> Algo no fue bien, verifique su conexión he intente nuevamente.
-      </alert>
-    </h4>
-  </div>
-
-  <div *ngIf="showWarningAlertMessage" class="warning-alert-message">
-    <h4>
-      <alert type='warning' dismissOnTimeout="7000" alertPosition="top-left">
-        <strong>¡Advertencia!</strong> Algo no fue bien, verifique su conexión he intente nuevamente.
-      </alert>
-    </h4>
-  </div>
-*/
