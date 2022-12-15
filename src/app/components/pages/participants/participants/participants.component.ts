@@ -26,8 +26,9 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource<IParticipants>();
-
   participants: IParticipants[] = [];
+
+  participantCounter: number = 1;
 
   loadFileIsVisible: boolean = true;
   showSuccessAlertMessage: boolean = false;
@@ -51,7 +52,6 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
 
   createForm() {
     this.addParticipatsForm = this.formBuilder.group({
-      id: new FormControl(0,),
       name: new FormControl('', Validators.required),
     });
   }
@@ -64,7 +64,13 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   }
 
   onDelete() {
-    Notify.success('Looking good');
+    this.ClearTable();
+    //Notify.success('Looking good');
+  }
+
+  private ClearTable() {
+    this.dataSource = new MatTableDataSource<IParticipants>();
+    this.participants = [];
   }
 
   onUpload() {
@@ -73,22 +79,32 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
 
   onSubmit(): void {
     if (this.addParticipatsForm.valid) {
-      Notify.success('Test Success ' + this.addParticipatsForm.value);
+
+      let newParticipant: IParticipants = {
+        id: this.participantCounter,
+        name: this.addParticipatsForm.controls['name'].value
+      };
+
+      this.participants.push(newParticipant);
+      this.dataSource = new MatTableDataSource<IParticipants>(this.participants);
+      this.participantCounter++;
+      //Notify.success('Test Success ' + this.addParticipatsForm.value);
     } else {
       Notify.warning('Field name is require');
     }
   }
-  private canIShowSuccessAlertMessage() {
+
+  canIShowSuccessAlertMessage() {
     this.showSuccessAlertMessage = true;
   }
 
-  private removeParticipants() {
+  removeParticipants() {
     this.storageService.removeParticipants();
     this.loadParticipants();
     this.loadFileIsVisible = true;
   }
 
-  private loadParticipants() {
+  loadParticipants() {
     this.storageService.getMockAllParticipantsFromLocalStorage()
       .subscribe(data => {
 

@@ -13,7 +13,12 @@
 }
 
 .left-panel th.mat-header-cell {
-  background-color: transparent;
+  background-color: #66806a;
+  color: rgba(255, 194, 134, 1);
+}
+
+:host ::ng-deep .mat-select-value {
+  color: rgba(255, 194, 134, 1);
 }
 
 .center-form {
@@ -63,6 +68,7 @@ table {
   width: 100%;
   color: transparent;
   border: 1px solid #66806a;
+  border-collapse: unset;
 }
 
 tbody {
@@ -99,12 +105,23 @@ tbody {
   flex-wrap: wrap-reverse;
   width: 100%;
   background: #66806a;
+  color: rgba(255, 194, 134, 1) !important;
 }
 
 th.mat-header-cell:first-of-type,
 td.mat-cell,
 td.mat-footer-cell:first-of-type {
   background: #66806a;
+  color: rgba(255, 194, 134, 1) !important;
+}
+
+.mat-row,
+mat-header-row,
+mat-footer-row,
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+  border-bottom-color: rgba(0, 0, 0, 0.12);
 }
 
 #ImageParticipant {
@@ -128,10 +145,6 @@ td.mat-footer-cell:first-of-type {
 
 .my-float {
   margin-top: 15px;
-}
-
-.nice-border {
-  border-radius: 28px;
 }
 
 .bottom-options {
