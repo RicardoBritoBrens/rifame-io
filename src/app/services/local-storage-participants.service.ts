@@ -45,11 +45,11 @@ export class LocalStorageParticipantsService {
     let mockParticipants: IParticipants[] = [
       {
         id: 1,
-        name: "Cathyleen"
+        name: "Ardra"
       },
       {
         id: 2,
-        name: "Leola"
+        name: "Augustina"
       },
       {
         id: 3,
@@ -57,7 +57,7 @@ export class LocalStorageParticipantsService {
       },
       {
         id: 4,
-        name: "Ardra"
+        name: "Beryle"
       },
       {
         id: 5,
@@ -65,39 +65,39 @@ export class LocalStorageParticipantsService {
       },
       {
         id: 6,
-        name: "Chelsae"
+        name: "Cathyleen"
       },
       {
         id: 7,
-        name: "Lorita"
+        name: "Chelsae"
       },
       {
         id: 8,
-        name: "Linoel"
-      },
-      {
-        id: 9,
-        name: "Dorothy"
-      },
-      {
-        id: 10,
         name: "Clayborne"
       },
       {
-        id: 11,
+        id: 9,
         name: "Dore"
       },
       {
+        id: 10,
+        name: "Dorothy"
+      },
+      {
+        id: 11,
+        name: "Leola"
+      },
+      {
         id: 12,
-        name: "Norah"
+        name: "Linoel"
       },
       {
         id: 13,
-        name: "Beryle"
+        name: "Lorita"
       },
       {
         id: 14,
-        name: "Augustina"
+        name: "Norah"
       },
       {
         id: 15,

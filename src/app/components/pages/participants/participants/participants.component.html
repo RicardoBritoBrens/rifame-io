@@ -6,7 +6,7 @@
         <div class="mat-elevation-z8">
           <div class="grid-panel">
             <div class="left-panel">
-              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fixedLayout="true">
+              <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" fixedLayout="true">
                 <ng-container matColumnDef="id">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
                   <td mat-cell *matCellDef="let participant"> {{participant.id}} </td>

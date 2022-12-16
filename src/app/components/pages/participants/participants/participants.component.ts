@@ -5,8 +5,10 @@ import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/fo
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { FormBuilder } from '@angular/forms';
+import { NotificationService } from 'src/app/services/notification.service';
+import { MatSort } from '@angular/material/sort';
+
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
@@ -21,10 +23,14 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class ParticipantsComponent implements OnInit, AfterViewInit {
 
-  addParticipatsForm = this.formBuilder.group([]);
+  testDataSourceParticipants = new MatTableDataSource<IParticipants>();
+
+  addParticipatsForm = this._formBuilder.group([]);
   displayedColumns: string[] = ['id', 'name'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   dataSource = new MatTableDataSource<IParticipants>();
   participants: IParticipants[] = [];
 
@@ -34,14 +40,17 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   showSuccessAlertMessage: boolean = false;
   showErrorAlertMessage: boolean = false;
   showWarningAlertMessage: boolean = true;
+  mockDataIsLoaded: Boolean = false;
 
   constructor(
-    private storageService: LocalStorageParticipantsService,
-    private formBuilder: FormBuilder) {
+    private _storageService: LocalStorageParticipantsService,
+    private _formBuilder: FormBuilder,
+    private _notificationService: NotificationService) {
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
@@ -51,34 +60,39 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   }
 
   createForm() {
-    this.addParticipatsForm = this.formBuilder.group({
+    this.addParticipatsForm = this._formBuilder.group({
       name: new FormControl('', Validators.required),
     });
   }
 
   onLoadFile(canIHideParticipantsLoader: boolean) {
     this.loadFileIsVisible = canIHideParticipantsLoader;
-    this.canIShowSuccessAlertMessage();
     this.loadFileIsVisible = false;
     this.loadParticipants();
   }
 
   onDelete() {
-    this.ClearTable();
-    //Notify.success('Looking good');
+    this._notificationService.confirmAction(() => this.clearTable());
   }
 
-  private ClearTable() {
+  clearTable() {
     this.dataSource = new MatTableDataSource<IParticipants>();
     this.participants = [];
+    this.participantCounter = 1;
+    this.mockDataIsLoaded = false;
+    this.addParticipatsForm.controls['name'].setValue('');
   }
 
   onUpload() {
-    Notify.success('Looking good');
+    this._notificationService.success('Looking good');
   }
 
   onSubmit(): void {
     if (this.addParticipatsForm.valid) {
+
+      if (this.mockDataIsLoaded == true) {
+        this.clearTable();
+      }
 
       let newParticipant: IParticipants = {
         id: this.participantCounter,
@@ -88,31 +102,25 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
       this.participants.push(newParticipant);
       this.dataSource = new MatTableDataSource<IParticipants>(this.participants);
       this.participantCounter++;
-      //Notify.success('Test Success ' + this.addParticipatsForm.value);
+
     } else {
-      Notify.warning('Field name is require');
+      this._notificationService.warning('Field name is require');
     }
   }
 
-  canIShowSuccessAlertMessage() {
-    this.showSuccessAlertMessage = true;
-  }
-
   removeParticipants() {
-    this.storageService.removeParticipants();
+    this._storageService.removeParticipants();
     this.loadParticipants();
     this.loadFileIsVisible = true;
+    this.dataSource.connect
   }
 
   loadParticipants() {
-    this.storageService.getMockAllParticipantsFromLocalStorage()
+    this._storageService.getMockAllParticipantsFromLocalStorage()
       .subscribe(data => {
-
-        this.participants = data;
+        this.mockDataIsLoaded = true;
+        this.participants = data.sort((a, b) => (a.name < b.name) ? -1 : 1);
         this.dataSource = new MatTableDataSource<IParticipants>(data);
-
-        if (this.participants?.length > 0) {
-        }
       }
       );
   }
