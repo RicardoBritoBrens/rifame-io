@@ -1,13 +1,17 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { LocalStorageParticipantsService } from '../../../../services/local-storage-participants.service';
+
 import { IParticipants } from '../../../../models/IParticipants';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder } from '@angular/forms';
-import { NotificationService } from 'src/app/services/notification.service';
+
 import { MatSort } from '@angular/material/sort';
+import { FileManagementService } from 'src/app/services/file/file-management.service';
+import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
+
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -23,29 +27,34 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class ParticipantsComponent implements OnInit, AfterViewInit {
 
+  // material variables
   testDataSourceParticipants = new MatTableDataSource<IParticipants>();
-
-  addParticipatsForm = this._formBuilder.group([]);
-  displayedColumns: string[] = ['id', 'name'];
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
   dataSource = new MatTableDataSource<IParticipants>();
+
+  // form
+  addParticipantsForm = this._formBuilder.group([]);
+
+  // arrays
+  displayedColumns: string[] = [];
   participants: IParticipants[] = [];
 
-  participantCounter: number = 1;
+  // numbers
+  participantCounter: number;
 
-  loadFileIsVisible: boolean = true;
-  showSuccessAlertMessage: boolean = false;
-  showErrorAlertMessage: boolean = false;
-  showWarningAlertMessage: boolean = true;
-  mockDataIsLoaded: Boolean = false;
+  // booleans
+  loadFileIsVisible: boolean;
+  showSuccessAlertMessage: boolean;
+  showErrorAlertMessage: boolean;
+  showWarningAlertMessage: boolean;
+  mockDataIsLoaded: Boolean;
 
   constructor(
     private _storageService: LocalStorageParticipantsService,
     private _formBuilder: FormBuilder,
-    private _notificationService: NotificationService) {
+    private _notificationService: NotificationService,
+    private _fileManagementService: FileManagementService) {
   }
 
   ngAfterViewInit(): void {
@@ -54,49 +63,71 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.displayedColumns = ['id', 'name'];
+    this.participantCounter = 1;
     this.loadFileIsVisible = true;
+    this.showSuccessAlertMessage = false;
+    this.showErrorAlertMessage = false;
+    this.showWarningAlertMessage = true;
+    this.mockDataIsLoaded = false;
+
     this.createForm();
     this.loadParticipants();
   }
 
-  createForm() {
-    this.addParticipatsForm = this._formBuilder.group({
+  public createForm(): void {
+    this.addParticipantsForm = this._formBuilder.group({
       name: new FormControl('', Validators.required),
     });
   }
 
-  onLoadFile(canIHideParticipantsLoader: boolean) {
+  public onLoadFile(canIHideParticipantsLoader: boolean): void {
     this.loadFileIsVisible = canIHideParticipantsLoader;
     this.loadFileIsVisible = false;
     this.loadParticipants();
   }
 
-  onDelete() {
+  public onDelete(): void {
     this._notificationService.confirmAction(() => this.clearTable());
   }
 
-  clearTable() {
+  public clearTable(): void {
     this.dataSource = new MatTableDataSource<IParticipants>();
     this.participants = [];
     this.participantCounter = 1;
     this.mockDataIsLoaded = false;
-    this.addParticipatsForm.controls['name'].setValue('');
+    this.addParticipantsForm.controls['name'].setValue('');
   }
 
-  onUpload() {
-    this._notificationService.success('Looking good');
+  public onDownload(): void {
+    this._notificationService.confirmAction(() => this._fileManagementService.Download(this.participants));
   }
 
-  onSubmit(): void {
-    if (this.addParticipatsForm.valid) {
+  public onUpload(event: any): void {
+    this._notificationService.confirmAction(() => this._fileManagementService.Upload(event));
+    this._storageService.getAllParticipantsFromLocalStorage().subscribe(
+      (response) => {
+        debugger;
+        console.log(response);
+      }
+    )
+  }
 
+  public onSubmit(): void {
+    if (this.addParticipantsForm.valid == true && this.addParticipantsForm.controls['name'].value != '') {
+
+      const currentInputName = this.addParticipantsForm.controls['name'].value;
       if (this.mockDataIsLoaded == true) {
         this.clearTable();
       }
 
+      if (this.participants.find(x => x.name === currentInputName)) {
+        this._notificationService.warning(`Name is already inserted ${currentInputName}`)
+      }
+
       let newParticipant: IParticipants = {
         id: this.participantCounter,
-        name: this.addParticipatsForm.controls['name'].value
+        name: currentInputName
       };
 
       this.participants.push(newParticipant);
@@ -108,14 +139,14 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  removeParticipants() {
+  public removeParticipants(): void {
     this._storageService.removeParticipants();
     this.loadParticipants();
     this.loadFileIsVisible = true;
     this.dataSource.connect
   }
 
-  loadParticipants() {
+  public loadParticipants(): void {
     this._storageService.getMockAllParticipantsFromLocalStorage()
       .subscribe(data => {
         this.mockDataIsLoaded = true;

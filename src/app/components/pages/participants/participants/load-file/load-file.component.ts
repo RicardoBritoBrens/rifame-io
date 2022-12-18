@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NotificationService } from 'src/app/services/notification.service';
+import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 import * as XLSX from 'xlsx';
-import { LocalStorageParticipantsService } from '../../../../../services/local-storage-participants.service';
+
 @Component({
   selector: 'app-load-file',
   templateUrl: './load-file.component.html',
@@ -23,9 +24,9 @@ export class LoadFileComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  fileUpload(event: any) {
+  public fileUpload(event: any): void {
     try {
-
+      debugger;
       const selectedFile = event.target.files[0];
       const fileReader = new FileReader();
 

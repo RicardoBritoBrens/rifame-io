@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { IParticipants } from "src/app/models/IParticipants";
+import { Constants } from "src/app/utils/constants";
 import { LocalStorageReferenceService } from './local-storage-reference.service';
-import { IParticipants } from '../models/IParticipants';
-import { Constants } from "../utils/Constants";
 
 
 @Injectable({
@@ -26,7 +26,7 @@ export class LocalStorageParticipantsService {
     return this.http.get<IParticipants[]>(this._winnersMockUrl);
   }
 
-  saveAllParticipants(json) {
+  saveAllParticipants(json): void {
     this.localStorageService.setData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(json))
   }
 
@@ -107,7 +107,7 @@ export class LocalStorageParticipantsService {
     return of(mockParticipants)
   }
 
-  removeParticipants() {
+  removeParticipants(): void {
     this.localStorageService.removeData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS);
   }
 

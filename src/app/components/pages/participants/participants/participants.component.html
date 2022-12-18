@@ -22,7 +22,7 @@
               </mat-paginator>
             </div>
             <div class="right-panel">
-              <form [formGroup]="addParticipatsForm" (ngSubmit)="onSubmit()" method="post" class="center-form">
+              <form [formGroup]="addParticipantsForm" (ngSubmit)="onSubmit()" method="post" class="center-form">
                 <mat-form-field>
                   <mat-label>Name</mat-label>
                   <input type="text" matInput formControlName="name">
@@ -35,22 +35,28 @@
               </form>
             </div>
             <div class="bottom-options">
+
+              <button *ngIf="this.participants.length > 0" class="mat-bottom" (click)="onDownload()" mat-mini-fab
+                color="#fffff">
+                <mat-icon>download</mat-icon>
+              </button>
+
+              <button class="mat-bottom" (click)="fileInput.click()" mat-mini-fab color="#fffff">
+                <mat-icon>upload</mat-icon>
+                <input hidden id="file-upload" #fileInput type="file" name="fileUpload" accept=".xls,.xlsx,.csv"
+                  (change)="onUpload($event)" />
+              </button>
+
               <button class="mat-bottom" (click)="onDelete()" mat-mini-fab color="#fffff">
                 <mat-icon>delete</mat-icon>
               </button>
-              <button class="mat-bottom" (click)="onUpload()" mat-mini-fab color="#fffff">
-                <mat-icon>upload</mat-icon>
-              </button>
-              <app-load-file class="mat-bottom" (VisibilityEventEmitter)="onLoadFile($event)"
+              <!-- <app-load-file class="mat-bottom" (VisibilityEventEmitter)="onLoadFile($event)"
                 [IsVisibility]='this.loadFileIsVisible'>
-              </app-load-file>
+              </app-load-file> -->
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
-
 </div>

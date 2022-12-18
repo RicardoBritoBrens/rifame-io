@@ -5,19 +5,18 @@ import { Injectable } from '@angular/core';
 })
 export class LocalStorageReferenceService {
 
-
   constructor() { }
 
- setData(key, data) {
+  setData(key: string, data: string): void {
     const jsonData = JSON.stringify(data)
     localStorage.setItem(key, jsonData)
- }
+  }
 
- getData(key) {
+  getData(key: string): string {
     return localStorage.getItem(key);
- }
+  }
 
- removeData(key) {
+  removeData(key: string): void {
     localStorage.removeItem(key)
- }
+  }
 }

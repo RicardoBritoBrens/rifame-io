@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageParticipantsService } from '../../../../services/local-storage-participants.service';
+import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { IParticipants } from '../../../../models/IParticipants';
 
 @Component({
