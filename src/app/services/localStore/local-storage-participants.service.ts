@@ -30,7 +30,7 @@ export class LocalStorageParticipantsService {
     this.localStorageService.setData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(json))
   }
 
-  getAllParticipantsFromLocalStorage(): Observable<IParticipants[]> {
+  getParticipantsFromLocalStorage(): Observable<IParticipants[]> {
 
     let storageJson = this.localStorageService.getData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS);
 
@@ -40,68 +40,67 @@ export class LocalStorageParticipantsService {
   }
 
 
-  getMockAllParticipantsFromLocalStorage(): Observable<IParticipants[]> {
-
+  getMockParticipants(): Observable<IParticipants[]> {
     let mockParticipants: IParticipants[] = [
       {
         id: 1,
-        name: "Ardra"
+        name: "ARDRA"
       },
       {
         id: 2,
-        name: "Augustina"
+        name: "AUGUSTINA"
       },
       {
         id: 3,
-        name: "Bamby"
+        name: "BAMBY"
       },
       {
         id: 4,
-        name: "Beryle"
+        name: "BERYLE"
       },
       {
         id: 5,
-        name: "Carly"
+        name: "CARLY"
       },
       {
         id: 6,
-        name: "Cathyleen"
+        name: "CATHYLEEN"
       },
       {
         id: 7,
-        name: "Chelsae"
+        name: "CHELSAE"
       },
       {
         id: 8,
-        name: "Clayborne"
+        name: "CLAYBORNE"
       },
       {
         id: 9,
-        name: "Dore"
+        name: "DORE"
       },
       {
         id: 10,
-        name: "Dorothy"
+        name: "DOROTHY"
       },
       {
         id: 11,
-        name: "Leola"
+        name: "LEOLA"
       },
       {
         id: 12,
-        name: "Linoel"
+        name: "LINOEL"
       },
       {
         id: 13,
-        name: "Lorita"
+        name: "LORITA"
       },
       {
         id: 14,
-        name: "Norah"
+        name: "NORAH"
       },
       {
         id: 15,
-        name: "Silvia"
+        name: "SILVIA"
       }
     ]
     return of(mockParticipants)

@@ -1,17 +1,15 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-
-import { IParticipants } from '../../../../models/IParticipants';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { FormBuilder } from '@angular/forms';
-
 import { MatSort } from '@angular/material/sort';
+import { IParticipants } from '../../../../models/IParticipants';
 import { FileManagementService } from 'src/app/services/file/file-management.service';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-
+import { Subscription } from 'rxjs';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -25,7 +23,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './participants.component.html',
   styleUrls: ['./participants.component.css']
 })
-export class ParticipantsComponent implements OnInit, AfterViewInit {
+export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // material variables
   testDataSourceParticipants = new MatTableDataSource<IParticipants>();
@@ -39,6 +37,7 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   // arrays
   displayedColumns: string[] = [];
   participants: IParticipants[] = [];
+  subscription: Subscription;
 
   // numbers
   participantCounter: number;
@@ -49,17 +48,13 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   showErrorAlertMessage: boolean;
   showWarningAlertMessage: boolean;
   mockDataIsLoaded: Boolean;
+  isUploadingFile: Boolean;
 
   constructor(
     private _storageService: LocalStorageParticipantsService,
     private _formBuilder: FormBuilder,
     private _notificationService: NotificationService,
     private _fileManagementService: FileManagementService) {
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   ngOnInit(): void {
@@ -70,9 +65,19 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
     this.showErrorAlertMessage = false;
     this.showWarningAlertMessage = true;
     this.mockDataIsLoaded = false;
+    this.isUploadingFile = false;
 
     this.createForm();
     this.loadParticipants();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   public createForm(): void {
@@ -88,7 +93,15 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   }
 
   public onDelete(): void {
-    this._notificationService.confirmAction(() => this.clearTable());
+    this._notificationService.confirmActionAsync().then(
+      (onfulfilled) => {
+        if (onfulfilled) {
+          this.clearTable();
+        }
+      },
+      (onrejected) => {
+      }
+    );
   }
 
   public clearTable(): void {
@@ -100,27 +113,58 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   }
 
   public onDownload(): void {
-    this._notificationService.confirmAction(() => this._fileManagementService.Download(this.participants));
+    this._notificationService.confirmActionAsync().then(
+      (onfulfilled) => {
+        this._notificationService.loadingStart();
+        if (onfulfilled) {
+          this._fileManagementService.Download(this.participants);
+          this._notificationService.loadingStop();
+        }
+      },
+      (onrejected) => {
+        this._notificationService.loadingStop();
+      }
+    );
   }
 
   public onUpload(event: any): void {
-    this._notificationService.confirmAction(() => this._fileManagementService.Upload(event));
-    this._storageService.getAllParticipantsFromLocalStorage().subscribe(
-      (response) => {
-        debugger;
-        console.log(response);
-      }
-    )
+    this._notificationService.confirmActionAsync().then(
+      (onfulfilled) => {
+        this._notificationService.loadingStart();
+        this._fileManagementService.Upload(event)
+          .then(
+            (onfulfilled) => {
+              if (onfulfilled) {
+                var observable = this._storageService.getParticipantsFromLocalStorage();
+                this.subscription = observable.subscribe(
+                  (response) => {
+                    this._notificationService.loadingStop();
+                    console.log(response);
+                  }
+                );
+              }
+            },
+            (onrejected) => {
+              console.log(onrejected);
+              this._notificationService.loadingStop();
+            }
+          )
+        console.log(onfulfilled);
+      },
+      (onrejected) => {
+
+        this._notificationService.loadingStop();
+      })
   }
 
   public onSubmit(): void {
     if (this.addParticipantsForm.valid == true && this.addParticipantsForm.controls['name'].value != '') {
+      const currentInputName = this.addParticipantsForm.controls['name'].value.toUpperCase();
 
-      const currentInputName = this.addParticipantsForm.controls['name'].value;
       if (this.mockDataIsLoaded == true) {
         this.clearTable();
       }
-
+      debugger;
       if (this.participants.find(x => x.name === currentInputName)) {
         this._notificationService.warning(`Name is already inserted ${currentInputName}`)
       }
@@ -131,11 +175,12 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
       };
 
       this.participants.push(newParticipant);
+      this.addParticipantsForm.controls['name'].setValue('');
       this.dataSource = new MatTableDataSource<IParticipants>(this.participants);
       this.participantCounter++;
 
     } else {
-      this._notificationService.warning('Field name is require');
+      this._notificationService.warning('¡Field is invalid!');
     }
   }
 
@@ -147,7 +192,7 @@ export class ParticipantsComponent implements OnInit, AfterViewInit {
   }
 
   public loadParticipants(): void {
-    this._storageService.getMockAllParticipantsFromLocalStorage()
+    this._storageService.getMockParticipants()
       .subscribe(data => {
         this.mockDataIsLoaded = true;
         this.participants = data.sort((a, b) => (a.name < b.name) ? -1 : 1);

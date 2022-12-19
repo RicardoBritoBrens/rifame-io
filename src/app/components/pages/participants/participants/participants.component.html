@@ -1,60 +1,55 @@
 <div class="container">
-  <!-- Load file module -->
-  <div class="container">
-    <div id="ParticipantsAndPrize">
-      <div>
-        <div class="mat-elevation-z8">
-          <div class="grid-panel">
-            <div class="left-panel">
-              <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" fixedLayout="true">
-                <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-                  <td mat-cell *matCellDef="let participant"> {{participant.id}} </td>
-                </ng-container>
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                  <td mat-cell *matCellDef="let participant"> {{participant.name}} </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-              <mat-paginator [pageSizeOptions]="[10, 5]" showFirstLastButtons aria-label="Select page of name names">
-              </mat-paginator>
-            </div>
-            <div class="right-panel">
-              <form [formGroup]="addParticipantsForm" (ngSubmit)="onSubmit()" method="post" class="center-form">
-                <mat-form-field>
-                  <mat-label>Name</mat-label>
-                  <input type="text" matInput formControlName="name">
-                </mat-form-field>
-                <button mat-mini-fab color="#fffff">
-                  <mat-icon>
-                    add
-                  </mat-icon>
-                </button>
-              </form>
-            </div>
-            <div class="bottom-options">
+  <div id="ParticipantsAndPrize">
+    <div class="mat-elevation-z8">
+      <div class="grid-panel">
+        <div class="left-panel">
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" fixedLayout="true">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> No </th>
+              <td mat-cell *matCellDef="let participant"> {{participant.id}} </td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+              <td mat-cell *matCellDef="let participant"> {{participant.name}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[10, 5]" showFirstLastButtons aria-label="Select page of name names">
+          </mat-paginator>
+        </div>
+        <div class="right-panel">
+          <form [formGroup]="addParticipantsForm" (ngSubmit)="onSubmit()" method="post" class="center-form">
+            <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input type="text" matInput formControlName="name" pattern="^([a-zA-Z]*|[0-9])*$">
+            </mat-form-field>
+            <button mat-mini-fab color="#fffff">
+              <mat-icon>
+                add
+              </mat-icon>
+            </button>
+          </form>
+        </div>
+        <div class="bottom-options">
 
-              <button *ngIf="this.participants.length > 0" class="mat-bottom" (click)="onDownload()" mat-mini-fab
-                color="#fffff">
-                <mat-icon>download</mat-icon>
-              </button>
+          <button *ngIf="this.participants.length > 0" class="mat-bottom" (click)="onDownload()" mat-mini-fab
+            color="#fffff">
+            <mat-icon>download</mat-icon>
+          </button>
 
-              <button class="mat-bottom" (click)="fileInput.click()" mat-mini-fab color="#fffff">
-                <mat-icon>upload</mat-icon>
-                <input hidden id="file-upload" #fileInput type="file" name="fileUpload" accept=".xls,.xlsx,.csv"
-                  (change)="onUpload($event)" />
-              </button>
+          <button class="mat-bottom" (click)="fileInput.click()" mat-mini-fab color="#fffff">
+            <mat-icon>upload</mat-icon>
+            <input hidden id="file-upload" #fileInput type="file" name="fileUpload" accept=".xls,.xlsx,.csv"
+              (change)="onUpload($event)" />
+          </button>
 
-              <button class="mat-bottom" (click)="onDelete()" mat-mini-fab color="#fffff">
-                <mat-icon>delete</mat-icon>
-              </button>
-              <!-- <app-load-file class="mat-bottom" (VisibilityEventEmitter)="onLoadFile($event)"
+          <button class="mat-bottom" (click)="onDelete()" mat-mini-fab color="#fffff">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <!-- <app-load-file class="mat-bottom" (VisibilityEventEmitter)="onLoadFile($event)"
                 [IsVisibility]='this.loadFileIsVisible'>
               </app-load-file> -->
-            </div>
-          </div>
         </div>
       </div>
     </div>
