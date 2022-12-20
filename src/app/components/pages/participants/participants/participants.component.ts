@@ -10,6 +10,7 @@ import { FileManagementService } from 'src/app/services/file/file-management.ser
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { Subscription } from 'rxjs';
+import { Participant } from 'src/app/models/Participant';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -58,7 +59,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.displayedColumns = ['id', 'name'];
+    this.displayedColumns = ['id', 'name', 'actions'];
     this.participantCounter = 1;
     this.loadFileIsVisible = true;
     this.showSuccessAlertMessage = false;
@@ -164,9 +165,10 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.mockDataIsLoaded == true) {
         this.clearTable();
       }
-      debugger;
+
       if (this.participants.find(x => x.name === currentInputName)) {
         this._notificationService.warning(`Name is already inserted ${currentInputName}`)
+        return;
       }
 
       let newParticipant: IParticipants = {
@@ -189,6 +191,11 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadParticipants();
     this.loadFileIsVisible = true;
     this.dataSource.connect
+  }
+
+  public removeParticipant(participant: IParticipants): void {
+    console.log(participant);
+    debugger;
   }
 
   public loadParticipants(): void {
