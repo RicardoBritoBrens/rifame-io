@@ -9,8 +9,8 @@ import { IParticipants } from '../../../../models/IParticipants';
 import { FileManagementService } from 'src/app/services/file/file-management.service';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { Subscription } from 'rxjs';
-import { Participant } from 'src/app/models/Participant';
+import { Subject, Subscription } from 'rxjs';
+import { LocalStorageReferenceService } from 'src/app/services/localStore/local-storage-reference.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -51,11 +51,14 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   mockDataIsLoaded: Boolean;
   isUploadingFile: Boolean;
 
+  public currentLang;
+
   constructor(
     private _storageService: LocalStorageParticipantsService,
     private _formBuilder: FormBuilder,
     private _notificationService: NotificationService,
-    private _fileManagementService: FileManagementService) {
+    private _fileManagementService: FileManagementService,
+    private _storageServiceTest: LocalStorageReferenceService) {
   }
 
   ngOnInit(): void {
@@ -153,12 +156,12 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(onfulfilled);
       },
       (onrejected) => {
-
         this._notificationService.loadingStop();
       })
   }
 
   public onSubmit(): void {
+    debugger;
     if (this.addParticipantsForm.valid == true && this.addParticipantsForm.controls['name'].value != '') {
       const currentInputName = this.addParticipantsForm.controls['name'].value.toUpperCase();
 
@@ -175,6 +178,11 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
         id: this.participantCounter,
         name: currentInputName
       };
+
+      this._storageService.addParticipantsTest(newParticipant);
+
+
+
 
       this.participants.push(newParticipant);
       this.addParticipantsForm.controls['name'].setValue('');
@@ -195,16 +203,26 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public removeParticipant(participant: IParticipants): void {
     console.log(participant);
-    debugger;
   }
 
   public loadParticipants(): void {
-    this._storageService.getMockParticipants()
-      .subscribe(data => {
-        this.mockDataIsLoaded = true;
-        this.participants = data.sort((a, b) => (a.name < b.name) ? -1 : 1);
-        this.dataSource = new MatTableDataSource<IParticipants>(data);
-      }
-      );
+
+    this._storageService.getParticipantsTest$().subscribe(participants => {
+      this.participants = participants;
+      this.dataSource = new MatTableDataSource<IParticipants>(participants);
+    })
+
+    if (this.participants.length === 0) {
+      this._storageService.loadMockParticipantsToLocalStorage();
+    }
+
+
+    // this._storageService.getMockParticipants()
+    //   .subscribe(data => {
+    //     this.mockDataIsLoaded = true;
+    //     this.participants = data.sort((a, b) => (a.name < b.name) ? -1 : 1);
+    //     this.dataSource = new MatTableDataSource<IParticipants>(data);
+    //   }
+    //   );
   }
 }
