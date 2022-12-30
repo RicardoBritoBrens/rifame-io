@@ -51,8 +51,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   mockDataIsLoaded: Boolean;
   isUploadingFile: Boolean;
 
-  public currentLang;
-
   constructor(
     private _storageService: LocalStorageParticipantsService,
     private _formBuilder: FormBuilder,
@@ -161,7 +159,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onSubmit(): void {
-    debugger;
     if (this.addParticipantsForm.valid == true && this.addParticipantsForm.controls['name'].value != '') {
       const currentInputName = this.addParticipantsForm.controls['name'].value.toUpperCase();
 
@@ -170,7 +167,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       if (this.participants.find(x => x.name === currentInputName)) {
-        this._notificationService.warning(`Name is already inserted ${currentInputName}`)
+        this._notificationService.warning(`${currentInputName} is already inserted`)
         return;
       }
 
@@ -180,9 +177,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       };
 
       this._storageService.addParticipantsTest(newParticipant);
-
-
-
 
       this.participants.push(newParticipant);
       this.addParticipantsForm.controls['name'].setValue('');
@@ -202,14 +196,13 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public removeParticipant(participant: IParticipants): void {
-    console.log(participant);
+    this._storageService.removeParticipant(participant);
   }
 
   public loadParticipants(): void {
-
     this._storageService.getParticipantsTest$().subscribe(participants => {
-      this.participants = participants;
       this.dataSource = new MatTableDataSource<IParticipants>(participants);
+      this.dataSource.paginator = this.paginator;
     })
 
     if (this.participants.length === 0) {

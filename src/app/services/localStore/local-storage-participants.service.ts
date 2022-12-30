@@ -93,8 +93,27 @@ export class LocalStorageParticipantsService {
 
   loadMockParticipantsToLocalStorage() {
     this.localStorageService.setData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(this.mockParticipants))
-    this.participantsTest$.next(this.mockParticipants)
+
+    let storageJson = this.localStorageService.getData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS);
+
+    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+
+    this.participantsTest$.next(participantsArray)
   }
+
+  removeParticipant(participant: IParticipants) {
+    let storageJson = this.localStorageService.getData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS);
+
+    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+
+    participantsArray = participantsArray.filter(x => x.name != participant.name);
+
+    this.localStorageService.setData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray))
+
+    this.participantsTest$.next(participantsArray)
+  }
+
+
 
   get refresh$() {
     return this._participants$;

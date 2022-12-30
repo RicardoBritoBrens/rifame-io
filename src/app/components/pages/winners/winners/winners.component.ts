@@ -16,8 +16,8 @@ export class WinnersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.participantService.getWinnersMock().
-      subscribe(data => this.winners = data);
+    this.participantService.getWinnersMock().subscribe(
+      data => this.winners = data);
   }
 
   public show(): void {
