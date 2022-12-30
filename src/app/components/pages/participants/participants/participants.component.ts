@@ -190,6 +190,8 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public removeParticipants(): void {
     this._storageService.removeParticipants();
+    // TODO: CHECK PARTICIPANTS BEEN LOADED REMEMBER THAT AT THIS POINT THE USER IS EDITING HIS DATA AND DO NOW WANT MOCK DATA UNTIL THE USER LOAD BY HIS OWN WILL
+
     this.loadParticipants();
     this.loadFileIsVisible = true;
     this.dataSource.connect
