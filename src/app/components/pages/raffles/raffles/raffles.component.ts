@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { IParticipants } from 'src/app/models/IParticipants';
+import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rifame-raffles',
@@ -7,9 +12,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RafflesComponent implements OnInit {
 
-  constructor() { }
+  winners: IParticipants[] = [];
+
+  constructor(
+    private _route: Router,
+    private _participantService: LocalStorageParticipantsService,
+    private _notificationService: NotificationService) {
+  }
 
   ngOnInit(): void {
+    if (this.winners.length == 0) {
+      this._notificationService.warning("There are not participants added")
+      this._route.navigate(['rifame/participants'])
+    }
   }
 
 }

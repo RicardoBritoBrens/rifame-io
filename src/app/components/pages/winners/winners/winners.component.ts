@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 import { IParticipants } from '../../../../models/IParticipants';
 
 @Component({
@@ -11,13 +12,16 @@ export class WinnersComponent implements OnInit {
 
   winners: IParticipants[] = null;
   participantsAreLoaded: boolean = true;
-  constructor(private participantService: LocalStorageParticipantsService) {
+  constructor(
+    private _participantService: LocalStorageParticipantsService,
+    private _notificationService: NotificationService) {
 
   }
 
   ngOnInit(): void {
-    this.participantService.getWinnersMock().subscribe(
-      data => this.winners = data);
+    this._participantService.getWinnersMock().subscribe(data => {
+      this.winners = data
+    });
   }
 
   public show(): void {

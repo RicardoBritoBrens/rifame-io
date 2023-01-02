@@ -29,12 +29,12 @@
           </mat-paginator>
         </div>
         <div class="right-panel">
-          <form [formGroup]="addParticipantsForm" (ngSubmit)="onSubmit()" method="post" class="center-form">
+          <form [formGroup]="addParticipantsForm" (ngSubmit)="addParticipant()" method="post" class="center-form">
             <mat-form-field>
               <mat-label>Name</mat-label>
               <input type="text" matInput formControlName="name" pattern="^([a-zA-Z]*|[0-9])*$">
             </mat-form-field>
-            <button mat-mini-fab color="#fffff">
+            <button title="Add participants to the table" mat-mini-fab color="#fffff">
               <mat-icon>
                 add
               </mat-icon>
@@ -43,25 +43,29 @@
         </div>
         <div class="bottom-options">
 
-          <button *ngIf="this.participants.length > 0" class="mat-bottom" (click)="onDownload()" mat-mini-fab
+          <button title="Upload random participants" data-toggle="tooltip" class="mat-bottom"
+            (click)="loadMockParticipants()" mat-mini-fab color="#fffff">
+            <mat-icon>science</mat-icon>
+          </button>
+
+          <button title="Download participants template" class="mat-bottom" (click)="onDownload()" mat-mini-fab
             color="#fffff">
             <mat-icon>download</mat-icon>
           </button>
 
-          <button class="mat-bottom" (click)="fileInput.click()" mat-mini-fab color="#fffff">
+          <button title="Upload participants template" class="mat-bottom" (click)="fileInput.click()" mat-mini-fab
+            color="#fffff">
             <mat-icon>upload</mat-icon>
             <input hidden id="file-upload" #fileInput type="file" name="fileUpload" accept=".xls,.xlsx,.csv"
               (change)="onUpload($event)" />
           </button>
 
-          <button class="mat-bottom" (click)="onDelete()" mat-mini-fab color="#fffff">
+          <button title="Delete all participants in the table" class="mat-bottom" (click)="onDelete()" mat-mini-fab
+            color="#fffff">
             <mat-icon>delete</mat-icon>
           </button>
 
-          <button title="Upload test data" data-toggle="tooltip" class="mat-bottom" (click)="onDelete()" mat-mini-fab
-            color="#fffff">
-            <mat-icon>science</mat-icon>
-          </button>
+
           <!-- <app-load-file class="mat-bottom" (VisibilityEventEmitter)="onLoadFile($event)"
                 [IsVisibility]='this.loadFileIsVisible'>
               </app-load-file> -->

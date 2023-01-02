@@ -20,6 +20,7 @@ import { WinnersComponent } from './components/pages/winners/winners/winners.com
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NotfoundComponent } from './components/shared/notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     WelcomeComponent,
     NavBarComponent,
     BlurScreenWithCentralTextComponent,
-    LoadFileComponent
+    LoadFileComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,
@@ -43,14 +45,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatButtonModule,
     MatIconModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(
-      [
-        { path: '', component: WelcomeComponent },
-        { path: 'rifame/participants', component: ParticipantsComponent },
-        { path: 'rifame/raffles', component: RafflesComponent },
-        { path: 'rifame/winners', component: WinnersComponent },
-      ]
-    ),
     NoopAnimationsModule,
   ],
   providers: [],
