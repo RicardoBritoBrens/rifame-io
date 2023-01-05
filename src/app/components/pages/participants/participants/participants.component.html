@@ -15,11 +15,9 @@
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef> Action </th>
               <td mat-cell *matCellDef="let participant">
-
                 <mat-icon (click)="removeParticipant(participant)">
                   delete
                 </mat-icon>
-
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -32,7 +30,8 @@
           <form [formGroup]="addParticipantsForm" (ngSubmit)="addParticipant()" method="post" class="center-form">
             <mat-form-field>
               <mat-label>Name</mat-label>
-              <input type="text" matInput formControlName="name" pattern="^([a-zA-Z]*|[0-9])*$">
+              <input type="text" matInput formControlName="name" pattern="^([a-zA-Z]+\s*|[0-9])*$">
+              <mat-hint>Names are added in UPPERCASE</mat-hint>
             </mat-form-field>
             <button title="Add participants to the table" mat-mini-fab color="#fffff">
               <mat-icon>

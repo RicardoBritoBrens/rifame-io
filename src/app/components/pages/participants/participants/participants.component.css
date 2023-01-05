@@ -156,3 +156,7 @@ td.mat-footer-cell {
   justify-content: space-around;
   align-items: center;
 }
+
+.mat-hint {
+  color: rgba(255, 194, 134, 1) !important;
+}

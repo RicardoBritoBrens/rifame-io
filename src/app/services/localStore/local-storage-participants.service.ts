@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { IParticipants } from "src/app/models/IParticipants";
-import { Constants } from "src/app/utils/constants";
+import { environment } from "src/environments/environment";
 import { LocalStorageReferenceService } from './local-storage-reference.service';
 
 @Injectable({
@@ -74,7 +74,6 @@ export class LocalStorageParticipantsService {
   ]
 
   private _participants$ = new Subject<IParticipants[]>();
-
   private participantsTest$ = new Subject<IParticipants[]>();
   private participantsStorageTest: IParticipants[] = []
 
@@ -92,9 +91,9 @@ export class LocalStorageParticipantsService {
   }
 
   loadMockParticipantsToLocalStorage() {
-    this.localStorageService.setData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(this.mockParticipants))
+    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(this.mockParticipants))
 
-    let storageJson = this.localStorageService.getData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS);
+    let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
 
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
 
@@ -102,13 +101,13 @@ export class LocalStorageParticipantsService {
   }
 
   removeParticipant(participant: IParticipants) {
-    let storageJson = this.localStorageService.getData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS);
+    let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
 
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
 
     participantsArray = participantsArray.filter(x => x.name != participant.name);
 
-    this.localStorageService.setData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray))
+    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray))
 
     this.participantsTest$.next(participantsArray)
   }
@@ -120,20 +119,27 @@ export class LocalStorageParticipantsService {
   }
 
   getParticipantsMock(): Observable<IParticipants[]> {
-    return this.http.get<IParticipants[]>(Constants.PARTICIPANTS_MOCK_URL);
+    return this.http.get<IParticipants[]>(environment.PARTICIPANTS_MOCK_URL);
   }
 
   getWinnersMock(): Observable<IParticipants[]> {
-    return this.http.get<IParticipants[]>(Constants.WINNERS_MOCK_URL);
+    return this.http.get<IParticipants[]>(environment.WINNERS_MOCK_URL);
   }
 
   saveAllParticipants(json): void {
-    this.localStorageService.setData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(json))
+    debugger;
+    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(json))
+
+    let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
+
+    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+
+    this.participantsTest$.next(participantsArray)
   }
 
   getParticipantsFromLocalStorage(): Observable<IParticipants[]> {
 
-    let storageJson = this.localStorageService.getData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS);
+    let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
 
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
 
@@ -141,13 +147,25 @@ export class LocalStorageParticipantsService {
   }
 
   getMockParticipants(): Observable<IParticipants[]> {
-    let storageJson = this.localStorageService.getData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS);
+    let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
     return of(participantsArray);
   }
 
   removeParticipants(): void {
-    this.localStorageService.removeData(Constants.KEY_LOCAL_STORAGE_PARTICIPANTS);
+    this.localStorageService.removeData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
   }
+
+  isMode(questionMode: string): boolean {
+    let rawOutput = JSON.parse(this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_MODE));
+    if (rawOutput !== null && rawOutput !== undefined) {
+      return (rawOutput === questionMode)
+    }
+  }
+
+  setModeAs(value: string) {
+    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_MODE, JSON.stringify(value))
+  }
+
 
 }
