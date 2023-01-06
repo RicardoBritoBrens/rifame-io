@@ -127,13 +127,9 @@ export class LocalStorageParticipantsService {
   }
 
   saveAllParticipants(json): void {
-    debugger;
-    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(json))
-
+    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, json)
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
-
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
-
     this.participantsTest$.next(participantsArray)
   }
 

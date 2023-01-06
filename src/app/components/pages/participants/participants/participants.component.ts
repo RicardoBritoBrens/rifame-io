@@ -154,7 +154,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onUpload(event: any): void {
-
     this._storageService.getParticipantsTest$().subscribe(participants => {
       this.dataSource = new MatTableDataSource<IParticipants>(participants);
       this.dataSource.paginator = this.paginator;
@@ -165,6 +164,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this._notificationService.confirmActionAsync().then(
       (onfulfilled) => {
+
         this._notificationService.loadingStart();
         this._fileManagementService.Upload(event)
           .then(

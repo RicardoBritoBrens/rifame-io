@@ -26,6 +26,7 @@ export class FileManagementService {
     private _participantService: LocalStorageParticipantsService) { }
 
   public Upload(event: any): Promise<Boolean> {
+
     let result: Boolean = false;
     return new Promise((resolve, reject) => {
       try {
@@ -41,14 +42,25 @@ export class FileManagementService {
             this._notificationService.warning("Archivo no contine hojas de trabajo, favor validar el formato de ejemplo");
             return;
           }
+
           workbook.SheetNames.forEach(sheet => {
+
+            // get sheet data
             const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+
+            // iterate over array of element
             data.forEach(element => {
-              if (!RegExp(environment.NAME_FIELD_REGULAR_EXPRESSION).test((element as IParticipants).name.toString())) {
-                Promise.reject(`Value ${(element as IParticipants).name.toString()} is invalid`)
+
+              // validate field with regular expression
+              if (!RegExp(environment.NAME_FIELD_REGULAR_EXPRESSION).test((element as IParticipants).name.toUpperCase())) {
+                Promise.reject(`Value ${(element as IParticipants).name.toUpperCase} is invalid`)
               }
+
+              // convert to upper case the name value
+              (element as IParticipants).name = (element as IParticipants).name.toUpperCase();
             });
-            debugger;
+
+            // convert all the data into json stringify
             this.convertedJson = JSON.stringify(data);
           });
 
