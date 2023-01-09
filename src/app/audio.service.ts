@@ -1,0 +1,20 @@
+import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AudioService {
+
+  constructor() { }
+
+  public playSuccessSound = () => this.loadAndPlayAudio('success');
+
+  private loadAndPlayAudio(name: string) {
+    const audio = new Audio();
+    audio.autoplay = true;
+    audio.src = `${environment.serverUrl}/assets/sounds/${name}.mp3`;
+    audio.load();
+    audio.play();
+  }
+}

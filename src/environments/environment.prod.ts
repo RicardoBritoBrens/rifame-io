@@ -8,5 +8,8 @@ export const environment = {
   TOUR_MODE: 'TOUR',
   DEMO_MODE: 'DEMO',
   PROD_MODE: 'PROD',
-  NAME_FIELD_REGULAR_EXPRESSION: '^([a-zA-Z]+\\s*|[0-9])*$'
+  NAME_FIELD_REGULAR_EXPRESSION: '^([a-zA-Z]+\\s*|[0-9]|(\\B\\@\\w+))\\w+$'
+  // '^(@||[a-zA-Z]+\\s*|[0-9])*$'
+  //
+
 };

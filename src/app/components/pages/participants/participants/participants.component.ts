@@ -1,17 +1,17 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { IParticipants } from '../../../../models/IParticipants';
 import { FileManagementService } from 'src/app/services/file/file-management.service';
+import { FormBuilder } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { IParticipants } from '../../../../models/IParticipants';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { Subscription } from 'rxjs';
-import { LocalStorageReferenceService } from 'src/app/services/localStore/local-storage-reference.service';
-import { environment } from 'src/environments/environment';
+import { AudioService } from 'src/app/audio.service';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -29,7 +29,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // subscriptions
-  mockSubscriptionsParticipants: Subscription;
+  subscription: Subscription;
 
   // material variables
   testDataSourceParticipants = new MatTableDataSource<IParticipants>();
@@ -43,7 +43,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   // arrays
   displayedColumns: string[] = [];
   participants: IParticipants[] = [];
-  subscription: Subscription;
 
   // numbers
   participantCounter: number;
@@ -61,11 +60,10 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     private _formBuilder: FormBuilder,
     private _notificationService: NotificationService,
     private _fileManagementService: FileManagementService,
-    private _storageServiceTest: LocalStorageReferenceService) {
+    private _audioService: AudioService) {
   }
 
   ngOnInit(): void {
-
     // set default values
     this.displayedColumns = ['id', 'name', 'actions'];
     this.participantCounter = 1;
@@ -77,18 +75,15 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isUploadingFile = false;
 
     this.buildAddParticipantsForm();
-    this.dataSource.connect().subscribe(data => {
-      console.log(`connect was connected, the data returned is: ${data}`)
-    })
+
+    // this.dataSource.connect().subscribe(data => {
+    //   console.log(`connect was connected, the data returned is: ${data}`)
+    // });
   }
 
   ngOnDestroy(): void {
     if (this.subscription != null && this.subscription != undefined) {
       this.subscription.unsubscribe();
-    }
-
-    if (this.mockSubscriptionsParticipants != null && this.mockSubscriptionsParticipants != undefined) {
-      this.mockSubscriptionsParticipants.unsubscribe();
     }
   }
 
@@ -99,7 +94,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   buildAddParticipantsForm(): void {
     this.addParticipantsForm = this._formBuilder.group({
-      name: new FormControl('', Validators.required),
+      name: new FormControl('', [Validators.required, Validators.pattern(environment.NAME_FIELD_REGULAR_EXPRESSION)],),
     });
   }
 
@@ -109,29 +104,103 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadParticipants();
   }
 
-  onDelete(): void {
-    this._notificationService.confirmActionAsync().then(
-      (onfulfilled) => {
-        if (onfulfilled) {
-          this.clearFieldsAndTable();
-        }
-      },
-      (onrejected) => {
-      }
-    );
-  }
-
   clearFieldsAndTable(): void {
-    if (this.mockDataIsLoaded == true && this.mockSubscriptionsParticipants != null && this.mockSubscriptionsParticipants != undefined) {
-      this.mockSubscriptionsParticipants.unsubscribe();
+    debugger;
+    if (this.dataSource.data.length === 0) {
+      this._notificationService.warning('There is nothing to delete')
+      return;
     }
 
     this.dataSource = new MatTableDataSource<IParticipants>();
     this.dataSource.paginator = this.paginator;
     this.participants = [];
     this.participantCounter = 1;
-    this.mockDataIsLoaded = false;
     this.addParticipantsForm.controls['name'].setValue('');
+    this._storageService.removeParticipants();
+  }
+
+  loadParticipants(): void {
+    if (this.subscription === null || this.subscription === undefined) {
+      this.subscription = this._storageService.getParticipants$().subscribe(participants => {
+        this.dataSource = new MatTableDataSource<IParticipants>(participants);
+        this.dataSource.paginator = this.paginator;
+        this.participants = participants;
+      })
+    }
+
+    // if (this.participants.length === 0) {
+    //   this.mockDataIsLoaded = false
+    //   this._storageService.setModeAs(environment.PROD_MODE);
+    // }
+  }
+
+  addParticipant(): void {
+    if (this.addParticipantsForm.valid == true && this.addParticipantsForm.controls['name'].value != '') {
+      const currentInputName = this.addParticipantsForm.controls['name'].value.toUpperCase();
+
+      if (this.participants.find(x => x.name === currentInputName)) {
+        this._notificationService.warning(`${currentInputName} is already inserted`)
+        return;
+      }
+
+      let newParticipant: IParticipants = {
+        id: this.participants.length + 1,
+        name: currentInputName
+      };
+
+      this._storageService.addParticipant(newParticipant);
+      this._audioService.playSuccessSound();
+
+      //this.participants.push(newParticipant);
+      this.addParticipantsForm.controls['name'].setValue('');
+      //this.dataSource = new MatTableDataSource<IParticipants>(this.participants);
+      //this.dataSource.paginator = this.paginator;
+      //this.participantCounter++;
+
+    } else {
+      this._notificationService.warning('¡Field is invalid!');
+    }
+  }
+
+  removeParticipants(): void {
+    this._storageService.removeParticipants();
+    this.loadFileIsVisible = true;
+  }
+
+  tableActionRemoveParticipants(participant: IParticipants): void {
+    this._notificationService.confirmActionAsync().then(
+      (onfulfilled) => {
+        this._storageService.removeParticipant(participant);
+        console.log(onfulfilled);
+      },
+      (onrejected) => {
+        console.log(onrejected);
+      }
+    );
+  }
+
+  onLoadMockParticipants() {
+    this._notificationService.confirmActionAsync().then(
+      (onfulfilled) => {
+        if (this.subscription === null || this.subscription === undefined) {
+          this.subscription = this._storageService.getParticipants$().subscribe(participants => {
+
+            this.dataSource = new MatTableDataSource<IParticipants>(participants);
+            this.dataSource.paginator = this.paginator;
+            this.participants = participants;
+          })
+        }
+
+        this.mockDataIsLoaded = true
+        this._storageService.setModeAs(environment.DEMO_MODE);
+        this._storageService.loadMockParticipantsToLocalStorage();
+        console.log(onfulfilled);
+      },
+      (onrejected) => {
+
+        console.log(onrejected);
+      }
+    );
   }
 
   onDownload(): void {
@@ -154,115 +223,53 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onUpload(event: any): void {
-    this._storageService.getParticipantsTest$().subscribe(participants => {
-      this.dataSource = new MatTableDataSource<IParticipants>(participants);
-      this.dataSource.paginator = this.paginator;
-    });
-
-    this.mockDataIsLoaded = false;
-    this._storageService.setModeAs(environment.PROD_MODE);
-
     this._notificationService.confirmActionAsync().then(
       (onfulfilled) => {
 
-        this._notificationService.loadingStart();
         this._fileManagementService.Upload(event)
           .then(
             (onfulfilled) => {
-              if (onfulfilled) {
-                var observable = this._storageService.getParticipantsFromLocalStorage();
-                this.subscription = observable.subscribe(
-                  (response) => {
-                    this._notificationService.loadingStop();
-                    console.log(response);
-                  }
-                );
-              }
+
+              this._storageService.getParticipants$().subscribe(participants => {
+                this.dataSource = new MatTableDataSource<IParticipants>(participants);
+                this.dataSource.paginator = this.paginator;
+              });
+              this.mockDataIsLoaded = false;
+              this._storageService.setModeAs(environment.PROD_MODE);
+              this._notificationService.loadingStart();
+
+
+              this._notificationService.success("Archivo cargado correctamente");
+              console.log(onfulfilled);
+              this._notificationService.loadingStop();
             },
             (onrejected) => {
+
+              this._notificationService.warning("Algo fue mal, verifique el formato de su archivo");
               console.log(onrejected);
               this._notificationService.loadingStop();
             }
           )
-        console.log(onfulfilled);
       },
       (onrejected) => {
-        this._notificationService.loadingStop();
+
+        console.log(onrejected);
+        //this._notificationService.loadingStop();
       })
   }
 
-  addParticipant(): void {
-    if (this.addParticipantsForm.valid == true && this.addParticipantsForm.controls['name'].value != '') {
-      const currentInputName = this.addParticipantsForm.controls['name'].value.toUpperCase();
-
-      if (this.mockDataIsLoaded == true) {
-        this.clearFieldsAndTable();
+  onDelete(): void {
+    this._notificationService.confirmActionAsync().then(
+      (onfulfilled) => {
+        if (onfulfilled) {
+          console.log(onfulfilled);
+          this.clearFieldsAndTable();
+        }
+      },
+      (onrejected) => {
+        console.log(onrejected)
       }
-
-      if (this.participants.find(x => x.name === currentInputName)) {
-        this._notificationService.warning(`${currentInputName} is already inserted`)
-        return;
-      }
-
-      let newParticipant: IParticipants = {
-        id: this.participantCounter,
-        name: currentInputName
-      };
-
-      this._storageService.addParticipantsTest(newParticipant);
-
-      this.participants.push(newParticipant);
-      this.addParticipantsForm.controls['name'].setValue('');
-      this.dataSource = new MatTableDataSource<IParticipants>(this.participants);
-      this.dataSource.paginator = this.paginator;
-      this.participantCounter++;
-
-    } else {
-      this._notificationService.warning('¡Field is invalid!');
-    }
+    );
   }
 
-  removeParticipants(): void {
-    this._storageService.removeParticipants();
-    this.loadParticipants();
-    this.loadFileIsVisible = true;
-  }
-
-  removeParticipant(participant: IParticipants): void {
-    this._storageService.removeParticipant(participant);
-  }
-
-  loadMockParticipants() {
-    this.mockSubscriptionsParticipants = this._storageService.getParticipantsTest$().subscribe(participants => {
-      this.dataSource = new MatTableDataSource<IParticipants>(participants);
-      this.dataSource.paginator = this.paginator;
-    })
-
-    if (this.participants.length === 0) {
-      this.mockDataIsLoaded = true
-      this._storageService.setModeAs(environment.DEMO_MODE);
-      this._storageService.loadMockParticipantsToLocalStorage();
-    }
-  }
-
-  loadParticipants(): void {
-    this._storageService.getParticipantsTest$().subscribe(participants => {
-      this.dataSource = new MatTableDataSource<IParticipants>(participants);
-      this.dataSource.paginator = this.paginator;
-    })
-
-    if (this.participants.length === 0) {
-      this.mockDataIsLoaded = false
-      this._storageService.setModeAs(environment.PROD_MODE);
-      this._storageService.loadMockParticipantsToLocalStorage();
-    }
-
-    // this._storageService.getMockParticipants()
-    //   .subscribe(data => {
-    //     this.mockDataIsLoaded = true;
-    //     this.participants = data.sort((a, b) => (a.name < b.name) ? -1 : 1);
-    //     this.dataSource = new MatTableDataSource<IParticipants>(data);
-    //   }
-    //   );
-  }
 }

@@ -65,11 +65,10 @@ export class FileManagementService {
           });
 
           if (this.convertedJson.length == 0) {
-            this._notificationService.warning("Algo fue mal, verifique el formato de su archivo");
+            result = false;
+            return resolve(result);
           } else {
             this._participantService.saveAllParticipants(this.convertedJson);
-
-            this._notificationService.success("Archivo cargado correctamente");
             result = true;
             return resolve(result);
           }
@@ -82,7 +81,7 @@ export class FileManagementService {
     });
   }
 
-  exportTableToExcel(tableId: string, name?: string) {
+  private exportTableToExcel(tableId: string, name?: string) {
     let { sheetName, fileName } = this.getFileName(name);
     let targetTableElm = document.getElementById(tableId);
     let wb = XLSX.utils.table_to_book(targetTableElm, <XLSX.Table2SheetOpts>{
@@ -91,7 +90,7 @@ export class FileManagementService {
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 
-  exportArrayToExcel(arr: any[], name?: string) {
+  private exportArrayToExcel(arr: any[], name?: string) {
     let { sheetName, fileName } = this.getFileName(name);
     var wb = XLSX.utils.book_new();
     var ws = XLSX.utils.json_to_sheet(arr);

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, pairs, Subject } from 'rxjs';
 import { IParticipants } from "src/app/models/IParticipants";
 import { environment } from "src/environments/environment";
 import { LocalStorageReferenceService } from './local-storage-reference.service';
@@ -74,33 +74,30 @@ export class LocalStorageParticipantsService {
   ]
 
   private _participants$ = new Subject<IParticipants[]>();
-  private participantsTest$ = new Subject<IParticipants[]>();
-  private participantsStorageTest: IParticipants[] = []
+  private _participantsStorage: IParticipants[] = []
 
   constructor(private localStorageService: LocalStorageReferenceService, private http: HttpClient) {
-
   }
 
-  addParticipantsTest(participant: IParticipants) {
-    this.participantsStorageTest.push(participant);
-    this.participantsTest$.next(this.participantsStorageTest)
+
+  getParticipants$(): Observable<IParticipants[]> {
+    return this._participants$.asObservable();
   }
 
-  getParticipantsTest$(): Observable<IParticipants[]> {
-    return this.participantsTest$.asObservable();
-  }
-
-  loadMockParticipantsToLocalStorage() {
-    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(this.mockParticipants))
+  addParticipant(participant: IParticipants) {
 
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
-
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
 
-    this.participantsTest$.next(participantsArray)
+    participantsArray.push(participant);
+    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray));
+
+    this._participantsStorage.push(participant);
+    this._participants$.next(this._participantsStorage);
   }
 
   removeParticipant(participant: IParticipants) {
+
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
 
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
@@ -109,28 +106,17 @@ export class LocalStorageParticipantsService {
 
     this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray))
 
-    this.participantsTest$.next(participantsArray)
-  }
+    this._participantsStorage = participantsArray;
 
-
-
-  get refresh$() {
-    return this._participants$;
-  }
-
-  getParticipantsMock(): Observable<IParticipants[]> {
-    return this.http.get<IParticipants[]>(environment.PARTICIPANTS_MOCK_URL);
-  }
-
-  getWinnersMock(): Observable<IParticipants[]> {
-    return this.http.get<IParticipants[]>(environment.WINNERS_MOCK_URL);
+    this._participants$.next(participantsArray)
   }
 
   saveAllParticipants(json): void {
     this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, json)
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
-    this.participantsTest$.next(participantsArray)
+    this._participantsStorage = participantsArray;
+    this._participants$.next(participantsArray)
   }
 
   getParticipantsFromLocalStorage(): Observable<IParticipants[]> {
@@ -163,5 +149,23 @@ export class LocalStorageParticipantsService {
     this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_MODE, JSON.stringify(value))
   }
 
+  loadMockParticipantsToLocalStorage() {
+    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(this.mockParticipants))
 
+    let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
+
+    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+
+    this._participantsStorage = participantsArray;
+
+    this._participants$.next(participantsArray)
+  }
+
+  getParticipantsMock(): Observable<IParticipants[]> {
+    return this.http.get<IParticipants[]>(environment.PARTICIPANTS_MOCK_URL);
+  }
+
+  getWinnersMock(): Observable<IParticipants[]> {
+    return this.http.get<IParticipants[]>(environment.WINNERS_MOCK_URL);
+  }
 }
