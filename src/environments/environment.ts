@@ -12,8 +12,9 @@ export const environment = {
   TOUR_MODE: 'TOUR',
   DEMO_MODE: 'DEMO',
   PROD_MODE: 'PROD',
-  NAME_FIELD_REGULAR_EXPRESSION: '^([a-zA-Z]+\\s*|[0-9])*$',
-  serverUrl: 'http://localhost:4200'
+  NAME_FIELD_REGULAR_EXPRESSION: '^[^.]+$',
+  SERVER_URL: 'http://localhost:4200'
+  //'^([a-zA-Z]+\\s*|[0-9])*$',
 };
 
 /*

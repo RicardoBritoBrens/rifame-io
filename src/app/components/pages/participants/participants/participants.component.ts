@@ -13,7 +13,6 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { Subscription } from 'rxjs';
 import { AudioService } from 'src/app/audio.service';
 
-
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
@@ -92,20 +91,13 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  buildAddParticipantsForm(): void {
+  private buildAddParticipantsForm(): void {
     this.addParticipantsForm = this._formBuilder.group({
       name: new FormControl('', [Validators.required, Validators.pattern(environment.NAME_FIELD_REGULAR_EXPRESSION)],),
     });
   }
 
-  onLoadFile(canIHideParticipantsLoader: boolean): void {
-    this.loadFileIsVisible = canIHideParticipantsLoader;
-    this.loadFileIsVisible = false;
-    this.loadParticipants();
-  }
-
-  clearFieldsAndTable(): void {
-    debugger;
+  private clearFieldsAndTable(): void {
     if (this.dataSource.data.length === 0) {
       this._notificationService.warning('There is nothing to delete')
       return;
@@ -117,6 +109,12 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.participantCounter = 1;
     this.addParticipantsForm.controls['name'].setValue('');
     this._storageService.removeParticipants();
+  }
+
+  onLoadFile(canIHideParticipantsLoader: boolean): void {
+    this.loadFileIsVisible = canIHideParticipantsLoader;
+    this.loadFileIsVisible = false;
+    this.loadParticipants();
   }
 
   loadParticipants(): void {
@@ -135,11 +133,22 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addParticipant(): void {
+
+    if (this.subscription === null || this.subscription === undefined) {
+      this.subscription = this._storageService.getParticipants$().subscribe(participants => {
+
+        this.dataSource = new MatTableDataSource<IParticipants>(participants);
+        this.dataSource.paginator = this.paginator;
+        this.participants = participants;
+      })
+    }
+
+
     if (this.addParticipantsForm.valid == true && this.addParticipantsForm.controls['name'].value != '') {
       const currentInputName = this.addParticipantsForm.controls['name'].value.toUpperCase();
 
       if (this.participants.find(x => x.name === currentInputName)) {
-        this._notificationService.warning(`${currentInputName} is already inserted`)
+        this._notificationService.warning(`${currentInputName} is already inserted`);
         return;
       }
 
@@ -149,6 +158,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       };
 
       this._storageService.addParticipant(newParticipant);
+      this._notificationService.success(`¡${currentInputName} added successful!`);
       this._audioService.playSuccessSound();
 
       //this.participants.push(newParticipant);
@@ -160,11 +170,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this._notificationService.warning('¡Field is invalid!');
     }
-  }
-
-  removeParticipants(): void {
-    this._storageService.removeParticipants();
-    this.loadFileIsVisible = true;
   }
 
   tableActionRemoveParticipants(participant: IParticipants): void {
@@ -192,7 +197,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         this.mockDataIsLoaded = true
-        this._storageService.setModeAs(environment.DEMO_MODE);
+        //this._storageService.setModeAs(environment.DEMO_MODE);
         this._storageService.loadMockParticipantsToLocalStorage();
         console.log(onfulfilled);
       },
@@ -239,13 +244,13 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
               this._notificationService.loadingStart();
 
 
-              this._notificationService.success("Archivo cargado correctamente");
+              this._notificationService.success("¡File has been added successfully!");
               console.log(onfulfilled);
               this._notificationService.loadingStop();
             },
             (onrejected) => {
 
-              this._notificationService.warning("Algo fue mal, verifique el formato de su archivo");
+              this._notificationService.warning("Something went wrong, please check your file format and try again");
               console.log(onrejected);
               this._notificationService.loadingStop();
             }

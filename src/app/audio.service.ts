@@ -13,7 +13,7 @@ export class AudioService {
   private loadAndPlayAudio(name: string) {
     const audio = new Audio();
     audio.autoplay = true;
-    audio.src = `${environment.serverUrl}/assets/sounds/${name}.mp3`;
+    audio.src = `${environment.SERVER_URL}/assets/sounds/${name}.mp3`;
     audio.load();
     audio.play();
   }
