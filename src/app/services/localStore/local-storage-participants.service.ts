@@ -98,9 +98,9 @@ export class LocalStorageParticipantsService {
 
     // calculate ids
     participantsArray = this.updateIds(participantsArray);
+    this._participantsStorage = this.updateIds(this._participantsStorage);
 
     this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray));
-
     this._participantsStorage.push(participant);
     this._participants$.next(this._participantsStorage);
   }
@@ -112,12 +112,11 @@ export class LocalStorageParticipantsService {
 
     // calculate ids
     participantsArray = this.updateIds(participantsArray);
+    this._participantsStorage = this.updateIds(this._participantsStorage);
 
-    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray))
-
+    this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray));
     this._participantsStorage = participantsArray;
-
-    this._participants$.next(participantsArray)
+    this._participants$.next(participantsArray);
   }
 
   public saveAllParticipants(json): void {

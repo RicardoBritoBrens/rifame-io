@@ -63,6 +63,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+
     // set default values
     this.displayedColumns = ['id', 'name', 'actions'];
     this.participantCounter = 1;
@@ -74,10 +75,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isUploadingFile = false;
 
     this.buildAddParticipantsForm();
-
-    // this.dataSource.connect().subscribe(data => {
-    //   console.log(`connect was connected, the data returned is: ${data}`)
-    // });
   }
 
   ngOnDestroy(): void {
@@ -125,15 +122,9 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.participants = participants;
       })
     }
-
-    // if (this.participants.length === 0) {
-    //   this.mockDataIsLoaded = false
-    //   this._storageService.setModeAs(environment.PROD_MODE);
-    // }
   }
 
   addParticipant(): void {
-
     if (this.subscription === null || this.subscription === undefined) {
       this.subscription = this._storageService.getParticipants$().subscribe(participants => {
 
@@ -143,7 +134,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     }
 
-
     if (this.addParticipantsForm.valid == true && this.addParticipantsForm.controls['name'].value != '') {
       const currentInputName = this.addParticipantsForm.controls['name'].value.toUpperCase();
 
@@ -152,22 +142,10 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
-      let lastParticipantsId = this.participants[this.participants.length - 1];
-
-      let newParticipant: IParticipants = {
-        id: lastParticipantsId.id++,
-        name: currentInputName
-      };
-
-      this._storageService.addParticipant(newParticipant);
+      this._storageService.addParticipant({ id: 0, name: currentInputName });
       this._notificationService.success(`¡${currentInputName} added successful!`);
       this._audioService.playSuccessSound();
-
-      //this.participants.push(newParticipant);
       this.addParticipantsForm.controls['name'].setValue('');
-      //this.dataSource = new MatTableDataSource<IParticipants>(this.participants);
-      //this.dataSource.paginator = this.paginator;
-      //this.participantCounter++;
 
     } else {
       this._notificationService.warning('¡Field is invalid!');
@@ -178,7 +156,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this._notificationService.confirmActionAsync().then(
       (onfulfilled) => {
         this._storageService.removeParticipant(participant);
-        console.log(onfulfilled);
+
       },
       (onrejected) => {
         console.log(onrejected);
@@ -191,7 +169,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       (onfulfilled) => {
         if (this.subscription === null || this.subscription === undefined) {
           this.subscription = this._storageService.getParticipants$().subscribe(participants => {
-
             this.dataSource = new MatTableDataSource<IParticipants>(participants);
             this.dataSource.paginator = this.paginator;
             this.participants = participants;
@@ -199,12 +176,9 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         this.mockDataIsLoaded = true
-        //this._storageService.setModeAs(environment.DEMO_MODE);
         this._storageService.loadMockParticipantsToLocalStorage();
-        console.log(onfulfilled);
       },
       (onrejected) => {
-
         console.log(onrejected);
       }
     );
@@ -223,6 +197,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         },
         (onrejected) => {
+          console.log(onrejected);
           this._notificationService.loadingStop();
         }
       );
@@ -245,23 +220,18 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
               this._storageService.setModeAs(environment.PROD_MODE);
               this._notificationService.loadingStart();
 
-
               this._notificationService.success("¡File has been added successfully!");
-              console.log(onfulfilled);
               this._notificationService.loadingStop();
             },
             (onrejected) => {
-
-              this._notificationService.warning("Something went wrong, please check your file format and try again");
               console.log(onrejected);
+              this._notificationService.warning("Something went wrong, please check your file format and try again");
               this._notificationService.loadingStop();
             }
           )
       },
       (onrejected) => {
-
         console.log(onrejected);
-        //this._notificationService.loadingStop();
       })
   }
 
@@ -269,12 +239,11 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this._notificationService.confirmActionAsync().then(
       (onfulfilled) => {
         if (onfulfilled) {
-          console.log(onfulfilled);
           this.clearFieldsAndTable();
         }
       },
       (onrejected) => {
-        console.log(onrejected)
+        console.log(onrejected);
       }
     );
   }

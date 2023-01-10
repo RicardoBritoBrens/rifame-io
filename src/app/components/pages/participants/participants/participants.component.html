@@ -33,39 +33,33 @@
               <input type="text" matInput formControlName="name">
               <mat-hint i18n>Names are added in UPPERCASE</mat-hint>
             </mat-form-field>
-            <button title="Add participants to the table" mat-mini-fab color="#fffff" i18n>
-              <mat-icon>
+            <button class="button-wrapper-mat-icon" title="Add participants to the table" mat-mini-fab color="#fffff"
+              i18n>
+              <mat-icon class="button-icon-mat-icon">
                 add
               </mat-icon>
             </button>
           </form>
         </div>
         <div class="bottom-options">
-
-          <button title="Upload random participants" data-toggle="tooltip" class="mat-bottom"
+          <button title="Upload random participants" data-toggle="tooltip" class="mat-bottom button-wrapper-mat-icon"
             (click)="onLoadMockParticipants()" mat-mini-fab color="#fffff" i18n>
-            <mat-icon>science</mat-icon>
+            <mat-icon class="button-icon-mat-icon">science</mat-icon>
           </button>
-
-          <button title="Download participants template" class="mat-bottom" (click)="onDownload()" mat-mini-fab
-            color="#fffff" i18n>
-            <mat-icon>download</mat-icon>
+          <button title="Download participants template" class="mat-bottom button-wrapper-mat-icon"
+            (click)="onDownload()" mat-mini-fab color="#fffff" i18n>
+            <mat-icon class="button-icon-mat-icon">download</mat-icon>
           </button>
-
-          <button title="Upload participants template" class="mat-bottom" (click)="fileInput.click()" mat-mini-fab
-            color="#fffff" i18n>
-            <mat-icon>upload</mat-icon>
+          <button title="Upload participants template" class="mat-bottom button-wrapper-mat-icon"
+            (click)="fileInput.click()" mat-mini-fab color="#fffff" i18n>
+            <mat-icon class="button-icon-mat-icon">upload</mat-icon>
             <input hidden id="file-upload" #fileInput type="file" name="fileUpload" accept=".xls,.xlsx,.csv"
               (change)="onUpload($event)" />
           </button>
-
-          <button title="Delete all participants in the table" class="mat-bottom" (click)="onDelete()" mat-mini-fab
-            color="#fffff" i18n>
-            <mat-icon>delete</mat-icon>
+          <button title="Delete all participants in the table" class="mat-bottom button-wrapper-mat-icon"
+            (click)="onDelete()" mat-mini-fab color="#fffff" i18n>
+            <mat-icon class="button-icon-mat-icon">delete</mat-icon>
           </button>
-          <!-- <app-load-file class="mat-bottom" (VisibilityEventEmitter)="onLoadFile($event)"
-                [IsVisibility]='this.loadFileIsVisible'>
-              </app-load-file> -->
         </div>
       </div>
     </div>
