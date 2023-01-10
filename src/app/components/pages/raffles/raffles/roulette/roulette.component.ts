@@ -12,6 +12,7 @@ export class RouletteComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
   /*
   const ruleta = document.querySelector('#ruleta');
 

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import { Observable, of, pairs, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { IParticipants } from "src/app/models/IParticipants";
 import { environment } from "src/environments/environment";
 import { LocalStorageReferenceService } from './local-storage-reference.service';
@@ -85,7 +85,6 @@ export class LocalStorageParticipantsService {
   }
 
   public addParticipant(participant: IParticipants) {
-
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
 
     if (storageJson === null) {
@@ -95,8 +94,11 @@ export class LocalStorageParticipantsService {
     }
 
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
-
     participantsArray.push(participant);
+
+    // calculate ids
+    participantsArray = this.updateIds(participantsArray);
+
     this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray));
 
     this._participantsStorage.push(participant);
@@ -104,12 +106,12 @@ export class LocalStorageParticipantsService {
   }
 
   public removeParticipant(participant: IParticipants) {
-
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
-
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
-
     participantsArray = participantsArray.filter(x => x.name != participant.name);
+
+    // calculate ids
+    participantsArray = this.updateIds(participantsArray);
 
     this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray))
 
@@ -174,5 +176,14 @@ export class LocalStorageParticipantsService {
 
   public getWinnersMock(): Observable<IParticipants[]> {
     return this.http.get<IParticipants[]>(environment.WINNERS_MOCK_URL);
+  }
+
+  private updateIds(participants: IParticipants[]): IParticipants[] {
+    let startId = 1;
+    participants.forEach((element) => {
+      element.id = startId;
+      startId++;
+    })
+    return participants;
   }
 }

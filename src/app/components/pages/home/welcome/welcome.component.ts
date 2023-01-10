@@ -12,7 +12,6 @@ export class WelcomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // TODO: validate all the functions on the participants screen before continue with rifas screen
   // TODO: LIST OF JAVASCRIPT LIBRARIES TO CREATE TOURS
   /**
    * Intro.js

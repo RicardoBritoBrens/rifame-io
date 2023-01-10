@@ -152,8 +152,10 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
+      let lastParticipantsId = this.participants[this.participants.length - 1];
+
       let newParticipant: IParticipants = {
-        id: this.participants.length + 1,
+        id: lastParticipantsId.id++,
         name: currentInputName
       };
 
