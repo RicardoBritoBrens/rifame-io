@@ -21,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotfoundComponent } from './components/shared/notfound/notfound.component';
+import { RouletteComponent } from './components/pages/raffles/raffles/roulette/roulette.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { NotfoundComponent } from './components/shared/notfound/notfound.compone
     NavBarComponent,
     BlurScreenWithCentralTextComponent,
     LoadFileComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    RouletteComponent
   ],
   imports: [
     BrowserModule,

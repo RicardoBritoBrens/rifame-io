@@ -7,16 +7,14 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./navbar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  tittle: string;
-  slogan: string;
+  tittle: string = 'Rifame.io';
+  slogan: string = 'Simple y Funcional';
 
   constructor(private titleService: Title) {
     this.titleService.setTitle($localize`${this.tittle}`);
   }
 
   ngOnInit(): void {
-    this.tittle = 'Rifame.io';
-    this.slogan = 'Simple y Funcional';
   }
 
 }
