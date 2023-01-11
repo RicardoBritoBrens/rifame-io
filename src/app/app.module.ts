@@ -48,6 +48,7 @@ import { RouletteComponent } from './components/pages/raffles/raffles/roulette/r
     MatIconModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

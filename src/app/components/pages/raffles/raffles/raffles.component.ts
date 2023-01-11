@@ -17,11 +17,14 @@ export class RafflesComponent implements OnInit {
   constructor(
     private _route: Router,
     private _participantService: LocalStorageParticipantsService,
-    private _notificationService: NotificationService) {
+    private _notificationService: NotificationService,
+    private _storageService: LocalStorageParticipantsService,) {
   }
 
   ngOnInit(): void {
-    if (this.winners.length == 0) {
+
+
+    if (this._storageService.getQuantityOfParticipants() == 0) {
       this._notificationService.warning("There are not participants added")
       this._route.navigate(['rifame/participants'])
     }

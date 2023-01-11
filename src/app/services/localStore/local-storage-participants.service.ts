@@ -119,6 +119,10 @@ export class LocalStorageParticipantsService {
     this._participants$.next(participantsArray);
   }
 
+  public getQuantityOfParticipants(): number {
+    return this._participantsStorage.length;
+  }
+
   public saveAllParticipants(json): void {
     this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, json)
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);

@@ -9,6 +9,7 @@ export class AudioService {
   constructor() { }
 
   public playSuccessSound = () => this.loadAndPlayAudio('success');
+  public playSound = (name) => this.loadAndPlayAudio(name);
 
   private loadAndPlayAudio(name: string) {
     const audio = new Audio();
