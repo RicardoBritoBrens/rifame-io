@@ -34,8 +34,9 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   // material variables
   testDataSourceParticipants = new MatTableDataSource<IParticipants>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   dataSource = new MatTableDataSource<IParticipants>();
+  @ViewChild(MatSort) sort: MatSort;
+
 
   // form
   addParticipantsForm = this._formBuilder.group([]);
@@ -76,6 +77,19 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isUploadingFile = false;
 
     this.buildAddParticipantsForm();
+    this.loadAlreadyStorageParticipants();
+  }
+
+  loadAlreadyStorageParticipants() {
+    if ((this.subscription === null || this.subscription === undefined) && this._storageService.participantsAlreadyExist()) {
+      this.subscription = this._storageService.getParticipants$().subscribe(participants => {
+        this.dataSource = new MatTableDataSource<IParticipants>(participants);
+        this.dataSource.paginator = this.paginator;
+        this.participants = participants;
+      });
+
+      this._storageService.loadParticipantsFromExistingStorage();
+    }
   }
 
   ngOnDestroy(): void {

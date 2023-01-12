@@ -79,6 +79,20 @@ export class LocalStorageParticipantsService {
   constructor(private localStorageService: LocalStorageReferenceService, private http: HttpClient) {
   }
 
+  participantsAlreadyExist(): boolean {
+    let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
+    if (storageJson !== null) {
+      let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+      return (participantsArray.length > 0)
+    }
+  }
+
+  loadParticipantsFromExistingStorage() {
+    let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
+    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+    this._participantsStorage = participantsArray;
+    this._participants$.next(participantsArray);
+  }
 
   public getParticipants$(): Observable<IParticipants[]> {
     return this._participants$.asObservable();
@@ -132,11 +146,8 @@ export class LocalStorageParticipantsService {
   }
 
   public getParticipantsFromLocalStorage(): Observable<IParticipants[]> {
-
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
-
     let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
-
     return of(participantsArray);
   }
 

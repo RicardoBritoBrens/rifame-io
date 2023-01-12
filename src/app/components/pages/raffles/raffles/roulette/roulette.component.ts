@@ -1,8 +1,9 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { NgModule, Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { NgModule, Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AudioService } from 'src/app/services/audio.service';
+import { IParticipants } from 'src/app/models/IParticipants';
 
 declare let TweenMax: any;
 declare let Winwheel: any;
@@ -13,35 +14,37 @@ declare let Winwheel: any;
   styleUrls: ['./roulette.component.css']
 })
 export class RouletteComponent implements OnInit, AfterViewInit {
+
+  @Input() numberOfParticipants: number = 0;
+  //@Input()
+  listOfParticipants: IParticipants[] = [];
+  listOfParticipantsWithColors: { text: String, fillStyle: String }[]
   constructor(private _audioService: AudioService) {
 
   }
   ngOnInit(): void {
+    debugger;
+    this.generateRandomColorForEachParticipants(this.listOfParticipants)
+  }
 
+  generateRandomColorForEachParticipants(listOfParticipants: IParticipants[]) {
+    debugger;
+    listOfParticipants.forEach((element) => {
+      this.listOfParticipantsWithColors.push({ text: element.name, fillStyle: this.getRandomColor() })
+    });
   }
 
   @ViewChild('wheelContainer') wheelContainer: ElementRef;
   theWheel;
   async ngAfterViewInit() {
+    debugger;
     this.drawWheel();
   }
   drawWheel() {
     this.theWheel = new Winwheel({
       'canvasId': 'canvas',
-      'numSegments': 4,
-      'segments': [{
-        'fillStyle': '#eae56f',
-        'text': 'Segment 1'
-      }, {
-        'fillStyle': '#89f26e',
-        'text': 'Segment 2'
-      }, {
-        'fillStyle': '#7de6ef',
-        'text': 'Segment 3'
-      }, {
-        'fillStyle': '#e7706f',
-        'text': 'Segment 4'
-      }],
+      'numSegments': this.numberOfParticipants,
+      'segments': this.listOfParticipantsWithColors,
       'lineWidth': 2,
       'outerRadius': 250,
       'innerRadius': 50,
@@ -68,5 +71,14 @@ export class RouletteComponent implements OnInit, AfterViewInit {
   }
   calculatePrize() {
     this.theWheel.startAnimation();
+  }
+
+  private getRandomColor(): string {
+    let color = '#';
+    const letters = '0123456789ABCDEF';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }
