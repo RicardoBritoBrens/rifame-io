@@ -1,12 +1,9 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { NgModule, Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
 import { IParticipants } from 'src/app/models/IParticipants';
-
-declare let TweenMax: any;
-declare let Winwheel: any;
+import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
+import { NgxWheelComponent } from 'ngx-wheel';
 
 @Component({
   selector: 'app-roulette',
@@ -15,62 +12,84 @@ declare let Winwheel: any;
 })
 export class RouletteComponent implements OnInit, AfterViewInit {
 
-  @Input() numberOfParticipants: number = 0;
-  //@Input()
+  numberOfParticipants: number = 0;
   listOfParticipants: IParticipants[] = [];
-  listOfParticipantsWithColors: { text: String, fillStyle: String }[]
-  constructor(private _audioService: AudioService) {
+  listOfParticipantsWithColors: { text: String, fillStyle: String }[];
 
+  textOrientation: string = 'horizontal';
+  textAlignment: string = 'center';
+  idToLandOn: any;
+
+  @ViewChild(NgxWheelComponent, { static: false }) wheel;
+
+  constructor(
+    private _audioService: AudioService,
+    private _participantService: LocalStorageParticipantsService,
+    private _notificationService: NotificationService) {
   }
+
   ngOnInit(): void {
-    debugger;
-    this.generateRandomColorForEachParticipants(this.listOfParticipants)
+    this.listOfParticipantsWithColors = []
+    this.listOfParticipants = this._participantService.getCurrentParticipants();
+    this.generateRandomColorForEachParticipants(this.listOfParticipants);
+    this.numberOfParticipants = this.listOfParticipants.length;
   }
 
   generateRandomColorForEachParticipants(listOfParticipants: IParticipants[]) {
-    debugger;
     listOfParticipants.forEach((element) => {
       this.listOfParticipantsWithColors.push({ text: element.name, fillStyle: this.getRandomColor() })
     });
   }
 
-  @ViewChild('wheelContainer') wheelContainer: ElementRef;
-  theWheel;
+  async spin(prize) {
+    this.wheel.reset();
+    this.wheel.spin();
+  }
+
   async ngAfterViewInit() {
-    debugger;
-    this.drawWheel();
+
   }
   drawWheel() {
-    this.theWheel = new Winwheel({
-      'canvasId': 'canvas',
-      'numSegments': this.numberOfParticipants,
-      'segments': this.listOfParticipantsWithColors,
-      'lineWidth': 2,
-      'outerRadius': 250,
-      'innerRadius': 50,
-      'pointerAngle': 90,
-      'textAlignment': 'outer',
-      'textMargin': '16',
-      'responsive': true,
-      'animation': {
-        'type': 'spinToStop',
-        'duration': 5,
-        'direction': 'clockwise',
-        'callbackSound': () => { this.playSound() },
-        'callbackFinished': () => { this.callbackAlert() },
-      }
-    });
+    // this.theWheel = new Winwheel({
+    //   'canvasId': 'canvas',
+    //   'numSegments': this.numberOfParticipants,
+    //   'segments': this.listOfParticipantsWithColors,
+    //   'lineWidth': 2,
+    //   'outerRadius': 250,
+    //   'innerRadius': 50,
+    //   'pointerAngle': 90,
+    //   'textAlignment': 'outer',
+    //   'textMargin': '16',
+    //   'responsive': true,
+    //   'animation': {
+    //     'type': 'spinToStop',
+    //     'duration': 5,
+    //     'direction': 'clockwise',
+    //     'callbackSound': () => { this.playSound },
+    //     'callbackFinished': this.callbackAlert,
+    //   },
+    //   'pins':
+    //   {
+    //     'number': this.numberOfParticipants
+    //   }
+    // });
   }
-  callbackAlert() {
-    debugger;
-    this._audioService.playSound('success');
-  }
-  playSound() {
-    debugger;
+
+
+  before() {
     this._audioService.playSound('roulette');
   }
-  calculatePrize() {
-    this.theWheel.startAnimation();
+
+  after() {
+
+    this._audioService.playSound('success');
+  }
+
+  callbackAlert(indicatedSegment) {
+    this._audioService.playSound('success');
+  }
+
+  playSound() {
   }
 
   private getRandomColor(): string {

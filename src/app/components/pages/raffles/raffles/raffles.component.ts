@@ -8,6 +8,9 @@ import { Observable, Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
+
+
+
 @Component({
   selector: 'app-rifame-raffles',
   templateUrl: './raffles.component.html',
@@ -24,9 +27,10 @@ export class RafflesComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource<IParticipants>();
 
+
+
   constructor(
     private _route: Router,
-    private _participantService: LocalStorageParticipantsService,
     private _notificationService: NotificationService,
     private _storageService: LocalStorageParticipantsService,) {
   }
@@ -38,7 +42,7 @@ export class RafflesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    if (this._storageService.getQuantityOfParticipants() == 0) {
+    if (this._storageService.getCurrentQuantityOfParticipants() == 0) {
       this._notificationService.warning("There are not participants added")
       this._route.navigate(['rifame/participants']);
       return;

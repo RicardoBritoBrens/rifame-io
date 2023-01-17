@@ -22,7 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotfoundComponent } from './components/shared/notfound/notfound.component';
 import { RouletteComponent } from './components/pages/raffles/raffles/roulette/roulette.component';
-
+import { NgxWheelModule } from 'ngx-wheel';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +48,7 @@ import { RouletteComponent } from './components/pages/raffles/raffles/roulette/r
     MatIconModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
-
+    NgxWheelModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

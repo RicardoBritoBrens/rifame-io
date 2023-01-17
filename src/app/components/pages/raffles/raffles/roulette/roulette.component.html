@@ -1,5 +1,12 @@
-<div class="wheelContainer">
+<!-- <div class="wheelContainer">
   <canvas id='canvas' width='500' height='500' data-responsiveMinWidth="300" data-responsiveScaleHeight="true"
     data-responsiveMargin="0"> Canvas not supported, use another browser. </canvas>
-  <button (click)="calculatePrize()"> Hit Me</button>
-</div>
+</div> -->
+
+<ngx-wheel width='600' height='600' spinDuration='8' [disableSpinOnClick]='true'
+  [items]='this.listOfParticipantsWithColors ' [innerRadius]='50' [spinAmount]='10' [textOrientation]='textOrientation'
+  [textAlignment]='textAlignment' pointerStrokeColor='#66806a' pointerFillColor='rgba(255, 194, 134, 1)'
+  (onSpinStart)='before()' (onSpinComplete)='after()'>
+</ngx-wheel>
+
+<button (click)="spin(this)"> Hit Me</button>

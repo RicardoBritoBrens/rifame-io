@@ -37,7 +37,6 @@
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/winwheel/dist/Winwheel.min.js",
               "node_modules/gsap/src/minified/TweenMax.min.js"
             ]
           },

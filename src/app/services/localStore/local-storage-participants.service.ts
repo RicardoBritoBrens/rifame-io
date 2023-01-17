@@ -133,8 +133,12 @@ export class LocalStorageParticipantsService {
     this._participants$.next(participantsArray);
   }
 
-  public getQuantityOfParticipants(): number {
+  public getCurrentQuantityOfParticipants(): number {
     return this._participantsStorage.length;
+  }
+
+  public getCurrentParticipants(): IParticipants[] {
+    return this._participantsStorage;
   }
 
   public saveAllParticipants(json): void {
