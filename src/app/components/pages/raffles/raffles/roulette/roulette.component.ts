@@ -3,7 +3,7 @@ import { AudioService } from 'src/app/services/audio.service';
 import { IParticipants } from 'src/app/models/IParticipants';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { NgxWheelComponent } from 'ngx-wheel';
+import { NgxWheelComponent, TextAlignment, TextOrientation } from 'ngx-wheel';
 
 @Component({
   selector: 'app-roulette',
@@ -12,15 +12,15 @@ import { NgxWheelComponent } from 'ngx-wheel';
 })
 export class RouletteComponent implements OnInit, AfterViewInit {
 
+  @ViewChild(NgxWheelComponent, { static: false }) wheel;
+
+  idToLandOn: any;
+  textOrientation: TextOrientation = TextOrientation.HORIZONTAL
+  textAlignment: TextAlignment = TextAlignment.OUTER
+
   numberOfParticipants: number = 0;
   listOfParticipants: IParticipants[] = [];
   listOfParticipantsWithColors: { text: String, fillStyle: String }[];
-
-  textOrientation: string = 'horizontal';
-  textAlignment: string = 'center';
-  idToLandOn: any;
-
-  @ViewChild(NgxWheelComponent, { static: false }) wheel;
 
   constructor(
     private _audioService: AudioService,
@@ -29,6 +29,7 @@ export class RouletteComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.idToLandOn = 3;
     this.listOfParticipantsWithColors = []
     this.listOfParticipants = this._participantService.getCurrentParticipants();
     this.generateRandomColorForEachParticipants(this.listOfParticipants);
@@ -41,55 +42,31 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     });
   }
 
-  async spin(prize) {
-    this.wheel.reset();
+  async spin() {
+    debugger;
+    this.idToLandOn = this.getRandomInt();
+    await new Promise(resolve => setTimeout(resolve, 8));
     this.wheel.spin();
   }
-
-  async ngAfterViewInit() {
-
-  }
-  drawWheel() {
-    // this.theWheel = new Winwheel({
-    //   'canvasId': 'canvas',
-    //   'numSegments': this.numberOfParticipants,
-    //   'segments': this.listOfParticipantsWithColors,
-    //   'lineWidth': 2,
-    //   'outerRadius': 250,
-    //   'innerRadius': 50,
-    //   'pointerAngle': 90,
-    //   'textAlignment': 'outer',
-    //   'textMargin': '16',
-    //   'responsive': true,
-    //   'animation': {
-    //     'type': 'spinToStop',
-    //     'duration': 5,
-    //     'direction': 'clockwise',
-    //     'callbackSound': () => { this.playSound },
-    //     'callbackFinished': this.callbackAlert,
-    //   },
-    //   'pins':
-    //   {
-    //     'number': this.numberOfParticipants
-    //   }
-    // });
-  }
-
 
   before() {
     this._audioService.playSound('roulette');
   }
 
   after() {
-
+    this._notificationService.success(`El ganador ha sido ${this.listOfParticipants[this.idToLandOn].name}`)
     this._audioService.playSound('success');
   }
 
-  callbackAlert(indicatedSegment) {
-    this._audioService.playSound('success');
+  ngAfterViewInit() {
   }
 
-  playSound() {
+  reset() {
+    this.wheel.reset();
+  }
+
+  getRandomInt() {
+    return Math.floor(Math.random() * this.listOfParticipants.length);
   }
 
   private getRandomColor(): string {
