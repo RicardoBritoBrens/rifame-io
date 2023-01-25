@@ -10,11 +10,12 @@ import { NgxWheelComponent, TextAlignment, TextOrientation } from 'ngx-wheel';
   templateUrl: './roulette.component.html',
   styleUrls: ['./roulette.component.css']
 })
-export class RouletteComponent implements OnInit, AfterViewInit {
+export class RouletteComponent implements OnInit {
 
   @ViewChild(NgxWheelComponent, { static: false }) wheel;
-
+  seed = [...Array(12).keys()]
   idToLandOn: any;
+  items: any[];
   textOrientation: TextOrientation = TextOrientation.HORIZONTAL
   textAlignment: TextAlignment = TextAlignment.OUTER
 
@@ -26,47 +27,43 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     private _audioService: AudioService,
     private _participantService: LocalStorageParticipantsService,
     private _notificationService: NotificationService) {
+
   }
 
-  ngOnInit(): void {
-    this.idToLandOn = 3;
+  ngOnInit() {
+    // TODO: CREATE PROMISE TO FIRST INITIALIZE THE LIST LIST OF PARTICIPANTS AND THEN GENERATE RANDOM ID, THE ERROR IS PRODUCE BECAUSE
+    // THE LIST IS EMPTY
     this.listOfParticipantsWithColors = []
     this.listOfParticipants = this._participantService.getCurrentParticipants();
     this.generateRandomColorForEachParticipants(this.listOfParticipants);
     this.numberOfParticipants = this.listOfParticipants.length;
-  }
 
-  generateRandomColorForEachParticipants(listOfParticipants: IParticipants[]) {
-    listOfParticipants.forEach((element) => {
-      this.listOfParticipantsWithColors.push({ text: element.name, fillStyle: this.getRandomColor() })
-    });
+    this.idToLandOn = this.getRandomInt();//this.seed[Math.floor(Math.random() * this.seed.length)];
+    const colors = ['#FF0000', '#000000']
+    this.items = this.seed.map((value) => ({
+      fillStyle: colors[value % 2],
+      text: `Prize ${value}`,
+      id: value,
+      textFillStyle: 'white',
+      textFontSize: '16'
+    }))
   }
-
-  async spin() {
-    debugger;
-    this.idToLandOn = this.getRandomInt();
-    await new Promise(resolve => setTimeout(resolve, 8));
-    this.wheel.spin();
+  reset() {
+    this.wheel.reset()
   }
-
   before() {
     this._audioService.playSound('roulette');
+  }
+
+  async spin(prize) {
+    this.idToLandOn = prize
+    await new Promise(resolve => setTimeout(resolve, 0));
+    this.wheel.spin()
   }
 
   after() {
     this._notificationService.success(`El ganador ha sido ${this.listOfParticipants[this.idToLandOn].name}`)
     this._audioService.playSound('success');
-  }
-
-  ngAfterViewInit() {
-  }
-
-  reset() {
-    this.wheel.reset();
-  }
-
-  getRandomInt() {
-    return Math.floor(Math.random() * this.listOfParticipants.length);
   }
 
   private getRandomColor(): string {
@@ -77,4 +74,16 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     }
     return color;
   }
+
+  private generateRandomColorForEachParticipants(listOfParticipants: IParticipants[]) {
+    listOfParticipants.forEach((element) => {
+      this.listOfParticipantsWithColors.push({ text: element.name, fillStyle: this.getRandomColor() })
+    });
+  }
+
+  private getRandomInt(): any {
+    debugger;
+    return this.listOfParticipants[Math.floor(Math.random() * this.seed.length)];
+  }
+
 }

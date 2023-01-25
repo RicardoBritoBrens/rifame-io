@@ -1,10 +1,4 @@
-<!-- <ngx-wheel width='600' height='600' spinDuration='8' [disableSpinOnClick]='true'
-  [items]='this.listOfParticipantsWithColors' [innerRadius]='50' [spinAmount]='10' [textOrientation]='textOrientation'
-  [textAlignment]='textAlignment' pointerStrokeColor='#66806a' pointerFillColor='rgba(255, 194, 134, 1)'
-  (onSpinStart)='before()' (onSpinComplete)='after()' [idToLandOn]='3'>
-</ngx-wheel> -->
-
-<ngx-wheel #wheel width='500' height='500' spinDuration='8' [disableSpinOnClick]='true'
+<!-- <ngx-wheel #wheel width='500' height='500' spinDuration='8' [disableSpinOnClick]='true'
   [items]='this.listOfParticipantsWithColors' [innerRadius]='50' [spinAmount]='50' [textOrientation]='textOrientation'
   [textAlignment]='textAlignment' pointerStrokeColor='#66806a' pointerFillColor='rgba(255, 194, 134, 1)'
   [idToLandOn]='idToLandOn' (onSpinStart)='before()' (onSpinComplete)='after()'></ngx-wheel>
@@ -15,4 +9,28 @@
 
 <div>
   <button class="button reset-button" (click)="reset()">Reset</button>
+</div> -->
+
+
+<h3>Press the wheel to land on a random prize</h3>
+<h3>Or press the button to land on the corresponding prize</h3>
+<ngx-wheel #wheel width='400' height='400' spinDuration='8' [items]='items' [innerRadius]='20' [spinAmount]='10'
+  [textOrientation]='textOrientation' [textAlignment]='textAlignment' pointerStrokeColor='black' pointerFillColor='gold'
+  [idToLandOn]='idToLandOn' (onSpinStart)='before()' (onSpinComplete)='after()'></ngx-wheel>
+<div class="reset">
+  <button (click)="reset()">Reset</button>
+</div>
+<div class="buttons">
+  <button (click)="spin(0)">Prize 0</button>
+  <button (click)="spin(1)">Prize 1</button>
+  <button (click)="spin(2)">Prize 2</button>
+  <button (click)="spin(3)">Prize 3</button>
+  <button (click)="spin(4)">Prize 4</button>
+  <button (click)="spin(5)">Prize 5</button>
+  <button (click)="spin(6)">Prize 6</button>
+  <button (click)="spin(7)">Prize 7</button>
+  <button (click)="spin(8)">Prize 8</button>
+  <button (click)="spin(9)">Prize 9</button>
+  <button (click)="spin(10)">Prize 10</button>
+  <button (click)="spin(11)">Prize 11</button>
 </div>
