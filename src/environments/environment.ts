@@ -13,8 +13,8 @@ export const environment = {
   DEMO_MODE: 'DEMO',
   PROD_MODE: 'PROD',
   NAME_FIELD_REGULAR_EXPRESSION: '^[^.]+$',
-  SERVER_URL: 'http://localhost:4200'
-  //'^([a-zA-Z]+\\s*|[0-9])*$',
+  SERVER_URL: 'http://localhost:4200',
+  WHEEL_TEXT_FONT_SIZE: 16
 };
 
 /*

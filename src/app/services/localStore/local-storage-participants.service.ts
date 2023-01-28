@@ -74,7 +74,8 @@ export class LocalStorageParticipantsService {
   ]
 
   private _participants$ = new Subject<IParticipants[]>();
-  private _participantsStorage: IParticipants[] = []
+  private _participantsStorage: IParticipants[] = [];
+  private _listOfParticipantsWithColors = [];
 
   constructor(private localStorageService: LocalStorageReferenceService, private http: HttpClient) {
   }
@@ -203,5 +204,22 @@ export class LocalStorageParticipantsService {
       startId++;
     })
     return participants;
+  }
+
+  private generateRandomColorForEachParticipants(listOfParticipants: IParticipants[]) {
+    listOfParticipants.forEach((element) => {
+      this._listOfParticipantsWithColors.push({ text: element.name, fillStyle: this.getRandomColor() })
+    });
+  }
+  private getRandomColor(): string {
+    let color = '#';
+    const letters = '0123456789ABCDEF';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  public getCurrentParticipantsLocal$(): Observable<IParticipants[]> {
+    return of(this._participantsStorage);
   }
 }
