@@ -1,1 +1,13 @@
-<app-roulette></app-roulette>
+<!-- <app-roulette></app-roulette> -->
+<div>
+  <button (click)="resetData()">Reset</button>
+</div>
+<div>
+  <button (click)="processData()">Start</button>
+</div>
+{{this.participants.length}}
+<div *ngIf="canIStartRaffle">
+  <app-child [items]="participants" [numberOfParticipants]="participants.length" [listOfParticipants]="participants"
+    [listOfParticipantsWithColors]="listOfParticipantsWithColors" [idToLandOn]="7"
+    (newItemEvent)="addItem($event)"></app-child>
+</div>

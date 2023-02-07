@@ -1,11 +1,12 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { AudioService } from 'src/app/services/audio.service';
-import { IParticipants } from 'src/app/models/IParticipants';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { NgxWheelComponent, TextAlignment, TextOrientation } from 'ngx-wheel';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { IParticipant } from 'src/app/models/IParticipant';
+
 
 @Component({
   selector: 'app-roulette',
@@ -23,7 +24,7 @@ export class RouletteComponent implements OnInit, AfterViewInit {
   isLoading: boolean = true;
 
   numberOfParticipants: number = 0;
-  listOfParticipants: IParticipants[] = [];
+  listOfParticipants: IParticipant[] = [];
   listOfParticipantsWithColors: { text: String, fillStyle: String, id: number, textFontSize: number }[];
 
   //   fillStyle: colors[value % 2],
@@ -46,25 +47,28 @@ export class RouletteComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this._participantService.getCurrentParticipantsLocal$().subscribe((data) => {
 
-      // Clear
-      this.listOfParticipantsWithColors = [];
-      this.listOfParticipants = [];
+      if (data) {
 
-      // Assign new values
-      this.listOfParticipants = data;
-      this.numberOfParticipants = data.length;
+        // Clear
+        this.listOfParticipantsWithColors = [];
+        this.listOfParticipants = [];
 
-      // Get the first random winner
-      this.idToLandOn = this.getRandomIntByData(data);
+        // Assign new values
+        this.listOfParticipants = data;
+        this.numberOfParticipants = data.length;
 
-      // Generate random color forEach participants
-      this.generateRandomColorForEachParticipants(data);
+        // Get the first random winner
+        this.idToLandOn = this.getRandomIntByData(data);
 
-      // Initialize wheel colors, segments and names
-      this.items = this.listOfParticipantsWithColors;
+        // Generate random color forEach participants
+        this.generateRandomColorForEachParticipants(data);
 
-      // Disable loading
-      this.isLoading = false;
+        // Initialize wheel colors, segments and names
+        this.items = this.listOfParticipantsWithColors;
+
+        // Disable loading
+        this.isLoading = false;
+      }
     })
   }
 
@@ -81,11 +85,28 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     /*
       Works in the back but in the ui is only available but using the library itself method deleteSegment check this link: http://dougtesting.net/winwheel/docs/tut5_add_remove_segments
     */
-    //this.wheel.deleteSegment();
+    debugger;
 
-    this._participantService.removeParticipant(this.listOfParticipants[this.idToLandOn]);
+    let toRemoveParticipant = this.listOfParticipants[this.idToLandOn];
+    let toRemoveParticipantIndex = this.listOfParticipants.indexOf(toRemoveParticipant);
+    this.listOfParticipants = this.listOfParticipants.slice(toRemoveParticipantIndex, 1);
+    this._participantService.removeParticipant(toRemoveParticipant);
+    this.wheel.removeSegmentById(this.idToLandOn);
+
+
+    // Get the first random winner
+    this.idToLandOn = this.getRandomIntByData(this.listOfParticipants);
+
+    // Generate random color forEach participants
+    this.generateRandomColorForEachParticipants(this.listOfParticipants);
+
+    // Initialize wheel colors, segments and names
+    this.items = this.listOfParticipantsWithColors;
+
     this._notificationService.success(`El ganador ha sido ${this.listOfParticipants[this.idToLandOn].name}`);
     this._audioService.playSound('success');
+
+
   }
 
   async spin(prize) {
@@ -103,14 +124,15 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     return color;
   }
 
-  private generateRandomColorForEachParticipants(listOfParticipants: IParticipants[]) {
+  private generateRandomColorForEachParticipants(listOfParticipants: IParticipant[]) {
     listOfParticipants.forEach((element) => {
       this.listOfParticipantsWithColors.push({ text: element.name, fillStyle: this.getRandomColor(), id: element.id, textFontSize: environment.WHEEL_TEXT_FONT_SIZE })
     });
   }
 
-  private getRandomIntByData(data: IParticipants[]): any {
+  private getRandomIntByData(data: IParticipant[]): any {
     return data[Math.floor(Math.random() * this.seed.length)].id;
   }
+
 
 }

@@ -4,7 +4,6 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FileManagementService } from 'src/app/services/file/file-management.service';
 import { FormBuilder } from '@angular/forms';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { IParticipants } from '../../../../models/IParticipants';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -12,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { Subscription } from 'rxjs';
 import { AudioService } from 'src/app/services/audio.service';
+import { IParticipant } from 'src/app/models/IParticipant';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -32,9 +32,9 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription: Subscription;
 
   // material variables
-  testDataSourceParticipants = new MatTableDataSource<IParticipants>();
+  testDataSourceParticipants = new MatTableDataSource<IParticipant>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  dataSource = new MatTableDataSource<IParticipants>();
+  dataSource = new MatTableDataSource<IParticipant>();
   @ViewChild(MatSort) sort: MatSort;
 
 
@@ -43,7 +43,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // arrays
   displayedColumns: string[] = [];
-  participants: IParticipants[] = [];
+  participants: IParticipant[] = [];
 
   // numbers
   participantCounter: number;
@@ -76,14 +76,13 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mockDataIsLoaded = false;
     this.isUploadingFile = false;
 
+    debugger;
     this.buildAddParticipantsForm();
-    this.loadAlreadyStorageParticipants();
-  }
 
-  loadAlreadyStorageParticipants() {
     if ((this.subscription === null || this.subscription === undefined) && this._storageService.participantsAlreadyExist()) {
+      debugger;
       this.subscription = this._storageService.getParticipants$().subscribe(participants => {
-        this.dataSource = new MatTableDataSource<IParticipants>(participants);
+        this.dataSource = new MatTableDataSource<IParticipant>(participants);
         this.dataSource.paginator = this.paginator;
         this.participants = participants;
       });
@@ -115,7 +114,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    this.dataSource = new MatTableDataSource<IParticipants>();
+    this.dataSource = new MatTableDataSource<IParticipant>();
     this.dataSource.paginator = this.paginator;
     this.participants = [];
     this.participantCounter = 1;
@@ -132,7 +131,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   loadParticipants(): void {
     if (this.subscription === null || this.subscription === undefined) {
       this.subscription = this._storageService.getParticipants$().subscribe(participants => {
-        this.dataSource = new MatTableDataSource<IParticipants>(participants);
+        this.dataSource = new MatTableDataSource<IParticipant>(participants);
         this.dataSource.paginator = this.paginator;
         this.participants = participants;
       })
@@ -143,7 +142,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.subscription === null || this.subscription === undefined) {
       this.subscription = this._storageService.getParticipants$().subscribe(participants => {
 
-        this.dataSource = new MatTableDataSource<IParticipants>(participants);
+        this.dataSource = new MatTableDataSource<IParticipant>(participants);
         this.dataSource.paginator = this.paginator;
         this.participants = participants;
       })
@@ -167,7 +166,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  tableActionRemoveParticipants(participant: IParticipants): void {
+  tableActionRemoveParticipants(participant: IParticipant): void {
     this._notificationService.confirmActionAsync().then(
       (onfulfilled) => {
         this._storageService.removeParticipant(participant);
@@ -184,7 +183,8 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       (onfulfilled) => {
         if (this.subscription === null || this.subscription === undefined) {
           this.subscription = this._storageService.getParticipants$().subscribe(participants => {
-            this.dataSource = new MatTableDataSource<IParticipants>(participants);
+            debugger;
+            this.dataSource = new MatTableDataSource<IParticipant>(participants);
             this.dataSource.paginator = this.paginator;
             this.participants = participants;
           })
@@ -228,7 +228,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
             (onfulfilled) => {
 
               this._storageService.getParticipants$().subscribe(participants => {
-                this.dataSource = new MatTableDataSource<IParticipants>(participants);
+                this.dataSource = new MatTableDataSource<IParticipant>(participants);
                 this.dataSource.paginator = this.paginator;
               });
               this.mockDataIsLoaded = false;

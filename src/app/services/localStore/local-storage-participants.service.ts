@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
-import { IParticipants } from "src/app/models/IParticipants";
+import { IParticipant } from "src/app/models/IParticipant";
 import { environment } from "src/environments/environment";
 import { LocalStorageReferenceService } from './local-storage-reference.service';
 
@@ -10,7 +10,7 @@ import { LocalStorageReferenceService } from './local-storage-reference.service'
 })
 export class LocalStorageParticipantsService {
 
-  mockParticipants: IParticipants[] = [
+  mockParticipants: IParticipant[] = [
     {
       id: 1,
       name: "ARDRA"
@@ -73,8 +73,8 @@ export class LocalStorageParticipantsService {
     }
   ]
 
-  private _participants$ = new Subject<IParticipants[]>();
-  private _participantsStorage: IParticipants[] = [];
+  private _participants$ = new Subject<IParticipant[]>();
+  private _participantsStorage: IParticipant[] = [];
   private _listOfParticipantsWithColors = [];
 
   constructor(private localStorageService: LocalStorageReferenceService, private http: HttpClient) {
@@ -83,32 +83,32 @@ export class LocalStorageParticipantsService {
   participantsAlreadyExist(): boolean {
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
     if (storageJson !== null) {
-      let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+      let participantsArray: IParticipant[] = JSON.parse(JSON.parse(storageJson));
       return (participantsArray.length > 0)
     }
   }
 
   loadParticipantsFromExistingStorage() {
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
-    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+    let participantsArray: IParticipant[] = JSON.parse(JSON.parse(storageJson));
     this._participantsStorage = participantsArray;
     this._participants$.next(participantsArray);
   }
 
-  public getParticipants$(): Observable<IParticipants[]> {
+  public getParticipants$(): Observable<IParticipant[]> {
     return this._participants$.asObservable();
   }
 
-  public addParticipant(participant: IParticipants) {
+  public addParticipant(participant: IParticipant) {
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
 
     if (storageJson === null) {
-      let newParticipants: IParticipants[] = [];
+      let newParticipants: IParticipant[] = [];
       this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(newParticipants));
       storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
     }
 
-    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+    let participantsArray: IParticipant[] = JSON.parse(JSON.parse(storageJson));
     participantsArray.push(participant);
 
     // calculate ids
@@ -120,45 +120,66 @@ export class LocalStorageParticipantsService {
     this._participants$.next(this._participantsStorage);
   }
 
-  public removeParticipant(participant: IParticipants) {
+  public removeParticipant(participant: IParticipant) {
+
+    // Get participants
+    let participants: IParticipant[] = this.getParticipantsArrayFromJsonStorage();
+
+    // Get current index
+    let index = participants.findIndex(x => x.id == participant.id);
+
+    // Remove element from participants
+    participants.splice(index, 1);
+
+    // Update Id's
+    participants = this.updateIds(participants);
+
+    // Assign new participants to local array
+    this._participantsStorage = participants;
+
+    // Save lasts changes
+    this.saveToJsonStorage(participants);
+
+    // Emit new values
+    this._participants$.next(participants);
+  }
+
+  private getParticipantsArrayFromJsonStorage() {
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
-    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
-    participantsArray = participantsArray.filter(x => x.name != participant.name);
 
-    // calculate ids
-    participantsArray = this.updateIds(participantsArray);
-    this._participantsStorage = this.updateIds(this._participantsStorage);
+    let participantsArray: IParticipant[] = JSON.parse(JSON.parse(storageJson));
+    return participantsArray;
+  }
 
+  private saveToJsonStorage(participantsArray: IParticipant[]) {
     this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray));
-    this._participantsStorage = participantsArray;
-    this._participants$.next(participantsArray);
   }
 
   public getCurrentQuantityOfParticipants(): number {
     return this._participantsStorage.length;
   }
 
-  public getCurrentParticipants(): IParticipants[] {
+  public getCurrentParticipants(): IParticipant[] {
     return this._participantsStorage;
   }
 
   public saveAllParticipants(json): void {
     this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, json)
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
-    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+    let participantsArray: IParticipant[] = JSON.parse(JSON.parse(storageJson));
     this._participantsStorage = participantsArray;
     this._participants$.next(participantsArray)
   }
 
-  public getParticipantsFromLocalStorage(): Observable<IParticipants[]> {
+  public getParticipantsFromLocalStorage(): Observable<IParticipant[]> {
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
-    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+    let participantsArray: IParticipant[] = JSON.parse(JSON.parse(storageJson));
     return of(participantsArray);
   }
 
-  public getMockParticipants(): Observable<IParticipants[]> {
+  public getMockParticipants(): Observable<IParticipant[]> {
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
-    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+    let participantsArray: IParticipant[] = JSON.parse(JSON.parse(storageJson));
     return of(participantsArray);
   }
 
@@ -182,22 +203,22 @@ export class LocalStorageParticipantsService {
 
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
 
-    let participantsArray: IParticipants[] = JSON.parse(JSON.parse(storageJson));
+    let participantsArray: IParticipant[] = JSON.parse(JSON.parse(storageJson));
 
     this._participantsStorage = participantsArray;
 
     this._participants$.next(participantsArray)
   }
 
-  public getParticipantsMock(): Observable<IParticipants[]> {
-    return this.http.get<IParticipants[]>(environment.PARTICIPANTS_MOCK_URL);
+  public getParticipantsMock(): Observable<IParticipant[]> {
+    return this.http.get<IParticipant[]>(environment.PARTICIPANTS_MOCK_URL);
   }
 
-  public getWinnersMock(): Observable<IParticipants[]> {
-    return this.http.get<IParticipants[]>(environment.WINNERS_MOCK_URL);
+  public getWinnersMock(): Observable<IParticipant[]> {
+    return this.http.get<IParticipant[]>(environment.WINNERS_MOCK_URL);
   }
 
-  private updateIds(participants: IParticipants[]): IParticipants[] {
+  private updateIds(participants: IParticipant[]): IParticipant[] {
     let startId = 1;
     participants.forEach((element) => {
       element.id = startId;
@@ -206,20 +227,7 @@ export class LocalStorageParticipantsService {
     return participants;
   }
 
-  private generateRandomColorForEachParticipants(listOfParticipants: IParticipants[]) {
-    listOfParticipants.forEach((element) => {
-      this._listOfParticipantsWithColors.push({ text: element.name, fillStyle: this.getRandomColor() })
-    });
-  }
-  private getRandomColor(): string {
-    let color = '#';
-    const letters = '0123456789ABCDEF';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-  public getCurrentParticipantsLocal$(): Observable<IParticipants[]> {
+  public getCurrentParticipantsLocal$(): Observable<IParticipant[]> {
     return of(this._participantsStorage);
   }
 }

@@ -23,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotfoundComponent } from './components/shared/notfound/notfound.component';
 import { RouletteComponent } from './components/pages/raffles/raffles/roulette/roulette.component';
 import { NgxWheelModule } from 'ngx-wheel';
+import { ChildComponent } from './child/child.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +35,8 @@ import { NgxWheelModule } from 'ngx-wheel';
     BlurScreenWithCentralTextComponent,
     LoadFileComponent,
     NotfoundComponent,
-    RouletteComponent
+    RouletteComponent,
+    ChildComponent
   ],
   imports: [
     BrowserModule,

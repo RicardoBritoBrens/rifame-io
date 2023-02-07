@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IParticipants } from 'src/app/models/IParticipants';
+import { IParticipant } from 'src/app/models/IParticipant';
 import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
 import { LocalStorageParticipantsService } from '../localStore/local-storage-participants.service';
@@ -52,12 +52,12 @@ export class FileManagementService {
             data.forEach(element => {
 
               // validate field with regular expression
-              if (!RegExp(environment.NAME_FIELD_REGULAR_EXPRESSION).test((element as IParticipants).name.toUpperCase())) {
-                Promise.reject(`Value ${(element as IParticipants).name.toUpperCase} is invalid`)
+              if (!RegExp(environment.NAME_FIELD_REGULAR_EXPRESSION).test((element as IParticipant).name.toUpperCase())) {
+                Promise.reject(`Value ${(element as IParticipant).name.toUpperCase} is invalid`)
               }
 
               // convert to upper case the name value
-              (element as IParticipants).name = (element as IParticipants).name.toUpperCase();
+              (element as IParticipant).name = (element as IParticipant).name.toUpperCase();
             });
 
             // convert all the data into json stringify
@@ -98,7 +98,7 @@ export class FileManagementService {
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   }
 
-  public download(participants: IParticipants[]): void {
+  public download(participants: IParticipant[]): void {
     this.exportArrayToExcel(participants, "ParticipantsTemplate");
   }
 }

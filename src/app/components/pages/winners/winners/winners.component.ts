@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { IParticipant } from 'src/app/models/IParticipant';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import { IParticipants } from '../../../../models/IParticipants';
 
 @Component({
   selector: 'app-rifame-winners',
@@ -10,7 +10,7 @@ import { IParticipants } from '../../../../models/IParticipants';
 })
 export class WinnersComponent implements OnInit {
 
-  winners: IParticipants[] = null;
+  winners: IParticipant[] = null;
   participantsAreLoaded: boolean = true;
   constructor(
     private _participantService: LocalStorageParticipantsService,
