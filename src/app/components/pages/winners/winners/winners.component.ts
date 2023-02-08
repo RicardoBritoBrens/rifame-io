@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { IParticipant } from 'src/app/models/IParticipant';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
@@ -8,28 +9,30 @@ import { NotificationService } from 'src/app/services/notification/notification.
   templateUrl: './winners.component.html',
   styleUrls: ['./winners.component.css']
 })
-export class WinnersComponent implements OnInit {
+export class WinnersComponent implements OnInit, OnDestroy {
 
-  winners: IParticipant[] = null;
+  winners: IParticipant[] = [];
   participantsAreLoaded: boolean = true;
-  constructor(
-    private _participantService: LocalStorageParticipantsService,
-    private _notificationService: NotificationService) {
+  displayedColumns = ['id', 'name', 'actions'];
+  subscription: Subscription;
 
+  constructor(
+    private _storageService: LocalStorageParticipantsService,
+    private _notificationService: NotificationService) {
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription != null && this.subscription != undefined) {
+      this.subscription.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
-    this._participantService.getWinnersMock().subscribe(data => {
-      this.winners = data
+    this.subscription = this._storageService.getWinners$().subscribe(response => {
+      this.winners = response
     });
-  }
 
-  public show(): void {
-    this.participantsAreLoaded = true;
-  }
+    this._storageService.loadWinnersFromExistingStorage();
 
-  public hide(): void {
-    this.participantsAreLoaded = false;
   }
-
 }

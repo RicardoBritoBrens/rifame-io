@@ -27,7 +27,7 @@
           </mat-paginator>
         </div>
         <div class="right-panel">
-          <form [formGroup]="addParticipantsForm" (ngSubmit)="addParticipant()" method="post" class="center-form">
+          <form [formGroup]="addParticipantsForm" (ngSubmit)="circleAddParticipant()" method="post" class="center-form">
             <mat-form-field>
               <mat-label i18n>Name</mat-label>
               <input type="text" matInput formControlName="name">
@@ -43,21 +43,21 @@
         </div>
         <div class="bottom-options">
           <button title="Upload random participants" data-toggle="tooltip" class="mat-bottom button-wrapper-mat-icon"
-            (click)="onLoadMockParticipants()" mat-mini-fab color="#fffff" i18n>
+            (click)="circleOnLoadMockParticipants()" mat-mini-fab color="#fffff" i18n>
             <mat-icon class="button-icon-mat-icon">science</mat-icon>
           </button>
           <button title="Download participants template" class="mat-bottom button-wrapper-mat-icon"
-            (click)="onDownload()" mat-mini-fab color="#fffff" i18n>
+            (click)="circleOnDownload()" mat-mini-fab color="#fffff" i18n>
             <mat-icon class="button-icon-mat-icon">download</mat-icon>
           </button>
           <button title="Upload participants template" class="mat-bottom button-wrapper-mat-icon"
             (click)="fileInput.click()" mat-mini-fab color="#fffff" i18n>
             <mat-icon class="button-icon-mat-icon">upload</mat-icon>
             <input hidden id="file-upload" #fileInput type="file" name="fileUpload" accept=".xls,.xlsx,.csv"
-              (change)="onUpload($event)" />
+              (change)="circleOnUpload($event)" />
           </button>
           <button title="Delete all participants in the table" class="mat-bottom button-wrapper-mat-icon"
-            (click)="onDelete()" mat-mini-fab color="#fffff" i18n>
+            (click)="circleOnDelete()" mat-mini-fab color="#fffff" i18n>
             <mat-icon class="button-icon-mat-icon">delete</mat-icon>
           </button>
         </div>

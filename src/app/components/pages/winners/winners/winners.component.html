@@ -1,4 +1,37 @@
-<button class="btn btn-info" (click)="show()">Show</button>
+<div class="container">
+  <div id="ParticipantsAndPrize">
+    <div class="mat-elevation-z8">
+      <div class="grid-panel">
+        <div class="left-panel">
+          <table mat-table [dataSource]="winners" matSort class="mat-elevation-z8" fixedLayout="true">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef i18n> No </th>
+              <td mat-cell *matCellDef="let participant"> {{participant.id}} </td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef i18n> Name </th>
+              <td mat-cell *matCellDef="let participant"> {{participant.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef i18n> Action </th>
+              <td mat-cell *matCellDef="let participant">
+                <mat-icon (click)="tableActionRemoveParticipants(participant)">
+                  delete
+                </mat-icon>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[10, 5]" showFirstLastButtons aria-label="Select page of name names">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <button class="btn btn-info" (click)="show()">Show</button>
 <button class="btn btn-info" (click)="hide()">Hide</button>
 
 <div class="container">
@@ -21,12 +54,12 @@
   <div id="image_winner_image">
     <img src="/assets/winner3.png">
   </div>
-</div>
+</div> -->
 
-<app-rifame-blur-screen-with-central-text
+<!-- <app-rifame-blur-screen-with-central-text
   [visibility] = 'this.participantsAreLoaded'
   [centerText] = "'Aun no existen ganadores'">
-</app-rifame-blur-screen-with-central-text>
+</app-rifame-blur-screen-with-central-text> -->
 
 <div *ngIf="participantsAreLoaded" id="parent_div_not_winners">
   <div id="background_div_not_winners"></div>

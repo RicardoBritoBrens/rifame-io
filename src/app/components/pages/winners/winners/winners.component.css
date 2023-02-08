@@ -1,4 +1,4 @@
-table {
+/* table {
   left: 300px;
   top: 300px;
   position: absolute;
@@ -35,4 +35,147 @@ tbody{
   left: 1200px;
   top: 300px;
   position:fixed;
+} */
+
+.container {
+  min-height: 400px;
+}
+.grid-panel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+}
+.left-panel {
+  padding-left: 2px;
+  padding-top: 2px;
+  background-color: #66806a;
+}
+.left-panel th.mat-header-cell {
+  background-color: #66806a;
+  color: rgba(255, 194, 134, 1);
+}
+:host ::ng-deep .mat-select-value {
+  color: rgba(255, 194, 134, 1);
+}
+.center-form {
+  align-self: center;
+  text-align: center;
+}
+.right-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.right-panel mat-label {
+  color: rgba(255, 194, 134, 1);
+}
+/* + (add) button format */
+.mat-input-element {
+  color: rgba(255, 194, 134, 1) !important;
+}
+:host ::ng-deep .mat-form-field-underline {
+  background-color: rgba(255, 194, 134, 1) !important;
+  color: rgba(255, 194, 134, 1) !important;
+}
+:host ::ng-deep .mat-form-field-ripple {
+  background-color: rgba(255, 194, 134, 1) !important;
+  color: rgba(255, 194, 134, 1) !important;
+}
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  background-color: rgba(255, 194, 134, 1) !important;
+}
+::ng-deep .mat-form-field-label {
+  color: rgba(255, 194, 134, 1) !important;
+}
+/* Mat tale styles */
+table {
+  width: 100%;
+  color: transparent;
+  border: 1px solid #66806a;
+  border-collapse: unset;
+}
+tbody {
+  overflow-y: scroll;
+  height: 500px;
+  width: 100%;
+  position: absolute;
+}
+.mat-row {
+  max-height: 10px;
+  height: 10px;
+  min-height: 10px;
+}
+.mat-header-row {
+  max-height: 10px;
+  height: 10px;
+  min-height: 10px;
+  background: #66806a;
+}
+.mat-bottom-row {
+  max-height: 10px;
+  height: 10px;
+  min-height: 10px;
+}
+:host ::ng-deep .mat-paginator-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0px;
+  flex-wrap: wrap-reverse;
+  width: 100%;
+  background: #66806a;
+  color: rgba(255, 194, 134, 1) !important;
+}
+th.mat-header-cell:first-of-type,
+td.mat-cell,
+td.mat-footer-cell:first-of-type {
+  background: #66806a;
+  color: rgba(255, 194, 134, 1) !important;
+}
+.mat-row,
+mat-header-row,
+mat-footer-row,
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+#ImageParticipant {
+  left: 1200px;
+  top: 300px;
+  position: fixed;
+}
+.float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  background-color: rgba(255, 194, 134, 1);
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 2px #999;
+}
+.my-float {
+  margin-top: 15px;
+}
+.bottom-options {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.mat-hint {
+  color: rgba(255, 194, 134, 1) !important;
+}
+.button-wrapper-mat-icon {
+  background-color: #66806a;
+}
+.button-icon-mat-icon {
+  color: rgba(255, 194, 134, 1) !important;
 }

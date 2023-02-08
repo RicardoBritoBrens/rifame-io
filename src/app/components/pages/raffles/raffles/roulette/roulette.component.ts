@@ -53,14 +53,26 @@ export class RouletteComponent implements OnInit, OnDestroy {
   }
 
   after() {
-    let toRemoveParticipant = this.listOfParticipants[this.idToLandOn];
-    let toRemoveParticipantIndex = this.listOfParticipants.indexOf(toRemoveParticipant);
-    this._participantService.removeParticipant(toRemoveParticipant);
+    debugger;
+    let toRemoveOrPromoteParticipant = this.listOfParticipants[this.idToLandOn];
+
+    this._participantService.promoteParticipant(toRemoveOrPromoteParticipant);
+
+    this._participantService.removeParticipant(toRemoveOrPromoteParticipant);
+
     this.wheel.removeSegmentById(this.idToLandOn);
+
     this._notificationService.success(`El ganador ha sido ${this.listOfParticipants[this.idToLandOn].name}`);
+
     this._audioService.playSound('success');
-    this.newItemEvent.emit(toRemoveParticipant);
+
+    this.newItemEvent.emit(toRemoveOrPromoteParticipant);
+
     this.reset();
+
+    // TODO: USE DIFFERENT PALETTE OF COLOR ONLY WITHOUT SHOWING NAME BECAUSE WITH MORE THAN 100 THE UI IS NOT GOOD LOOKING
+    // CHECK THIS LINK https://mycolor.space/?hex=%2366806A&sub=1
+
     //this.listOfParticipants = this.listOfParticipants.slice(toRemoveParticipantIndex, 1);
     // Get the first random winner
     //this.idToLandOn = this.getRandomIntByData(this.listOfParticipants);
