@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { Router } from '@angular/router';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChildComponent } from 'src/app/child/child.component';
 import { environment } from 'src/environments/environment';
 import { IParticipant } from 'src/app/models/IParticipant';
+import { RouletteComponent } from './roulette/roulette.component';
 
 @Component({
   selector: 'app-rifame-raffles',
@@ -39,7 +39,7 @@ export class RafflesComponent implements OnInit, OnDestroy {
     this._storageService.getCurrentParticipants();
   }
 
-  @ViewChild(ChildComponent, { static: false }) childRef: ChildComponent;
+  @ViewChild(RouletteComponent, { static: false }) childRef: RouletteComponent;
   private readonly onDestroy: Subject<any> = new Subject<any>();
 
   destroyChild() {
@@ -56,10 +56,7 @@ export class RafflesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    debugger;
     this._storageService.getParticipants$().subscribe(response => {
-      debugger;
-
       this.participants = response;
       this.listOfParticipantsWithColors = [];
       this.numberOfParticipants = this.participants.length;
@@ -110,7 +107,6 @@ export class RafflesComponent implements OnInit, OnDestroy {
     }
     return color;
   }
-
 
   addItem(removedParticipant: IParticipant) {
 

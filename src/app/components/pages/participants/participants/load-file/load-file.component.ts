@@ -26,7 +26,6 @@ export class LoadFileComponent implements OnInit {
 
   public fileUpload(event: any): void {
     try {
-      debugger;
       const selectedFile = event.target.files[0];
       const fileReader = new FileReader();
 

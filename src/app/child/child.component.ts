@@ -26,13 +26,6 @@ export class ChildComponent implements OnInit, OnDestroy {
   textOrientation: TextOrientation = TextOrientation.HORIZONTAL
   textAlignment: TextAlignment = TextAlignment.OUTER
   isLoading: boolean = true;
-
-  //   fillStyle: colors[value % 2],
-  //   text: `Prize ${value}`,
-  //   id: value,
-  //   textFillStyle: 'white',
-  //   textFontSize: '16'
-
   subscriptionParticipants: Subscription;
 
   constructor(

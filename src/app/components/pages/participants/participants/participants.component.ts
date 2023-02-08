@@ -37,7 +37,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<IParticipant>();
   @ViewChild(MatSort) sort: MatSort;
 
-
   // form
   addParticipantsForm = this._formBuilder.group([]);
 
@@ -76,11 +75,9 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mockDataIsLoaded = false;
     this.isUploadingFile = false;
 
-    debugger;
     this.buildAddParticipantsForm();
 
     if ((this.subscription === null || this.subscription === undefined) && this._storageService.participantsAlreadyExist()) {
-      debugger;
       this.subscription = this._storageService.getParticipants$().subscribe(participants => {
         this.dataSource = new MatTableDataSource<IParticipant>(participants);
         this.dataSource.paginator = this.paginator;
@@ -183,7 +180,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       (onfulfilled) => {
         if (this.subscription === null || this.subscription === undefined) {
           this.subscription = this._storageService.getParticipants$().subscribe(participants => {
-            debugger;
             this.dataSource = new MatTableDataSource<IParticipant>(participants);
             this.dataSource.paginator = this.paginator;
             this.participants = participants;

@@ -1,21 +1,3 @@
-<div>
-  <div>
-    <div *ngIf="isLoading == false">
-      <ngx-wheel #wheel width='400' height='400' spinDuration='8' [items]='items' [innerRadius]='20' [spinAmount]='10'
-        [textOrientation]='textOrientation' [textAlignment]='textAlignment' pointerStrokeColor='black'
-        pointerFillColor='gold' [idToLandOn]='idToLandOn' (onSpinStart)='before()'
-        (onSpinComplete)='after()'></ngx-wheel>
-    </div>
-
-    <div>
-      <button class="button prize-button" (click)="spin(0)">Prize Random</button>
-    </div>
-
-    <div>
-      <button class="button reset-button" (click)="reset()">Reset</button>
-    </div>
-  </div>
-  <div>
-
-  </div>
-</div>
+<ngx-wheel #wheel width='400' height='400' spinDuration='8' [items]='listOfParticipantsWithColors' [innerRadius]='20'
+  [spinAmount]='10' [textOrientation]='textOrientation' [textAlignment]='textAlignment' pointerStrokeColor='black'
+  pointerFillColor='gold' [idToLandOn]='idToLandOn' (onSpinStart)='before()' (onSpinComplete)='after()'></ngx-wheel>
