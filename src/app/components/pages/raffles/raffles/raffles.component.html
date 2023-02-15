@@ -1,7 +1,29 @@
-<div *ngIf="canIStartRaffle">
-  <app-roulette [items]="participants" [numberOfParticipants]="participants.length" [listOfParticipants]="participants"
-    [listOfParticipantsWithColors]="listOfParticipantsWithColors" [idToLandOn]="7"
-    (newItemEvent)="addItem($event)"></app-roulette>
-</div>
+<div class="grid-container">
+  <div class="panel-header">
+    <label>Cantidad de Participantes {{this.participants.length}}</label>
+  </div>
+  <div class="left-panel" *ngIf="canIStartRaffle">
+    <app-roulette class="custom-pointer" [items]="participants" [numberOfParticipants]="participants.length"
+      [listOfParticipants]="participants" [listOfParticipantsWithColors]="listOfParticipantsWithColors" [idToLandOn]="7"
+      (newItemEvent)="addItem($event)"></app-roulette>
+  </div>
+  <div class="right-panel">
+    <table mat-table [dataSource]="winners" matSort class="mat-elevation-z8">
+      <mat-text-column name="id"></mat-text-column>
+      <mat-text-column name="name"></mat-text-column>
+      <!-- <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef i18n> No </th>
+        <td mat-cell *matCellDef="let participant"> {{participant.id}} </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef i18n> Name </th>
+        <td mat-cell *matCellDef="let participant"> {{participant.name}} </td>
+      </ng-container> -->
 
-<label>Cantidad de Participantes {{this.participants.length}}</label>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 5]" showFirstLastButtons
+      aria-label="Select page of name names"></mat-paginator>
+  </div>
+</div>

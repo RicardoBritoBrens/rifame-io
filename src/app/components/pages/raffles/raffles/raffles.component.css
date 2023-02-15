@@ -1,0 +1,46 @@
+table {
+  width: 100%;
+}
+
+.grid-container {
+  display: grid;
+  column-gap: 50px;
+  row-gap: 50px;
+  place-items: center;
+}
+
+.custom-pointer {
+  cursor: pointer;
+}
+
+.panel-header {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  background-color: white;
+}
+
+.left-panel {
+  background-color: black;
+}
+
+.right-panel {
+  background-color: red;
+}
+
+.mat-header-row {
+  max-height: 10px;
+  height: 10px;
+  min-height: 10px;
+  background: #66806a;
+}
+.mat-bottom-row {
+  max-height: 10px;
+  height: 10px;
+  min-height: 10px;
+}
+
+.mat-row {
+  max-height: 10px;
+  height: 10px;
+  min-height: 10px;
+}

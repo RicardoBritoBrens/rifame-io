@@ -3,13 +3,17 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import { Colors } from 'src/assets/colors';
 import { Loading } from 'notiflix';
+import { Options } from 'selenium-webdriver';
+import * as Notiflix from 'notiflix';
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
   constructor() { }
   public success(message: string) {
-    Notify.success(`${message} 😊`);
+    Notify.success(`${message} 😊`, {
+      position: 'left-bottom'
+    });
   }
   public warning(message: string) {
     Notify.warning(`${message} 😔`);
@@ -46,7 +50,7 @@ export class NotificationService {
           okButtonColor: Colors.Secondary,
           cancelButtonBackground: Colors.PrimaryExtra,
           cancelButtonColor: Colors.Secondary,
-          titleColor: Colors.Secondary
+          titleColor: Colors.Secondary,
         },
       );
     })

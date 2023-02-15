@@ -19,10 +19,10 @@ export class RafflesComponent implements OnInit, OnDestroy {
   canIStartRaffle: boolean;
   dataArray: IParticipant[];
   subscriptionParticipants: Subscription
-  winners: IParticipant[] = [];
   participants: IParticipant[] = [];
   seed: [];
   items: any[];
+  displayedColumns: string[] = [];
   testDataSourceParticipants = new MatTableDataSource<IParticipant>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,6 +30,74 @@ export class RafflesComponent implements OnInit, OnDestroy {
   numberOfParticipants: any;
   listOfParticipantsWithColors: { text: String, fillStyle: String, id: number, textFontSize: number }[];
   idToLandOn: any;
+
+  winners: IParticipant[] = [
+    {
+      id: 1,
+      name: "ARDRA"
+    },
+    {
+      id: 2,
+      name: "AUGUSTINA"
+    },
+    {
+      id: 3,
+      name: "BAMBY"
+    },
+    {
+      id: 4,
+      name: "BERYLE"
+    },
+    {
+      id: 5,
+      name: "CARLY"
+    },
+    {
+      id: 6,
+      name: "CATHYLEEN"
+    },
+    {
+      id: 7,
+      name: "CHELSAE"
+    },
+    {
+      id: 8,
+      name: "CLAYBORNE"
+    },
+    {
+      id: 9,
+      name: "DORE"
+    },
+    {
+      id: 10,
+      name: "DOROTHY"
+    },
+    {
+      id: 11,
+      name: "LEOLA"
+    },
+    {
+      id: 12,
+      name: "LINOEL"
+    },
+    {
+      id: 13,
+      name: "LORITA"
+    },
+    {
+      id: 14,
+      name: "NORAH"
+    },
+    {
+      id: 15,
+      name: "SILVIA"
+    }
+  ]
+
+
+  displayedColumnst: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSourcet = ELEMENT_DATA;
+
 
   constructor(
     private _route: Router,
@@ -75,6 +143,9 @@ export class RafflesComponent implements OnInit, OnDestroy {
     if (this.participants.length > 0) {
       this.canIStartRaffle = true;
     }
+
+    this.displayedColumns = ['id', 'name'];
+
   }
 
   resetData() {
