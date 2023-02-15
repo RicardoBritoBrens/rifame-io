@@ -64,7 +64,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-
     this.subscription = this._storageService.getParticipants$().subscribe(participants => {
       this.dataSource = new MatTableDataSource<IParticipant>(participants);
       this.dataSource.paginator = this.paginator;
@@ -72,33 +71,12 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.displayedColumns = ['id', 'name', 'actions'];
+
     this.participantCounter = 1;
 
     this.buildAddParticipantsForm();
 
     this._storageService.loadParticipantsFromExistingStorage();
-
-    // set default values
-    //this.displayedColumns = ['id', 'name', 'actions'];
-    //this.participantCounter = 1;
-    //this.loadFileIsVisible = true;
-    //this.showSuccessAlertMessage = false;
-    //this.showErrorAlertMessage = false;
-    //this.showWarningAlertMessage = true;
-    //this.mockDataIsLoaded = false;
-    //this.isUploadingFile = false;
-
-    //this.buildAddParticipantsForm();
-
-    // if ((this.subscription === null || this.subscription === undefined) && this._storageService.participantsAlreadyExist()) {
-    //   this.subscription = this._storageService.getParticipants$().subscribe(participants => {
-    //     this.dataSource = new MatTableDataSource<IParticipant>(participants);
-    //     this.dataSource.paginator = this.paginator;
-    //     this.participants = participants;
-    //   });
-
-    //   this._storageService.loadParticipantsFromExistingStorage();
-    // }
   }
 
   ngOnDestroy(): void {
@@ -132,22 +110,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this._storageService.removeParticipants();
   }
 
-  // onLoadFile(canIHideParticipantsLoader: boolean): void {
-  //   this.loadFileIsVisible = canIHideParticipantsLoader;
-  //   this.loadFileIsVisible = false;
-  //   //this.loadParticipants();
-  // }
-
-  // loadParticipants(): void {
-  //   if (this.subscription === null || this.subscription === undefined) {
-  //     this.subscription = this._storageService.getParticipants$().subscribe(participants => {
-  //       this.dataSource = new MatTableDataSource<IParticipant>(participants);
-  //       this.dataSource.paginator = this.paginator;
-  //       this.participants = participants;
-  //     })
-  //   }
-  // }
-
   tableActionRemoveParticipants(participant: IParticipant): void {
     this._notificationService.confirmActionAsync().then(
       (onfulfilled) => {
@@ -160,15 +122,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   circleAddParticipant(): void {
-    // if (this.subscription === null || this.subscription === undefined) {
-    //   this.subscription = this._storageService.getParticipants$().subscribe(participants => {
-
-    //     this.dataSource = new MatTableDataSource<IParticipant>(participants);
-    //     this.dataSource.paginator = this.paginator;
-    //     this.participants = participants;
-    //   })
-    // }
-
     if (this.addParticipantsForm.valid == true && this.addParticipantsForm.controls['name'].value != '') {
 
       const currentInputName = this.addParticipantsForm.controls['name'].value.toUpperCase();
@@ -203,25 +156,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.mockDataIsLoaded = false;
       }
     );
-
-
-    // this._notificationService.confirmActionAsync().then(
-    //   (onfulfilled) => {
-    //     if (this.subscription === null || this.subscription === undefined) {
-    //       this.subscription = this._storageService.getParticipants$().subscribe(participants => {
-    //         this.dataSource = new MatTableDataSource<IParticipant>(participants);
-    //         this.dataSource.paginator = this.paginator;
-    //         this.participants = participants;
-    //       })
-    //     }
-
-    //     this.mockDataIsLoaded = true
-    //     this._storageService.loadMockParticipantsToLocalStorage();
-    //   },
-    //   (onrejected) => {
-    //     console.log(onrejected);
-    //   }
-    // );
   }
 
   circleOnDownload(): void {
@@ -251,17 +185,9 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
         this._fileManagementService.Upload(event)
           .then(
             (onfulfilled) => {
-              // this._storageService.getParticipants$().subscribe(participants => {
-              //   this.dataSource = new MatTableDataSource<IParticipant>(participants);
-              //   this.dataSource.paginator = this.paginator;
-              // });
-
               this.mockDataIsLoaded = false;
-
               this._storageService.setModeAs(environment.PROD_MODE);
-
               this._notificationService.success("¡File has been added successfully!");
-
             },
             (onrejected) => {
               console.log(onrejected);
