@@ -1,5 +1,6 @@
 table {
   width: 100%;
+  background-color: #66806a;
 }
 
 .grid-container {
@@ -23,6 +24,10 @@ table {
   background-color: black;
 }
 
+:host ::ng-deep .mat-select-value {
+  color: rgba(255, 194, 134, 1);
+}
+
 .right-panel {
   background-color: red;
 }
@@ -33,6 +38,7 @@ table {
   min-height: 10px;
   background: #66806a;
 }
+
 .mat-bottom-row {
   max-height: 10px;
   height: 10px;
@@ -43,4 +49,31 @@ table {
   max-height: 10px;
   height: 10px;
   min-height: 10px;
+  background: #66806a;
+  color: rgba(255, 194, 134, 1);
+}
+
+:host ::ng-deep .mat-paginator-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0px;
+  flex-wrap: wrap-reverse;
+  width: 100%;
+  background: #66806a;
+  color: rgba(255, 194, 134, 1) !important;
+}
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell:first-of-type {
+  background: #66806a;
+  color: rgba(255, 194, 134, 1) !important;
+}
+.mat-row,
+mat-header-row,
+mat-footer-row,
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+  border-bottom-color: rgba(0, 0, 0, 0.12);
 }

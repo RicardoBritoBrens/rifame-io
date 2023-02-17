@@ -94,11 +94,6 @@ export class RafflesComponent implements OnInit, OnDestroy {
     }
   ]
 
-
-  displayedColumnst: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSourcet = ELEMENT_DATA;
-
-
   constructor(
     private _route: Router,
     private _notificationService: NotificationService,
