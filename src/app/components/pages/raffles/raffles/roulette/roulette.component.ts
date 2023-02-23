@@ -5,6 +5,10 @@ import { IParticipant } from 'src/app/models/IParticipant';
 import { AudioService } from 'src/app/services/audio.service';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import type {
+  FireworksDirective,
+  FireworksOptions
+} from '@fireworks-js/angular'
 
 @Component({
   selector: 'app-roulette',
@@ -12,6 +16,23 @@ import { NotificationService } from 'src/app/services/notification/notification.
   styleUrls: ['./roulette.component.css']
 })
 export class RouletteComponent implements OnInit, OnDestroy {
+
+  enabled = true
+  options: FireworksOptions = {
+    opacity: 0.5
+  }
+
+  @ViewChild('fireworks') fireworks?: FireworksDirective
+
+  public toggleFireworks(): void {
+    this.enabled = !this.enabled
+  }
+
+  public waitStop(): void {
+    this.fireworks?.waitStop()
+  }
+
+
 
   @ViewChild(NgxWheelComponent, { static: false }) wheel;
   seed = [...Array(12).keys()]
@@ -27,6 +48,8 @@ export class RouletteComponent implements OnInit, OnDestroy {
   textAlignment: TextAlignment = TextAlignment.OUTER
   isLoading: boolean = true;
   subscriptionParticipants: Subscription;
+  canIShowWinnerName: boolean;
+  currentWinnerName: String;
 
   constructor(
     private _audioService: AudioService,
@@ -42,6 +65,8 @@ export class RouletteComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.canIShowWinnerName = false;
+    this.currentWinnerName = '';
   }
 
   reset() {
@@ -54,6 +79,9 @@ export class RouletteComponent implements OnInit, OnDestroy {
 
   after() {
     debugger;
+
+    //this.showconfetti(this.wheel);
+
     let toRemoveOrPromoteParticipant = this.listOfParticipants[this.idToLandOn];
 
     this._participantService.promoteParticipant(toRemoveOrPromoteParticipant);
@@ -62,6 +90,8 @@ export class RouletteComponent implements OnInit, OnDestroy {
 
     this.wheel.removeSegmentById(this.idToLandOn);
 
+    this.canIShowWinnerName = true;
+    this.currentWinnerName = this.listOfParticipants[this.idToLandOn].name;
     this._notificationService.success(`El ganador ha sido ${this.listOfParticipants[this.idToLandOn].name}`);
 
     this._audioService.playSound('success');

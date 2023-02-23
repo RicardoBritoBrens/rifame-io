@@ -35,4 +35,6 @@ export class WinnersComponent implements OnInit, OnDestroy {
     this._storageService.loadWinnersFromExistingStorage();
 
   }
+
+
 }

@@ -21,7 +21,7 @@ table {
 }
 
 .left-panel {
-  background-color: black;
+  background-color: transparent;
 }
 
 :host ::ng-deep .mat-select-value {

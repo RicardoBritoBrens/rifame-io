@@ -1,3 +1,8 @@
 <ngx-wheel #wheel width='400' height='400' spinDuration='8' [items]='listOfParticipantsWithColors' [innerRadius]='20'
   [spinAmount]='10' [textOrientation]='textOrientation' [textAlignment]='textAlignment' pointerStrokeColor='black'
   pointerFillColor='gold' [idToLandOn]='idToLandOn' (onSpinStart)='before()' (onSpinComplete)='after()'></ngx-wheel>
+
+<app-rifame-blur-screen-with-central-text [visibility]=canIShowWinnerName [centerText]=currentWinnerName>
+</app-rifame-blur-screen-with-central-text>
+
+<ng-fireworks #fireworks="ngFireworks" [options]="options" class="fireworks" *ngIf="enabled"></ng-fireworks>

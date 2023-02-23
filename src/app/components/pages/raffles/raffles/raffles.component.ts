@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { IParticipant } from 'src/app/models/IParticipant';
 import { RouletteComponent } from './roulette/roulette.component';
 
+
 @Component({
   selector: 'app-rifame-raffles',
   templateUrl: './raffles.component.html',
@@ -186,4 +187,6 @@ export class RafflesComponent implements OnInit, OnDestroy {
 
     this.canIStartRaffle = true;
   }
+
+
 }

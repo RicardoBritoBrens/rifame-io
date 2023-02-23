@@ -1,7 +1,7 @@
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { BlurScreenWithCentralTextComponent } from './components/pages/winners/winners/blur-screen-with-central-text/blur-screen-with-central-text.component';
+import { BlurScreenWithCentralTextComponent } from './components/pages/raffles/raffles/blur-screen-with-central-text/blur-screen-with-central-text.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { LoadFileComponent } from './components/pages/participants/participants/load-file/load-file.component';
@@ -24,6 +24,8 @@ import { NotfoundComponent } from './components/shared/notfound/notfound.compone
 import { RouletteComponent } from './components/pages/raffles/raffles/roulette/roulette.component';
 import { NgxWheelModule } from 'ngx-wheel';
 import { ChildComponent } from './child/child.component';
+import { NgFireworksModule } from '@fireworks-js/angular';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +53,7 @@ import { ChildComponent } from './child/child.component';
     BrowserAnimationsModule,
     NoopAnimationsModule,
     NgxWheelModule,
+    NgFireworksModule
   ],
   providers: [],
   bootstrap: [AppComponent]
