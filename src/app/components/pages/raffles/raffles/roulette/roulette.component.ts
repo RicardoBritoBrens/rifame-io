@@ -5,10 +5,8 @@ import { IParticipant } from 'src/app/models/IParticipant';
 import { AudioService } from 'src/app/services/audio.service';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-import type {
-  FireworksDirective,
-  FireworksOptions
-} from '@fireworks-js/angular'
+import party from "party-js";
+
 
 @Component({
   selector: 'app-roulette',
@@ -16,23 +14,6 @@ import type {
   styleUrls: ['./roulette.component.css']
 })
 export class RouletteComponent implements OnInit, OnDestroy {
-
-  enabled = true
-  options: FireworksOptions = {
-    opacity: 0.5
-  }
-
-  @ViewChild('fireworks') fireworks?: FireworksDirective
-
-  public toggleFireworks(): void {
-    this.enabled = !this.enabled
-  }
-
-  public waitStop(): void {
-    this.fireworks?.waitStop()
-  }
-
-
 
   @ViewChild(NgxWheelComponent, { static: false }) wheel;
   seed = [...Array(12).keys()]
@@ -51,10 +32,25 @@ export class RouletteComponent implements OnInit, OnDestroy {
   canIShowWinnerName: boolean;
   currentWinnerName: String;
 
+
   constructor(
     private _audioService: AudioService,
     private _participantService: LocalStorageParticipantsService,
     private _notificationService: NotificationService) {
+  }
+
+  showconfetti() {
+    let confettiShowTime: number = 1500;
+
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        party.confetti(new MouseEvent('click', { clientX: this.getRandomArbitrary(150, 500), clientY: this.getRandomArbitrary(150, 500) }));
+      }
+        , confettiShowTime);
+
+      confettiShowTime += 1000;
+    }
+
   }
 
   addNewItem(value: IParticipant) {
@@ -80,8 +76,7 @@ export class RouletteComponent implements OnInit, OnDestroy {
   after() {
     debugger;
 
-    //this.showconfetti(this.wheel);
-
+    // TODO: CHECK WHY ROULETTE IS NOT WORKING...
     let toRemoveOrPromoteParticipant = this.listOfParticipants[this.idToLandOn];
 
     this._participantService.promoteParticipant(toRemoveOrPromoteParticipant);
@@ -91,10 +86,13 @@ export class RouletteComponent implements OnInit, OnDestroy {
     this.wheel.removeSegmentById(this.idToLandOn);
 
     this.canIShowWinnerName = true;
+
     this.currentWinnerName = this.listOfParticipants[this.idToLandOn].name;
+
     this._notificationService.success(`El ganador ha sido ${this.listOfParticipants[this.idToLandOn].name}`);
 
     this._audioService.playSound('success');
+    this.showconfetti();
 
     this.newItemEvent.emit(toRemoveOrPromoteParticipant);
 
@@ -141,6 +139,10 @@ export class RouletteComponent implements OnInit, OnDestroy {
     if (this.subscriptionParticipants) {
       this.subscriptionParticipants.unsubscribe();
     }
+  }
+
+  getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
   }
 
 }

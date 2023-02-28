@@ -14,7 +14,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ParticipantsComponent } from './components/pages/participants/participants/participants.component';
 import { RafflesComponent } from './components/pages/raffles/raffles/raffles.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { WelcomeComponent } from './components/pages/home/welcome/welcome.component';
 import { WinnersComponent } from './components/pages/winners/winners/winners.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,7 +23,6 @@ import { NotfoundComponent } from './components/shared/notfound/notfound.compone
 import { RouletteComponent } from './components/pages/raffles/raffles/roulette/roulette.component';
 import { NgxWheelModule } from 'ngx-wheel';
 import { ChildComponent } from './child/child.component';
-import { NgFireworksModule } from '@fireworks-js/angular';
 
 @NgModule({
   declarations: [
@@ -52,8 +50,7 @@ import { NgFireworksModule } from '@fireworks-js/angular';
     MatIconModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
-    NgxWheelModule,
-    NgFireworksModule
+    NgxWheelModule
   ],
   providers: [],
   bootstrap: [AppComponent]
