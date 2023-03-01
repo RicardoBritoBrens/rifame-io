@@ -149,7 +149,6 @@ export class RafflesComponent implements OnInit, OnDestroy {
   }
 
   processData() {
-    // Event Emmiter to trigger processing function in child component.
   }
 
   startRaffle() {
@@ -176,12 +175,10 @@ export class RafflesComponent implements OnInit, OnDestroy {
   }
 
   addItem(removedParticipant: IParticipant) {
-
     this.canIStartRaffle = false;
     console.log(removedParticipant);
     this.childRef.ngOnDestroy();
     setTimeout(function () {
-      // Code to run after the pause
       console.log("This is really slow!");
     }, 3000);
 

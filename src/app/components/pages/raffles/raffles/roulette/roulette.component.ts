@@ -39,7 +39,7 @@ export class RouletteComponent implements OnInit, OnDestroy {
     private _notificationService: NotificationService) {
   }
 
-  showconfetti() {
+  showConfetti() {
     let confettiShowTime: number = 1500;
 
     for (let i = 0; i < 10; i++) {
@@ -74,9 +74,12 @@ export class RouletteComponent implements OnInit, OnDestroy {
   }
 
   after() {
-    debugger;
 
-    // TODO: CHECK WHY ROULETTE IS NOT WORKING...
+    // TODO: APP MUST PASS THROUGHOUT THE HOME AND PARTICIPANTS PAGES TO MAKE WORK THE RAFFLES.
+    // TODO: CHECK WHAT HAPPENS WHEN THE USER REFRESH THE PAGE THE APP IS IN A NOT WORKING STATE.
+
+    this.idToLandOn = this.getRandomIntByData(this.listOfParticipants);
+
     let toRemoveOrPromoteParticipant = this.listOfParticipants[this.idToLandOn];
 
     this._participantService.promoteParticipant(toRemoveOrPromoteParticipant);
@@ -92,48 +95,18 @@ export class RouletteComponent implements OnInit, OnDestroy {
     this._notificationService.success(`El ganador ha sido ${this.listOfParticipants[this.idToLandOn].name}`);
 
     this._audioService.playSound('success');
-    this.showconfetti();
+    this.showConfetti();
 
     this.newItemEvent.emit(toRemoveOrPromoteParticipant);
 
     this.reset();
 
-    // TODO: USE DIFFERENT PALETTE OF COLOR ONLY WITHOUT SHOWING NAME BECAUSE WITH MORE THAN 100 THE UI IS NOT GOOD LOOKING
-    // CHECK THIS LINK https://mycolor.space/?hex=%2366806A&sub=1
-
-    //this.listOfParticipants = this.listOfParticipants.slice(toRemoveParticipantIndex, 1);
-    // Get the first random winner
-    //this.idToLandOn = this.getRandomIntByData(this.listOfParticipants);
-    // Generate random color forEach participants
-    // this.generateRandomColorForEachParticipants(this.listOfParticipants);
-    // Initialize wheel colors, segments and names
-    //this.items = this.listOfParticipantsWithColors;
+    this.canIShowWinnerName = false;
   }
 
-  // async spin(prize) {
-  //   this.idToLandOn = prize;
-  //   await new Promise(resolve => setTimeout(resolve, 0));
-  //   this.wheel.spin();
-  // }
-
-  // getRandomColor(): string {
-  //   let color = '#';
-  //   const letters = '0123456789ABCDEF';
-  //   for (var i = 0; i < 6; i++) {
-  //     color += letters[Math.floor(Math.random() * 16)];
-  //   }
-  //   return color;
-  // }
-
-  // private generateRandomColorForEachParticipants(listOfParticipants: IParticipants[]) {
-  //   listOfParticipants.forEach((element) => {
-  //     this.listOfParticipantsWithColors.push({ text: element.name, fillStyle: this.getRandomColor(), id: element.id, textFontSize: environment.WHEEL_TEXT_FONT_SIZE })
-  //   });
-  // }
-
-  // private getRandomIntByData(data: IParticipants[]): any {
-  //   return data[Math.floor(Math.random() * this.seed.length)].id;
-  // }
+  private getRandomIntByData(data: IParticipant[]): any {
+    return data[Math.floor(Math.random() * data.length - 1)].id;
+  }
 
   ngOnDestroy(): void {
     if (this.subscriptionParticipants) {
