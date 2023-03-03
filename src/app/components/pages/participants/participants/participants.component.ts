@@ -64,17 +64,28 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource<IParticipant>();
+
     this.subscription = this._storageService.getParticipants$().subscribe(participants => {
-      this.dataSource = new MatTableDataSource<IParticipant>(participants);
-      this.dataSource.paginator = this.paginator;
-      this.participants = participants;
+      if (participants != null) {
+        this.dataSource = new MatTableDataSource<IParticipant>(participants);
+        this.dataSource.paginator = this.paginator;
+        this.participants = participants;
+      } else {
+        this.dataSource = new MatTableDataSource<IParticipant>();
+        this.dataSource.paginator = this.paginator;
+        this.participants = [];
+      }
+
     });
 
     this.displayedColumns = ['id', 'name', 'actions'];
 
     this.participantCounter = 1;
 
-    this.buildAddParticipantsForm();
+    this.addParticipantsForm = this._formBuilder.group({
+      name: new FormControl('', [Validators.required, Validators.pattern(environment.NAME_FIELD_REGULAR_EXPRESSION)],),
+    });
 
     this._storageService.loadParticipantsFromExistingStorage();
   }
@@ -90,11 +101,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private buildAddParticipantsForm(): void {
-    this.addParticipantsForm = this._formBuilder.group({
-      name: new FormControl('', [Validators.required, Validators.pattern(environment.NAME_FIELD_REGULAR_EXPRESSION)],),
-    });
-  }
 
   private clearFieldsAndTable(): void {
     if (this.dataSource.data.length === 0) {

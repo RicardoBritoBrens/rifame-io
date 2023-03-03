@@ -120,8 +120,24 @@ export class RafflesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
     this._storageService.getParticipants$().subscribe(response => {
-      this.participants = response;
+      if (response != null && response.length > 0) {
+        this.participants = response;
+        this.listOfParticipantsWithColors = [];
+        this.numberOfParticipants = this.participants.length;
+        this.idToLandOn = this.getRandomIntByData(this.participants);
+        this.generateRandomColorForEachParticipants(this.participants);
+        if (this.participants.length > 0) {
+          this.canIStartRaffle = true;
+        }
+      }
+    });
+
+    this.participants = this._storageService.getCurrentParticipants();
+
+    if (this.participants != null && this.participants.length > 0) {
+
       this.listOfParticipantsWithColors = [];
       this.numberOfParticipants = this.participants.length;
       this.idToLandOn = this.getRandomIntByData(this.participants);
@@ -129,15 +145,6 @@ export class RafflesComponent implements OnInit, OnDestroy {
       if (this.participants.length > 0) {
         this.canIStartRaffle = true;
       }
-    });
-
-    this.participants = this._storageService.getCurrentParticipants();
-    this.listOfParticipantsWithColors = [];
-    this.numberOfParticipants = this.participants.length;
-    this.idToLandOn = this.getRandomIntByData(this.participants);
-    this.generateRandomColorForEachParticipants(this.participants);
-    if (this.participants.length > 0) {
-      this.canIStartRaffle = true;
     }
 
     this.displayedColumns = ['id', 'name'];

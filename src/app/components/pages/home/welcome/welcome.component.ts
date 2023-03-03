@@ -7,20 +7,12 @@ import { LocalStorageParticipantsService } from 'src/app/services/localStore/loc
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(private _localStorageParticipantService: LocalStorageParticipantsService) { }
+  constructor(
+    private _storageService: LocalStorageParticipantsService,
+  ) { }
 
   ngOnInit(): void {
+    this._storageService.loadParticipantsFromExistingStorage();
   }
-
-  // TODO: LIST OF JAVASCRIPT LIBRARIES TO CREATE TOURS
-  /**
-   * Intro.js
-   * driver.js
-   * shepherd
-   * bootstrap-tour
-   * chardin.js
-   * hopscotch
-   */
-
 
 }

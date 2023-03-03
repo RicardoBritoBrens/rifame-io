@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  APP_TITLE: 'Rifame.io',
+  APP_SLOGAN: 'Simple y Funcional',
   KEY_LOCAL_STORAGE_PARTICIPANTS: 'participantsJson',
   KEY_LOCAL_STORAGE_WINNERS: 'winnersJson',
   KEY_LOCAL_STORAGE_MODE: 'mode',

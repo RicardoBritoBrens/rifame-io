@@ -29,6 +29,7 @@ export class WinnersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = this._storageService.getWinners$().subscribe(response => {
+      debugger;
       this.winners = response
     });
 

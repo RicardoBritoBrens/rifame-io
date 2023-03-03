@@ -92,17 +92,29 @@ export class LocalStorageParticipantsService {
   }
 
   public loadParticipantsFromExistingStorage() {
+
+    console.log('Inicio carga json con los participantes guardados');
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
+
     let participantsArray: IParticipant[] = JSON.parse(JSON.parse(storageJson));
+
     this._participantsStorage = participantsArray;
+
+    if (participantsArray != null) {
+      console.log(`Existen ${participantsArray.length} participantes que serán cargados a la lista en el servicio Local Storage Participants Service`);
+    } else {
+      console.log(`No existen participantes guardados anterirormente`);
+    }
+
     this._participants$.next(participantsArray);
+    console.log('Fin carga json con los participantes guardados');
   }
 
   public loadWinnersFromExistingStorage() {
     //let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
     //let participantsArray: IParticipant[] = JSON.parse(JSON.parse(storageJson));
     //this._participantsStorage = participantsArray;
-    this._winners$.next(this._winnersStorage);
+    //this._winners$.next(this._winnersStorage);
   }
 
   public getParticipants$(): Observable<IParticipant[]> {
