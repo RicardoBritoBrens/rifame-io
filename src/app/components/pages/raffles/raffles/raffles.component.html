@@ -1,6 +1,6 @@
 <div class="grid-container">
   <div class="panel-header">
-    <label>Cantidad de Participantes {{this.participants != null ? this.participants : 0}}</label>
+    <label>Cantidad de Participantes {{this.participants != null ? this.participants.length : 0}}</label>
   </div>
   <div class="left-panel" *ngIf="canIStartRaffle">
     <app-roulette class="custom-pointer" [items]="participants" [numberOfParticipants]="participants.length"

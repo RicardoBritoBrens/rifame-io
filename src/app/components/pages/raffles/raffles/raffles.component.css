@@ -17,7 +17,7 @@ table {
 .panel-header {
   grid-column-start: 1;
   grid-column-end: 3;
-  background-color: white;
+  color: rgba(255, 194, 134, 1);
 }
 
 .left-panel {
