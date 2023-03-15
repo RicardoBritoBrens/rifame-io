@@ -92,7 +92,7 @@ export class LocalStorageParticipantsService {
   }
 
   public loadParticipantsFromExistingStorage() {
-
+    debugger;
     console.log('Inicio carga json con los participantes guardados');
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
 
@@ -100,13 +100,13 @@ export class LocalStorageParticipantsService {
 
     this._participantsStorage = participantsArray;
 
-    if (participantsArray != null) {
+    if (participantsArray != null && participantsArray.length != 0) {
       console.log(`Existen ${participantsArray.length} participantes que serán cargados a la lista en el servicio Local Storage Participants Service`);
+      this._participants$.next(participantsArray);
     } else {
       console.log(`No existen participantes guardados anterirormente`);
     }
 
-    this._participants$.next(participantsArray);
     console.log('Fin carga json con los participantes guardados');
   }
 
@@ -122,6 +122,7 @@ export class LocalStorageParticipantsService {
   }
 
   public addParticipant(participant: IParticipant) {
+    debugger;
     let storageJson = this.localStorageService.getData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
 
     if (storageJson === null) {
@@ -196,6 +197,7 @@ export class LocalStorageParticipantsService {
 
   public removeParticipants(): void {
     this.localStorageService.removeData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS);
+    this._participantsStorage = [];
   }
 
   public isMode(questionMode: string): boolean {

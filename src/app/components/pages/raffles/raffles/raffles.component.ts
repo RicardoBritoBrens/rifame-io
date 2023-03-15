@@ -109,7 +109,7 @@ export class RafflesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     debugger;
     // Validate that there are participants loaded
-    if (this._storageService.getCurrentParticipants().length < 2) {
+    if (this._storageService.getCurrentParticipants() == null || this._storageService.getCurrentParticipants().length < 2) {
       this._notificationService.warning("Debe ingresar al menos dos participantes para iniciar la rifa")
       this._route.navigate(["rifame/participants"]);
     }
