@@ -23,7 +23,7 @@ export class RafflesComponent implements OnInit, OnDestroy {
   participants: IParticipant[] = [];
   seed: [];
   items: any[];
-  displayedColumns: string[] = [];
+  displayedColumns: string[] = ['id', 'name'];
   testDataSourceParticipants = new MatTableDataSource<IParticipant>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -106,20 +106,13 @@ export class RafflesComponent implements OnInit, OnDestroy {
   @ViewChild(RouletteComponent, { static: false }) childRef: RouletteComponent;
   private readonly onDestroy: Subject<any> = new Subject<any>();
 
-  destroyChild() {
-    if (this.childRef) {
-      this.childRef.ngOnDestroy();
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptionParticipants != undefined && this.subscriptionParticipants != null) {
-      this.subscriptionParticipants.unsubscribe();
-    }
-    this.onDestroy.next();
-  }
-
   ngOnInit(): void {
+    debugger;
+    // Validate that there are participants loaded
+    if (this._storageService.getCurrentParticipants().length < 2) {
+      this._notificationService.warning("Debe ingresar al menos dos participantes para iniciar la rifa")
+      this._route.navigate(["rifame/participants"]);
+    }
 
     this._storageService.getParticipants$().subscribe(response => {
       if (response != null && response.length > 0) {
@@ -147,9 +140,22 @@ export class RafflesComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.displayedColumns = ['id', 'name'];
-
   }
+
+  destroyChild() {
+    if (this.childRef) {
+      this.childRef.ngOnDestroy();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptionParticipants != undefined && this.subscriptionParticipants != null) {
+      this.subscriptionParticipants.unsubscribe();
+    }
+    this.onDestroy.next();
+  }
+
+
 
   resetData() {
     this.dataArray = [];

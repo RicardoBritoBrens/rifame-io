@@ -41,11 +41,11 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   addParticipantsForm = this._formBuilder.group([]);
 
   // arrays
-  displayedColumns: string[] = [];
+  displayedColumns: string[] = ['id', 'name', 'actions'];
   participants: IParticipant[] = [];
 
   // numbers
-  participantCounter: number;
+  participantCounter: number = 1;
 
   // booleans
   loadFileIsVisible: boolean;
@@ -64,9 +64,11 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    debugger;
     this.dataSource = new MatTableDataSource<IParticipant>();
 
     this.subscription = this._storageService.getParticipants$().subscribe(participants => {
+      debugger;
       if (participants != null) {
         this.dataSource = new MatTableDataSource<IParticipant>(participants);
         this.dataSource.paginator = this.paginator;
@@ -78,10 +80,6 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     });
-
-    this.displayedColumns = ['id', 'name', 'actions'];
-
-    this.participantCounter = 1;
 
     this.addParticipantsForm = this._formBuilder.group({
       name: new FormControl('', [Validators.required, Validators.pattern(environment.NAME_FIELD_REGULAR_EXPRESSION)],),
@@ -128,6 +126,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   circleAddParticipant(): void {
+    debugger;
     if (this.addParticipantsForm.valid == true && this.addParticipantsForm.controls['name'].value != '') {
 
       const currentInputName = this.addParticipantsForm.controls['name'].value.toUpperCase();
