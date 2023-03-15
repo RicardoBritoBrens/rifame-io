@@ -1,25 +1,27 @@
-import { Injectable } from '@angular/core';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 import { Colors } from 'src/assets/colors';
+import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
+import { Injectable } from '@angular/core';
 import { Loading } from 'notiflix';
-import { Options } from 'selenium-webdriver';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import * as Notiflix from 'notiflix';
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
+
+  options: Notiflix.INotifyOptions = {
+    position: 'left-bottom'
+  };
+
   constructor() { }
   public success(message: string) {
-    Notify.success(`${message} 😊`, {
-      position: 'left-bottom'
-    });
+    Notify.success(`${message} 😊`, this.options);
   }
   public warning(message: string) {
-    Notify.warning(`${message} 😔`);
+    Notify.warning(`${message} 😔`, this.options);
   }
   public error(message: string) {
-    Notify.failure(`${message} 😅`);
+    Notify.failure(`${message} 😅`, this.options);
   }
   public loadingStart() {
     Loading.standard("Loading...");
