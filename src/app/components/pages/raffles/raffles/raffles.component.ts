@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/environments/environment';
 import { IParticipant } from 'src/app/models/IParticipant';
 import { RouletteComponent } from './roulette/roulette.component';
+import { TestService } from 'src/app/test.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class RafflesComponent implements OnInit, OnDestroy {
   items: any[];
   displayedColumns: string[] = ['id', 'name'];
   testDataSourceParticipants = new MatTableDataSource<IParticipant>();
+  showRightPanel: Boolean;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource<IParticipant>();
@@ -95,12 +97,13 @@ export class RafflesComponent implements OnInit, OnDestroy {
     }
   ]
 
+
   constructor(
     private _route: Router,
     private _notificationService: NotificationService,
-    private _storageService: LocalStorageParticipantsService,) {
+    private _audioServiceTest: TestService) {
     this.canIStartRaffle = false;
-    this._storageService.getCurrentParticipants();
+    this._audioServiceTest.getCurrentParticipants();
   }
 
   @ViewChild(RouletteComponent, { static: false }) childRef: RouletteComponent;
@@ -108,13 +111,14 @@ export class RafflesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     debugger;
+    this.showRightPanel = false;
     // Validate that there are participants loaded
-    if (this._storageService.getCurrentParticipants() == null || this._storageService.getCurrentParticipants().length < 2) {
+    if (this._audioServiceTest.getCurrentParticipants() == null || this._audioServiceTest.getCurrentParticipants().length < 2) {
       this._notificationService.warning("Debe ingresar al menos dos participantes para iniciar la rifa")
       this._route.navigate(["rifame/participants"]);
     }
 
-    this._storageService.getParticipants$().subscribe(response => {
+    this._audioServiceTest.getParticipants$().subscribe(response => {
       if (response != null && response.length > 0) {
         this.participants = response;
         this.listOfParticipantsWithColors = [];
@@ -127,7 +131,7 @@ export class RafflesComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.participants = this._storageService.getCurrentParticipants();
+    this.participants = this._audioServiceTest.getCurrentParticipants();
 
     if (this.participants != null && this.participants.length > 0) {
 
@@ -154,7 +158,6 @@ export class RafflesComponent implements OnInit, OnDestroy {
     }
     this.onDestroy.next();
   }
-
 
 
   resetData() {

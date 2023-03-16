@@ -23,7 +23,7 @@ import { NotfoundComponent } from './components/shared/notfound/notfound.compone
 import { RouletteComponent } from './components/pages/raffles/raffles/roulette/roulette.component';
 import { NgxWheelModule } from 'ngx-wheel';
 import { ChildComponent } from './child/child.component';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +50,8 @@ import { ChildComponent } from './child/child.component';
     MatIconModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
-    NgxWheelModule
+    NgxWheelModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

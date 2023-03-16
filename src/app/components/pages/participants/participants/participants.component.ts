@@ -12,6 +12,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { Subscription } from 'rxjs';
 import { AudioService } from 'src/app/services/audio.service';
 import { IParticipant } from 'src/app/models/IParticipant';
+import { TestService } from 'src/app/test.service';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -60,14 +61,16 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
     private _formBuilder: FormBuilder,
     private _notificationService: NotificationService,
     private _fileManagementService: FileManagementService,
-    private _audioService: AudioService) {
+    private _audioService: AudioService,
+    private _audioServiceTest: TestService
+  ) {
   }
 
   ngOnInit(): void {
     debugger;
     this.dataSource = new MatTableDataSource<IParticipant>();
 
-    this.subscription = this._storageService.getParticipants$().subscribe(participants => {
+    this.subscription = this._audioServiceTest.getParticipants$().subscribe(participants => {
       debugger;
       if (participants != null) {
         this.dataSource = new MatTableDataSource<IParticipant>(participants);
@@ -85,7 +88,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       name: new FormControl('', [Validators.required, Validators.pattern(environment.NAME_FIELD_REGULAR_EXPRESSION)],),
     });
 
-    this._storageService.loadParticipantsFromExistingStorage();
+    this._audioServiceTest.loadParticipantsFromExistingStorage();
   }
 
   ngOnDestroy(): void {
@@ -117,7 +120,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
   tableActionRemoveParticipants(participant: IParticipant): void {
     this._notificationService.confirmActionAsync().then(
       (onfulfilled) => {
-        this._storageService.removeParticipant(participant);
+        this._audioServiceTest.removeParticipant(participant);
       },
       (onrejected) => {
         console.log(onrejected);
@@ -136,7 +139,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
-      this._storageService.addParticipant({ id: 0, name: currentInputName });
+      this._audioServiceTest.addParticipant({ id: 0, name: currentInputName });
 
       this._notificationService.success(`¡${currentInputName} added successful!`);
 
@@ -154,7 +157,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy, AfterViewInit {
       (onfulfilled) => {
         if (onfulfilled) {
           this.mockDataIsLoaded = true;
-          this._storageService.loadMockParticipantsToLocalStorage();
+          this._audioServiceTest.loadMockParticipantsToLocalStorage();
         }
       },
       (onrejected) => {

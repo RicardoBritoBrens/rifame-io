@@ -10,8 +10,7 @@ import { LocalStorageReferenceService } from './local-storage-reference.service'
 })
 export class LocalStorageParticipantsService {
 
-
-  mockParticipants: IParticipant[] = [
+  private mockParticipants: IParticipant[] = [
     {
       id: 1,
       name: "ARDRA"
@@ -73,12 +72,10 @@ export class LocalStorageParticipantsService {
       name: "SILVIA"
     }
   ]
-
   private _participants$ = new Subject<IParticipant[]>();
+  private _participantsStorage: IParticipant[] = [];
   private _winners$ = new Subject<IParticipant[]>();
   private _winnersStorage: IParticipant[] = [];
-  private _participantsStorage: IParticipant[] = [];
-  private _listOfParticipantsWithColors = [];
 
   constructor(private localStorageService: LocalStorageReferenceService, private http: HttpClient) {
   }
@@ -140,7 +137,10 @@ export class LocalStorageParticipantsService {
 
     this.localStorageService.setData(environment.KEY_LOCAL_STORAGE_PARTICIPANTS, JSON.stringify(participantsArray));
     this._participantsStorage.push(participant);
-    this._participants$.next(this._participantsStorage);
+    if (this._participantsStorage == null) {
+      this._participantsStorage = [];
+    }
+    this._participants$.next();
   }
 
   public removeParticipant(participant: IParticipant) {
@@ -262,8 +262,5 @@ export class LocalStorageParticipantsService {
     })
     return participants;
   }
-
-
-
 
 }

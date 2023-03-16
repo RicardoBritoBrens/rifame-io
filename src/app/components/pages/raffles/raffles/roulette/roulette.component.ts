@@ -6,6 +6,7 @@ import { AudioService } from 'src/app/services/audio.service';
 import { LocalStorageParticipantsService } from 'src/app/services/localStore/local-storage-participants.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import party from "party-js";
+import { TestService } from 'src/app/test.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class RouletteComponent implements OnInit, OnDestroy {
   textOrientation: TextOrientation = TextOrientation.HORIZONTAL
   textAlignment: TextAlignment = TextAlignment.OUTER
   isLoading: boolean = true;
+  isDisable: boolean;
   subscriptionParticipants: Subscription;
   canIShowWinnerName: boolean;
   currentWinnerName: String;
@@ -35,34 +37,47 @@ export class RouletteComponent implements OnInit, OnDestroy {
 
   constructor(
     private _audioService: AudioService,
-    private _participantService: LocalStorageParticipantsService,
+    private _audioServiceTest: TestService,
     private _notificationService: NotificationService) {
   }
 
+
+  ngAfterViewInit(): void {
+
+  }
+
+  ngOnInit() {
+    this.canIShowWinnerName = false;
+    this.currentWinnerName = '';
+    this.isDisable = false;
+  }
+
   showConfetti() {
+    this.isDisable = true;
     let confettiShowTime: number = 1500;
+    let intervals: any[] = [];
 
     for (let i = 0; i < 10; i++) {
-      setTimeout(() => {
+      intervals.push(setTimeout(() => {
         party.confetti(new MouseEvent('click', { clientX: this.getRandomArbitrary(150, 500), clientY: this.getRandomArbitrary(150, 500) }));
-      }
-        , confettiShowTime);
+      }, confettiShowTime));
 
       confettiShowTime += 1000;
     }
 
+    setTimeout(() => { }, confettiShowTime);
+
+
+    this.isDisable = false;
   }
 
   addNewItem(value: IParticipant) {
     this.newItemEvent.emit(value);
   }
 
-  ngAfterViewInit(): void {
-  }
 
-  ngOnInit() {
-    this.canIShowWinnerName = false;
-    this.currentWinnerName = '';
+  spin() {
+    this.wheel.spin();
   }
 
   reset() {
@@ -82,9 +97,9 @@ export class RouletteComponent implements OnInit, OnDestroy {
 
     let toRemoveOrPromoteParticipant = this.listOfParticipants[this.idToLandOn];
 
-    this._participantService.promoteParticipant(toRemoveOrPromoteParticipant);
+    this._audioServiceTest.promoteParticipant(toRemoveOrPromoteParticipant);
 
-    this._participantService.removeParticipant(toRemoveOrPromoteParticipant);
+    this._audioServiceTest.removeParticipant(toRemoveOrPromoteParticipant);
 
     this.wheel.removeSegmentById(this.idToLandOn);
 

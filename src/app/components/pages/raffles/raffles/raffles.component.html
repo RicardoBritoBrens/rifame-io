@@ -1,5 +1,6 @@
 <div class="grid-container">
   <div class="panel-header">
+    <mat-slide-toggle [(checked)]="this.showRightPanel">Mostrar Ganadores</mat-slide-toggle>
     <label>Cantidad de Participantes {{this.participants != null ? this.participants.length : 0}}</label>
   </div>
   <div class="left-panel" *ngIf="canIStartRaffle">
@@ -7,7 +8,7 @@
       [listOfParticipants]="participants" [listOfParticipantsWithColors]="listOfParticipantsWithColors" [idToLandOn]="7"
       (newItemEvent)="addItem($event)"></app-roulette>
   </div>
-  <div class="right-panel">
+  <div class="right-panel" *ngIf="this.showRightPanel">
     <table mat-table [dataSource]="winners" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef i18n> No </th>
@@ -23,4 +24,5 @@
     <mat-paginator [pageSizeOptions]="[10, 5]" showFirstLastButtons
       aria-label="Select page of name names"></mat-paginator>
   </div>
+  {{this.showRightPanel}}
 </div>
